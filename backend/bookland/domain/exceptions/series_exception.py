@@ -1,0 +1,2 @@
+class InvalidSeriesException(Exception):
+    pass

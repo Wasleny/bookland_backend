@@ -1,0 +1,2 @@
+class InvalidUserBookException(Exception):
+    pass

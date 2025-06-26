@@ -1,0 +1,27 @@
+{
+  "name": "Bookland API Dev",
+  "context": "..",
+  "dockerFile": "../Dockerfile",
+  "workspaceFolder": "/home/devuser/app",
+  "remoteUser": "devuser",
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "python.defaultInterpreterPath": "/usr/local/bin/python"
+  },
+  "mounts": [
+    "source=${localWorkspaceFolder}/backend,target=/home/devuser/app,type=bind"
+  ],
+  "postCreateCommand": "pip install -r requirements.txt",
+  "extensions": [
+    "ms-python.python",
+    "ms-python.vscode-pylance",
+    "ms-vscode.makefile-tools",
+    "ms-python.black-formatter",
+    "editorconfig.editorconfig",
+    "spywhere.guides",
+    "sandipchitale.vscode-indent-line",
+    "pkief.material-icon-theme",
+    "christian-kohler.path-intellisense",
+    "esbenp.prettier-vscode"
+  ]
+}

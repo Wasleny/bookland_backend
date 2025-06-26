@@ -1,0 +1,2 @@
+class InvalidBookshelfException(Exception):
+    pass

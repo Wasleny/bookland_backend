@@ -1,0 +1,2 @@
+class InvalidCriterionException(Exception):
+    pass
