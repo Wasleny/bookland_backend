@@ -26,21 +26,21 @@ jobs:
 
       - name: Set up Docker Compose
         run: |
-          docker-compose -f docker-compose.yml up -d mongo
+          docker compose -f docker-compose.yml up -d mongo
 
       - name: Esperar Mongo inicializar
         run: sleep 10
 
       - name: Build backend container
         run: |
-          docker-compose -f docker-compose.yml build bookland
+          docker compose -f docker-compose.yml build bookland
 
       - name: Run backend tests inside container
         run: |
-          docker-compose -f docker-compose.yml run --rm bookland /bin/bash -c "cd backend && pip install -r requirements.txt && make lint && make typecheck && make test-cov"
+          docker compose -f docker-compose.yml run --rm bookland /bin/bash -c "cd backend && pip install -r requirements.txt && make lint && make typecheck && make test-cov"
 
       - name: Tear down container
-        run: docker-compose -f docker-compose.yml down
+        run: docker compose -f docker-compose.yml down
 
   deploy:
     runs-on: ubuntu-latest
