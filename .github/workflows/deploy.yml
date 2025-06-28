@@ -1,0 +1,66 @@
+name: Deploy to Render (via Docker)
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+
+    env:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_PORT: 27017
+      MONGO_BASICAUTH_USERNAME: admin
+      MONGO_BASICAUTH_PASSWORD: adminpass
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Compose
+        run: |
+          docker-compose -f docker-compose.yml up -d mongo
+
+      - name: Esperar Mongo inicializar
+        run: sleep 10
+
+      - name: Build backend container
+        run: |
+          docker-compose -f docker-compose.yml build bookland
+
+      - name: Run backend tests inside container
+        run: |
+          docker-compose -f docker-compose.yml run --rm bookland /bin/bash -c "cd backend && pip install -r requirements.txt && make lint && make typecheck && make test-cov"
+
+      - name: Tear down container
+        run: docker-compose -f docker-compose.yml down
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    if: success()
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_HUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker image for production
+        run: docker build -f Dockerfile.prod -t ${{ secrets.DOCKER_HUB_USERNAME }}/bookland-api:latest backend
+
+      - name: Push to Docker Hub
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/bookland-api:latest
+
+      - name: Deploy to Render
+        run: |
+          curl -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json"

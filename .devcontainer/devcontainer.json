@@ -1,9 +1,10 @@
 {
   "name": "Bookland API Dev",
-  "context": "..",
-  "dockerFile": "../Dockerfile",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "bookland",
   "workspaceFolder": "/home/devuser/app",
   "remoteUser": "devuser",
+  "forwardPorts": [8080],
   "settings": {
     "terminal.integrated.defaultProfile.linux": "bash",
     "python.defaultInterpreterPath": "/usr/local/bin/python"
@@ -22,6 +23,9 @@
     "sandipchitale.vscode-indent-line",
     "pkief.material-icon-theme",
     "christian-kohler.path-intellisense",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "ms-azuretools.vscode-docker",
+    "humao.rest-client",
+    "ms-azure.vscode-mongodb"
   ]
 }
