@@ -8,7 +8,7 @@ from bookland.domain.enums.user_role import UserRole
 
 
 class UserDocument(Document):
-    id: str = Field(default_factory=generate_uuid, alias="_id") # type: ignore[assignment]
+    id: str = Field(default_factory=generate_uuid, alias="_id")  # type: ignore[assignment]
     name: str
     nickname: str
     email: EmailStr

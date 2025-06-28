@@ -83,7 +83,9 @@ async def register_user(user_data: RegisterUserSchema):
 async def login_user(credentials: LoginUserSchema):
     usecase = LoginUserUseCase(repository)
 
-    user = await usecase.execute(Email(credentials.email), Password(credentials.password))
+    user = await usecase.execute(
+        Email(credentials.email), Password(credentials.password)
+    )
 
     if not user:
         return unauthorized_response()
