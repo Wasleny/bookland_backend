@@ -6,7 +6,7 @@ from bookland.infra.mongo_models.utils import generate_uuid, utc_now
 
 
 class AuthorDocument(Document):
-    id: str = Field(default_factory=generate_uuid, alias="_id")
+    id: str = Field(default_factory=generate_uuid, alias="_id") # type: ignore[assignment]
     name: str
     nationality: str | None = None
     created_at: datetime = Field(default_factory=utc_now)

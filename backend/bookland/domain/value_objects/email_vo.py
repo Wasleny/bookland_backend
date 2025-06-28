@@ -1,5 +1,6 @@
 import re
 
+
 class Email:
     def __init__(self, email: str):
         if not self.is_valid(email):
@@ -14,9 +15,9 @@ class Email:
     @property
     def value(self) -> str:
         return self._value
-    
+
     def __eq__(self, other_email) -> bool:
         return isinstance(other_email, Email) and self._value == other_email.value
-    
+
     def __str__(self) -> str:
         return self._value

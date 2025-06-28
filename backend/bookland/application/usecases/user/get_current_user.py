@@ -8,4 +8,3 @@ class GetCurrentUserUseCase:
 
     async def execute(self) -> User | None:
         return await self._repository.get_current_user()
- 

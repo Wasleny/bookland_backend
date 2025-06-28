@@ -20,9 +20,9 @@ class UserMapper:
             nickname=Nickname(document.nickname),
             email=Email(document.email),
             password=Password(document.password),
-            gender=document.gender,
-            birthday=Birthday(document.birthday),
-            avatar_url=document.avatar_url,
+            gender=document.gender if document.gender else UserGender.UNSPECIFIED,
+            birthday=Birthday(document.birthday) if document.birthday else None,
+            avatar_url=document.avatar_url if document.avatar_url else None,
             role=document.role,
         )
 

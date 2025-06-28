@@ -12,10 +12,14 @@ class ReadingInProgressRepository(ABC):
     ) -> ReadingInProgress | None: ...
 
     @abstractmethod
-    async def get_by_id(self, reading_in_progress_id: str) -> ReadingInProgress | None: ...
+    async def get_by_id(
+        self, reading_in_progress_id: str
+    ) -> ReadingInProgress | None: ...
 
     @abstractmethod
-    async def create(self, reading_in_progress: ReadingInProgress) -> ReadingInProgress: ...
+    async def create(
+        self, reading_in_progress: ReadingInProgress
+    ) -> ReadingInProgress: ...
 
     @abstractmethod
     async def update(

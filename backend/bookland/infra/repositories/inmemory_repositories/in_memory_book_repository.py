@@ -4,7 +4,7 @@ from bookland.utils.text_utils import normalize_text
 
 
 class InMemoryBookRepository(BookRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         self._books: dict[str, Book] = {}
 
     async def get_all(self) -> list[Book]:

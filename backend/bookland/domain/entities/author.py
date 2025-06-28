@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 class Author:
-    def __init__(self, id: str, name: Name, nationality: str = None):
+    def __init__(self, id: str, name: Name, nationality: str | None = None):
         self._validate_name(name)
 
         self._id = id

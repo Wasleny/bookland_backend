@@ -15,4 +15,4 @@ def test_invalid_slug_should_raise_value_error():
 
 def test_str_should_return_slug_value():
     slug = Slug("science-fiction")
-    assert str(slug) == 'science-fiction'
+    assert str(slug) == "science-fiction"

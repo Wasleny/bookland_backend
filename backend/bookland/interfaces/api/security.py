@@ -7,8 +7,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALGORITHM = os.getenv("ALGORITHM")
+SECRET_KEY = str(os.getenv("SECRET_KEY", ""))
+ALGORITHM = str(os.getenv("ALGORITHM", ""))
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -35,7 +35,7 @@ def create_access_token(data: dict, expires_delta: timedelta | None = None) -> s
     return encoded_jwt
 
 
-def decode_access_token(token: str) -> str:
+def decode_access_token(token: str) -> dict | None:
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
 

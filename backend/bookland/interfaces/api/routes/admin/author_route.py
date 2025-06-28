@@ -2,7 +2,9 @@ from fastapi import APIRouter, HTTPException
 from uuid import uuid4
 from bookland.domain.entities.author import Author
 from bookland.domain.value_objects.name_vo import Name
-from bookland.infra.repositories.mongo_repositories.mongo_author_repository import MongoAuthorRepository
+from bookland.infra.repositories.mongo_repositories.mongo_author_repository import (
+    MongoAuthorRepository,
+)
 from bookland.application.usecases.author.create_author import CreateAuthorUseCase
 from bookland.application.usecases.author.get_all_authors import GetAllAuthorsUseCase
 from bookland.application.usecases.author.get_author_by_id import GetAuthorByIdUseCase
@@ -29,7 +31,9 @@ async def create_author(author: AuthorCreateSchema):
     created_author = await usecase.execute(new_author)
 
     return AuthorResponseSchema(
-        id=created_author.id, name=created_author.name.value, nationality=created_author.nationality
+        id=created_author.id,
+        name=created_author.name.value,
+        nationality=created_author.nationality,
     )
 
 

@@ -3,7 +3,7 @@ from bookland.domain.repositories.author_repository import AuthorRepository
 
 
 class InMemoryAuthorRepository(AuthorRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         self._authors: dict[str, Author] = {}
 
     async def get_all(self) -> list[Author]:

@@ -1,10 +1,12 @@
 from abc import ABC, abstractmethod
 from bookland.domain.entities.user import User
+from bookland.domain.value_objects.email_vo import Email
+from bookland.domain.value_objects.password_vo import Password
 
 
 class UserRepository(ABC):
     @abstractmethod
-    async def login(self, email: str, password: str) -> User | None: ...
+    async def login(self, email: Email, password: Password) -> User | None: ...
 
     @abstractmethod
     async def register(self, user: User) -> User: ...

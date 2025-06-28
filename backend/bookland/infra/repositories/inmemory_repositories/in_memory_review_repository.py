@@ -3,7 +3,7 @@ from bookland.domain.repositories.review_repository import ReviewRepository
 
 
 class InMemoryReviewRepository(ReviewRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         self._reviews: dict[str, Review] = {}
 
     async def get_by_id(self, review_id: str) -> Review | None:

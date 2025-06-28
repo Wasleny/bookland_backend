@@ -5,7 +5,7 @@ from bookland.domain.repositories.reading_in_progress_repository import (
 
 
 class InMemoryReadingInProgressRepository(ReadingInProgressRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         self._readings_in_progress: dict[str, ReadingInProgress] = {}
 
     async def get_by_id(self, reading_in_progress_id: str) -> ReadingInProgress | None:
@@ -35,11 +35,13 @@ class InMemoryReadingInProgressRepository(ReadingInProgressRepository):
 
         return reading_in_progress
 
-    async def update(self, reading_in_progress: ReadingInProgress) -> ReadingInProgress | None:
+    async def update(
+        self, reading_in_progress: ReadingInProgress
+    ) -> ReadingInProgress | None:
         if reading_in_progress.id in self._readings_in_progress:
             self._readings_in_progress[reading_in_progress.id] = reading_in_progress
             return reading_in_progress
-        
+
         return None
 
     async def delete(self, reading_in_progress_id: str) -> None:

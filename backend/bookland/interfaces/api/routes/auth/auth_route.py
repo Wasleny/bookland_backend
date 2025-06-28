@@ -17,6 +17,7 @@ from bookland.interfaces.api.security import (
     create_access_token,
     get_password_hash,
 )
+from bookland.domain.enums.user_gender import UserGender
 from bookland.domain.value_objects.name_vo import Name
 from bookland.domain.value_objects.nickname_vo import Nickname
 from bookland.domain.value_objects.email_vo import Email
@@ -52,7 +53,7 @@ async def register_user(user_data: RegisterUserSchema):
         nickname=Nickname(user_data.nickname),
         email=Email(user_data.email),
         password=Password(hashed_password),
-        gender=user_data.gender,
+        gender=user_data.gender if user_data.gender else UserGender.UNSPECIFIED,
         birthday=Birthday(user_data.birthday) if user_data.birthday else None,
         avatar_url=user_data.avatar_url,
         role=user_data.role,
@@ -82,7 +83,7 @@ async def register_user(user_data: RegisterUserSchema):
 async def login_user(credentials: LoginUserSchema):
     usecase = LoginUserUseCase(repository)
 
-    user = await usecase.execute(credentials.email, credentials.password)
+    user = await usecase.execute(Email(credentials.email), Password(credentials.password))
 
     if not user:
         return unauthorized_response()

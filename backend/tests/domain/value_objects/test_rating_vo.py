@@ -23,9 +23,11 @@ def test_valid_floating_rating_without_flag_should_raise_value_error():
     with pytest.raises(ValueError):
         Rating(4.5)
 
+
 def test_invalid_floating_rating_should_raise_value_error():
     with pytest.raises(ValueError):
         Rating(6.5, True)
+
 
 def test_empty_rating_is_empty_returns_true():
     rating = Rating()
@@ -34,4 +36,4 @@ def test_empty_rating_is_empty_returns_true():
 
 def test_str_should_return_rating_value():
     rating = Rating(4)
-    assert str(rating) == '4'
+    assert str(rating) == "4"

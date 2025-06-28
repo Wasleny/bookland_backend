@@ -6,13 +6,15 @@ from bookland.domain.enums.user_role import UserRole
 from bookland.infra.mongo_models.user import UserDocument
 from bookland.infra.mappers.user_mapper import UserMapper
 from bookland.interfaces.api.security import verify_password
+from bookland.domain.value_objects.email_vo import Email
+from bookland.domain.value_objects.password_vo import Password
 
 
 class MongoUserRepository(UserRepository):
-    async def login(self, email: str, password: str) -> User | None:
+    async def login(self, email: Email, password: Password) -> User | None:
         document = await UserDocument.find_one(UserDocument.email == email)
 
-        if document and verify_password(password, document.password):
+        if document and verify_password(password.value, document.password):
             return UserMapper.to_domain(document)
 
         return None

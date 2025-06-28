@@ -12,6 +12,7 @@ def test_invalid_nickname_should_raise_value_error():
     with pytest.raises(ValueError):
         Nickname("user-Test")
 
+
 def test_nicknames_with_same_value_should_be_equal():
     nickname1 = Nickname("user_test")
     nickname2 = Nickname("user_test")

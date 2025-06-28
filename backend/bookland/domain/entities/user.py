@@ -17,8 +17,8 @@ class User:
         email: Email,
         password: Password,
         gender: UserGender,
-        birthday: Birthday,
-        avatar_url: str,
+        birthday: Birthday | None,
+        avatar_url: str | None,
         role: UserRole,
     ):
 

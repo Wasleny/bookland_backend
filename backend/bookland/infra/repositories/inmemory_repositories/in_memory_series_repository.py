@@ -3,7 +3,7 @@ from bookland.domain.repositories.series_repository import SeriesRepository
 
 
 class InMemorySeriesRepository(SeriesRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         self._series: dict[str, Series] = {}
 
     async def get_all(self) -> list[Series]:

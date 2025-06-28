@@ -24,6 +24,7 @@ def test_invalid_slug_should_raise_invalid_trope_exception():
     with pytest.raises(InvalidTropeException):
         Trope("1", Label("Found Family"), "found-family")
 
+
 def test_soft_delete_marks_trope_as_deleted():
     trope = Trope("1", Label("found family"), Slug("found-family"))
     trope.soft_delete()

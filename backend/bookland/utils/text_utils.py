@@ -62,7 +62,7 @@ def title_case(
 
 
 def normalize_text(
-    text: str, replace_spaces_with: str = None, remove_special_chars: bool = True
+    text: str, replace_spaces_with: str | None = None, remove_special_chars: bool = True
 ) -> str:
     if not isinstance(text, str):
         raise TypeError("O texto precisa ser uma string")

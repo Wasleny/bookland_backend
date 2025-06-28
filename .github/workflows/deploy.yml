@@ -1,4 +1,4 @@
-name: Deploy to Render (via Docker)
+name: Deploy to Render (via Python runner)
 
 on:
   push:
@@ -18,41 +18,41 @@ jobs:
           MONGO_INITDB_ROOT_PASSWORD: rootpassword
 
     env:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      PROJECT_NAME: Bookland
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 1440
+      DOCKER_ENV: 1
+      MONGO_USER: ${{ secrets.MONGO_USER }}
+      MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+      MONGO_DB: bookland
       MONGO_PORT: 27017
-      MONGO_BASICAUTH_USERNAME: admin
-      MONGO_BASICAUTH_PASSWORD: adminpass
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Esperar Mongo inicializar
-        run: sleep 10
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
 
-      - name: Criar arquivo .env com secrets no backend
+      - name: Install dependencies
+        working-directory: ./backend
         run: |
-          echo "PROJECT_NAME=Bookland" > backend/.env
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> backend/.env
-          echo "ALGORITHM=HS256" >> backend/.env
-          echo "ACCESS_TOKEN_EXPIRE_MINUTES=1440" >> backend/.env
-          echo "DOCKER_ENV=1" >> backend/.env
-          echo "MONGO_USER=${{ secrets.MONGO_USER }}" >> backend/.env
-          echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> backend/.env
-          echo "MONGO_DB=bookland" >> backend/.env
-          echo "MONGO_PORT=27017" >> backend/.env
-          echo "MONGO_HOST=localhost" >> backend/.env
+          pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Build backend container
-        run: |
-          docker compose -f docker-compose.ci.yml build bookland
+      - name: Run lint
+        working-directory: ./backend
+        run: make lint
 
-      - name: Run backend tests inside container
-        run: |
-          docker compose -f docker-compose.ci.yml run --rm bookland /bin/bash -c "cd backend && pip install -r requirements.txt && make lint && make typecheck && make test-cov"
+      - name: Run type checks
+        working-directory: ./backend
+        run: make typecheck
 
-      - name: Tear down container
-        run: docker compose -f docker-compose.ci.yml down
+      - name: Run tests with coverage
+        working-directory: ./backend
+        run: make test-cov
 
   deploy:
     runs-on: ubuntu-latest

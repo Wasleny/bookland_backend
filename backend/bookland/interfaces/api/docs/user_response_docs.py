@@ -1,3 +1,5 @@
+from typing import Any
+
 user_example = {
     "id": "string",
     "name": "string",
@@ -9,7 +11,7 @@ user_example = {
     "role": "role",
 }
 
-USER_SUCCESS_RESPONSE = {
+USER_SUCCESS_RESPONSE: dict[int | str, dict[str, Any]] = {
     200: {
         "description": "Operação realizada com sucesso.",
         "content": {
@@ -23,7 +25,7 @@ USER_SUCCESS_RESPONSE = {
     }
 }
 
-USER_NOT_FOUND_RESPONSE = {
+USER_NOT_FOUND_RESPONSE: dict[int | str, dict[str, Any]] = {
     404: {
         "description": "Usuário não encontrado.",
         "content": {
@@ -32,7 +34,7 @@ USER_NOT_FOUND_RESPONSE = {
     }
 }
 
-FORBIDDEN_RESPONSE = {
+FORBIDDEN_RESPONSE: dict[int | str, dict[str, Any]] = {
     403: {
         "description": "Acesso negado.",
         "content": {
@@ -43,7 +45,7 @@ FORBIDDEN_RESPONSE = {
     }
 }
 
-USER_SEARCH_RESPONSES = {
+USER_SEARCH_RESPONSES: dict[int | str, dict[str, Any]] = {
     200: {
         "description": "Respostas possíveis para a busca de usuário.",
         "content": {
@@ -67,7 +69,7 @@ USER_SEARCH_RESPONSES = {
     }
 }
 
-USER_BAD_REQUEST = {
+USER_BAD_REQUEST: dict[int | str, dict[str, Any]] = {
     400: {
         "description": "Requisição inválida.",
         "content": {
@@ -80,7 +82,7 @@ USER_BAD_REQUEST = {
     }
 }
 
-USER_UNAUTHORIZED = {
+USER_UNAUTHORIZED: dict[int | str, dict[str, Any]] = {
     401: {
         "description": "Credenciais inválidas",
         "content": {

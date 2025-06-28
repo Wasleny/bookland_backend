@@ -1,6 +1,7 @@
 import re
 from bookland.utils.text_utils import title_case
 
+
 class Slug:
     def __init__(self, value: str):
         self._is_valid(value)

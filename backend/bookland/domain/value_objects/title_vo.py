@@ -8,10 +8,10 @@ class Title:
         self._value = value
 
     def _is_valid(self, value: str) -> None:
-        if (len(value) < 1):
+        if len(value) < 1:
             raise ValueError("Título não pode estar vazio.")
 
-        if (len(value) > 150):
+        if len(value) > 150:
             raise ValueError("Título não pode ter mais que 150 caracteres.")
 
         if re.fullmatch(r"[A-Za-zÀ-ÖØ-öø-ÿ0-9\s\.,:;!\?\'\"\-\(\)&]+", value) is None:

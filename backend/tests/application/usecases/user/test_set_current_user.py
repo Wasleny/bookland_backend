@@ -15,7 +15,8 @@ async def test_set_current_user_successfully():
     usecase = SetCurrentUserUseCase(repository)
 
     user = create_user()
-    await usecase.execute(user)
+    await repository.register(user)
+    await usecase.execute(user.id)
 
     retrieved_user = await repository.get_current_user()
 

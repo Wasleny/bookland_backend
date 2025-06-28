@@ -4,7 +4,7 @@ from bookland.utils.text_utils import normalize_text
 
 
 class InMemoryCriterionRepository(CriterionRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         self._criteria: dict[str, Criterion] = {}
 
     async def get_all(self) -> list[Criterion]:

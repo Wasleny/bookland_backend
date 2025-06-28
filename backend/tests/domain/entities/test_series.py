@@ -17,6 +17,7 @@ def test_invalid_name_should_raise_invalid_series_exception():
     with pytest.raises(InvalidSeriesException):
         Series("1", "Trono de Vidro")
 
+
 def test_soft_delete_marks_series_as_deleted():
     series = Series("1", Name("Trono de Vidro"))
     series.soft_delete()
