@@ -15,7 +15,10 @@ MONGO_PORT = os.getenv("MONGO_PORT", "27017")
 
 MONGO_AUTH_DB = "admin"
 
-MONGO_URI = (
-    f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}"
-    f"?authSource={MONGO_AUTH_DB}"
-)
+if os.getenv("MONGO_URI"):
+    MONGO_URI = os.getenv("MONGO_URI")
+else:
+    MONGO_URI = (
+        f"mongodb://{MONGO_USER}:{MONGO_PASSWORD}@{MONGO_HOST}:{MONGO_PORT}/{MONGO_DB}"
+        f"?authSource={MONGO_AUTH_DB}"
+    )
