@@ -24,9 +24,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Docker Compose
-        run: |
-          docker compose -f docker-compose.yml up -d mongo
+      # - name: Set up Docker Compose
+      #   run: |
+      #     docker compose -f docker-compose.yml up -d mongo
 
       - name: Esperar Mongo inicializar
         run: sleep 10
