@@ -13,6 +13,9 @@ jobs:
         image: mongo:7
         ports:
           - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: rootpassword
 
     env:
       MONGO_INITDB_ROOT_USERNAME: root
@@ -24,28 +27,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # - name: Set up Docker Compose
-      #   run: |
-      #     docker compose -f docker-compose.yml up -d mongo
-
       - name: Esperar Mongo inicializar
         run: sleep 10
 
-      - name: Criar arquivo .env no backend
+      - name: Criar arquivo .env com secrets no backend
         run: |
-          echo "MONGO_URI=mongodb://root:rootpassword@localhost:27017" > backend/.env
-          echo "OUTRA_VARIAVEL=valor_qualquer" >> backend/.env
+          echo "PROJECT_NAME=Bookland" > backend/.env
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> backend/.env
+          echo "ALGORITHM=HS256" >> backend/.env
+          echo "ACCESS_TOKEN_EXPIRE_MINUTES=1440" >> backend/.env
+          echo "DOCKER_ENV=1" >> backend/.env
+          echo "MONGO_USER=${{ secrets.MONGO_USER }}" >> backend/.env
+          echo "MONGO_PASSWORD=${{ secrets.MONGO_PASSWORD }}" >> backend/.env
+          echo "MONGO_DB=bookland" >> backend/.env
+          echo "MONGO_PORT=27017" >> backend/.env
+          echo "MONGO_HOST=localhost" >> backend/.env
 
       - name: Build backend container
         run: |
-          docker compose -f docker-compose.yml build bookland
+          docker compose -f docker-compose.ci.yml build bookland
 
       - name: Run backend tests inside container
         run: |
-          docker compose -f docker-compose.yml run --rm bookland /bin/bash -c "cd backend && pip install -r requirements.txt && make lint && make typecheck && make test-cov"
+          docker compose -f docker-compose.ci.yml run --rm bookland /bin/bash -c "cd backend && pip install -r requirements.txt && make lint && make typecheck && make test-cov"
 
       - name: Tear down container
-        run: docker compose -f docker-compose.yml down
+        run: docker compose -f docker-compose.ci.yml down
 
   deploy:
     runs-on: ubuntu-latest
