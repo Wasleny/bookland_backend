@@ -9,10 +9,8 @@ COPY backend/requirements.txt .
 
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
-COPY backend /app
-
-WORKDIR /app
+COPY . .
 
 EXPOSE 8080
 
-CMD ["uvicorn", "bookland.interfaces.api.main:app", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["uvicorn", "backend.bookland.interfaces.api.main:app", "--host", "0.0.0.0", "--port", "8080"]
