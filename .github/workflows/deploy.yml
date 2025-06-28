@@ -31,6 +31,11 @@ jobs:
       - name: Esperar Mongo inicializar
         run: sleep 10
 
+      - name: Criar arquivo .env no backend
+        run: |
+          echo "MONGO_URI=mongodb://root:rootpassword@localhost:27017" > backend/.env
+          echo "OUTRA_VARIAVEL=valor_qualquer" >> backend/.env
+
       - name: Build backend container
         run: |
           docker compose -f docker-compose.yml build bookland
