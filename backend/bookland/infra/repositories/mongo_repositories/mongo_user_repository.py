@@ -12,7 +12,7 @@ from bookland.domain.value_objects.password_vo import Password
 
 class MongoUserRepository(UserRepository):
     async def login(self, email: Email, password: Password) -> User | None:
-        document = await UserDocument.find_one(UserDocument.email == email)
+        document = await UserDocument.find_one(UserDocument.email == email.value)
 
         if document and verify_password(password.value, document.password):
             return UserMapper.to_domain(document)
@@ -31,7 +31,7 @@ class MongoUserRepository(UserRepository):
         return UserMapper.to_domain(document)
 
     async def promote_to_admin(self, user: User) -> User | None:
-        document = await UserDocument.get(user.id)
+        document = await UserDocument.find_one({"_id": user.id, "deleted_at": None})
 
         if not document:
             raise Exception("Usuário não encontrado.")
@@ -43,7 +43,7 @@ class MongoUserRepository(UserRepository):
         return UserMapper.to_domain(document)
 
     async def demote_from_admin(self, user: User) -> User | None:
-        document = await UserDocument.get(user.id)
+        document = await UserDocument.find_one({"_id": user.id, "deleted_at": None})
 
         if not document:
             raise Exception("Usuário não encontrado.")
@@ -55,12 +55,14 @@ class MongoUserRepository(UserRepository):
         return UserMapper.to_domain(document)
 
     async def search(self, search_term: str) -> User | None:
-        document = await UserDocument.find_one(UserDocument.email == search_term)
+        document = await UserDocument.find_one(
+            {"email": search_term, "deleted_at": None}
+        )
 
         return UserMapper.to_domain(document) if document else None
 
     async def get_by_id(self, user_id: str) -> User | None:
-        document = await UserDocument.get(user_id)
+        document = await UserDocument.find_one({"_id": user_id, "deleted_at": None})
 
         return UserMapper.to_domain(document) if document else None
 

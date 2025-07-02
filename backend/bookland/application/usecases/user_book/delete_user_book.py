@@ -1,4 +1,3 @@
-from bookland.domain.entities.user_book import UserBook
 from bookland.domain.repositories.user_book_repository import UserBookRepository
 
 

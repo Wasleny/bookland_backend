@@ -1,40 +1,31 @@
-from fastapi import APIRouter, status
+from fastapi import APIRouter
 from uuid import uuid4
 
-from bookland.interfaces.api.schemas.user import (
+from bookland.interfaces.api.services import login_user_usecase, register_user_usecase
+from bookland.interfaces.api.schemas import (
     LoginUserSchema,
     RegisterUserSchema,
     UserResponseSchema,
     AuthResponseSchema,
     AuthDataSchema,
 )
-from bookland.infra.repositories.mongo_repositories.mongo_user_repository import (
-    MongoUserRepository,
-)
-from bookland.application.usecases.user.login_user import LoginUserUseCase
-from bookland.application.usecases.user.register_user import RegisterUserUseCase
 from bookland.interfaces.api.security import (
     create_access_token,
     get_password_hash,
 )
 from bookland.domain.enums.user_gender import UserGender
-from bookland.domain.value_objects.name_vo import Name
-from bookland.domain.value_objects.nickname_vo import Nickname
-from bookland.domain.value_objects.email_vo import Email
-from bookland.domain.value_objects.password_vo import Password
-from bookland.domain.value_objects.birthday_vo import Birthday
+from bookland.domain.value_objects import Name, Nickname, Email, Password, Birthday
 from bookland.domain.entities.user import User
-from bookland.interfaces.api.responses.user.user_error_responses import (
+from bookland.interfaces.api.responses import (
     unauthorized_response,
     bad_request_response,
 )
-from bookland.interfaces.api.docs.user_response_docs import (
+from bookland.interfaces.api.docs import (
     USER_BAD_REQUEST,
     USER_UNAUTHORIZED,
 )
 
 router = APIRouter()
-repository = MongoUserRepository()
 
 
 @router.post(
@@ -43,24 +34,23 @@ repository = MongoUserRepository()
     responses={**USER_BAD_REQUEST},
 )
 async def register_user(user_data: RegisterUserSchema):
-    usecase = RegisterUserUseCase(repository)
-
-    hashed_password = get_password_hash(user_data.password)
-
-    new_user = User(
-        id=str(uuid4()),
-        name=Name(user_data.name),
-        nickname=Nickname(user_data.nickname),
-        email=Email(user_data.email),
-        password=Password(hashed_password),
-        gender=user_data.gender if user_data.gender else UserGender.UNSPECIFIED,
-        birthday=Birthday(user_data.birthday) if user_data.birthday else None,
-        avatar_url=user_data.avatar_url,
-        role=user_data.role,
-    )
-
     try:
-        current_user = await usecase.execute(new_user)
+        Password(user_data.password)
+        hashed_password = get_password_hash(user_data.password)
+
+        new_user = User(
+            id=str(uuid4()),
+            name=Name(user_data.name),
+            nickname=Nickname(user_data.nickname),
+            email=Email(user_data.email),
+            password=Password(hashed_password),
+            gender=user_data.gender if user_data.gender else UserGender.UNSPECIFIED,
+            birthday=Birthday(user_data.birthday) if user_data.birthday else None,
+            avatar_url=user_data.avatar_url,
+            role=user_data.role,
+        )
+
+        current_user = await register_user_usecase.execute(new_user)
 
         access_token = create_access_token(data={"sub": current_user.id})
 
@@ -81,20 +71,21 @@ async def register_user(user_data: RegisterUserSchema):
 )
 @router.post("/login", response_model=AuthResponseSchema)
 async def login_user(credentials: LoginUserSchema):
-    usecase = LoginUserUseCase(repository)
+    try:
+        user = await login_user_usecase.execute(
+            Email(credentials.email), Password(credentials.password)
+        )
 
-    user = await usecase.execute(
-        Email(credentials.email), Password(credentials.password)
-    )
+        if not user:
+            return unauthorized_response()
 
-    if not user:
-        return unauthorized_response()
+        access_token = create_access_token(data={"sub": user.id})
 
-    access_token = create_access_token(data={"sub": user.id})
-
-    return AuthResponseSchema(
-        message="Login realizado com sucesso.",
-        data=AuthDataSchema(
-            token=access_token, user=UserResponseSchema.from_entity(user)
-        ),
-    )
+        return AuthResponseSchema(
+            message="Login realizado com sucesso.",
+            data=AuthDataSchema(
+                token=access_token, user=UserResponseSchema.from_entity(user)
+            ),
+        )
+    except Exception as e:
+        return bad_request_response(str(e))

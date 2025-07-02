@@ -8,12 +8,12 @@ from bookland.domain.repositories.author_repository import AuthorRepository
 
 class MongoAuthorRepository(AuthorRepository):
     async def get_all(self) -> list[Author]:
-        documents = await AuthorDocument.find().to_list()
+        documents = await AuthorDocument.find({"deleted_at": None}).to_list()
 
         return [AuthorMapper.to_domain(doc) for doc in documents]
 
     async def get_by_id(self, author_id: str) -> Author | None:
-        document = await AuthorDocument.get(author_id)
+        document = await AuthorDocument.find_one({"_id": author_id, "deleted_at": None})
 
         if document:
             return AuthorMapper.to_domain(document)

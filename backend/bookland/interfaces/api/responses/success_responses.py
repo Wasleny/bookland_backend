@@ -6,7 +6,7 @@ def empty_search_result_response() -> JSONResponse:
     return JSONResponse(
         status_code=status.HTTP_200_OK,
         content={
-            "data": [],
+            "data": {},
             "message": "Nenhum resultado foi encontrado.",
         },
     )

@@ -86,7 +86,7 @@ USER_UNAUTHORIZED: dict[int | str, dict[str, Any]] = {
     401: {
         "description": "Credenciais inválidas",
         "content": {
-            "application/json": {"example": {"message": "Acesso não autorizado."}}
+            "application/json": {"example": {"message": "Usuário não autenticado."}}
         },
     }
 }

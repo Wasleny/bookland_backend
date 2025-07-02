@@ -9,7 +9,7 @@ from bookland.domain.entities.user import User
 from bookland.domain.enums.user_role import UserRole
 from bookland.interfaces.api.exceptions.user_exceptions import *
 
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)
 
 repository = MongoUserRepository()
 
@@ -17,11 +17,14 @@ repository = MongoUserRepository()
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
 ) -> User:
+    if credentials is None:
+        raise unauthorized_exception("Token não fornecido.")
+
     token = credentials.credentials
     payload = decode_access_token(token)
 
     if payload is None or "sub" not in payload:
-        raise unauthorized_exception("Token inválido ou expirado")
+        raise unauthorized_exception("Token inválido ou expirado.")
 
     user = await repository.get_by_id(payload["sub"])
 

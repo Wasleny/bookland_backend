@@ -1,62 +1,113 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends
 from uuid import uuid4
+
 from bookland.domain.entities.author import Author
-from bookland.domain.value_objects.name_vo import Name
-from bookland.infra.repositories.mongo_repositories.mongo_author_repository import (
-    MongoAuthorRepository,
-)
-from bookland.application.usecases.author.create_author import CreateAuthorUseCase
-from bookland.application.usecases.author.get_all_authors import GetAllAuthorsUseCase
-from bookland.application.usecases.author.get_author_by_id import GetAuthorByIdUseCase
-from bookland.application.usecases.author.soft_delete_author import (
-    SoftDeleteAuthorUseCase,
-)
-from bookland.application.usecases.author.update_author import UpdateAuthorUseCase
-from bookland.interfaces.api.schemas.author import (
-    AuthorCreateSchema,
+from bookland.domain.value_objects import Name
+from bookland.interfaces.api.services.author_service import *
+from bookland.interfaces.api.schemas import (
+    CreateAuthorSchema,
+    UpdateAuthorSchema,
     AuthorResponseSchema,
+    ResponseEnvelopeSchema,
+)
+from bookland.interfaces.api.deps import admin_required
+from bookland.interfaces.api.docs import (
+    AUTHOR_SUCCESS_RESPONSE,
+    AUTHOR_NOT_FOUND_RESPONSE,
+    ALL_AUTHORS_SUCCESS_RESPONSE,
+    FORBIDDEN_RESPONSE,
+    USER_BAD_REQUEST,
+    USER_UNAUTHORIZED,
+)
+from bookland.interfaces.api.responses import (
+    author_not_found_response,
+    bad_request_response,
+    empty_search_result_response,
 )
 
-router = APIRouter()
 
-repository = MongoAuthorRepository()
+router = APIRouter(
+    dependencies=[Depends(admin_required)],
+    responses={**FORBIDDEN_RESPONSE, **USER_UNAUTHORIZED},
+)
 
 
-# create author
-@router.post("/", response_model=AuthorResponseSchema)
-async def create_author(author: AuthorCreateSchema):
+@router.post(
+    "/",
+    response_model=ResponseEnvelopeSchema,
+    responses={**USER_BAD_REQUEST, **AUTHOR_SUCCESS_RESPONSE},
+)
+async def create_author(author: CreateAuthorSchema):
     new_author = Author(str(uuid4()), Name(author.name), author.nationality)
 
-    usecase = CreateAuthorUseCase(repository)
-    created_author = await usecase.execute(new_author)
+    try:
+        created_author = await create_author_usecase.execute(new_author)
 
-    return AuthorResponseSchema(
-        id=created_author.id,
-        name=created_author.name.value,
-        nationality=created_author.nationality,
+        return ResponseEnvelopeSchema(
+            message="Autor cadastrado com sucesso.",
+            data={"author": AuthorResponseSchema.from_entity(created_author)},
+        )
+    except Exception as e:
+        return bad_request_response(str(e))
+
+
+@router.get(
+    "/{id}",
+    response_model=ResponseEnvelopeSchema,
+    responses={**AUTHOR_SUCCESS_RESPONSE, **AUTHOR_NOT_FOUND_RESPONSE},
+)
+async def get_author(id: str):
+    author = await get_author_usecase.execute(id)
+
+    if not author:
+        return author_not_found_response()
+
+    return ResponseEnvelopeSchema(
+        message="Autor encontrado.",
+        data={"author": AuthorResponseSchema.from_entity(author)},
     )
 
 
-# get author by id
-# @router.get("/author_id", response_model=AuthorResponseSchema)
-# async def get_author(author_id: str):
-#     usecase = GetAuthorByIdUseCase(repository)
-#     author = await usecase.execute(author_id)
+@router.get(
+    "/",
+    response_model=ResponseEnvelopeSchema,
+    responses={**ALL_AUTHORS_SUCCESS_RESPONSE},
+)
+async def get_all_authors():
+    authors = await get_all_authors_usecase.execute()
 
-#     if not author:
-#         raise HTTPException(status_code=404, detail="Autor não encontrado")
+    if len(authors) == 0:
+        return empty_search_result_response()
 
-#     return AuthorResponseSchema(
-#         id=author.id, name=author.name.value, nationality=author.nationality
-#     )
+    return ResponseEnvelopeSchema(
+        message="Autores encontrados.",
+        data={
+            "authors": [AuthorResponseSchema.from_entity(author) for author in authors]
+        },
+    )
 
 
-# get all authors
-# @router.get('/author_id', response_model=AuthorResponseSchema)
+@router.patch("/{id}", response_model=ResponseEnvelopeSchema)
+async def update_author(id: str, author: UpdateAuthorSchema):
+    updated_author = Author(id, Name(author.name), author.nationality)
+
+    try:
+        updated_author = await update_author_usecase.execute(updated_author)
+
+        return ResponseEnvelopeSchema(
+            message="Autor editado com sucesso.",
+            data={"author": AuthorResponseSchema.from_entity(updated_author)},
+        )
+    except Exception as e:
+        return bad_request_response(str(e))
 
 
-# soft_delete
-# @router.get('/author_id', response_model=AuthorResponseSchema)
+@router.delete("/{id}", response_model=ResponseEnvelopeSchema)
+async def delete_author(id: str):
+    try:
+        await soft_delete_author_usecase.execute(id)
 
-# update
-# @router.get('/author_id', response_model=AuthorResponseSchema)
+        return ResponseEnvelopeSchema(message="Author excluído com sucesso.", data={})
+
+    except Exception as e:
+        return bad_request_response(str(e))

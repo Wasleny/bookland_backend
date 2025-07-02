@@ -1,10 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, status
 from fastapi.openapi.utils import get_openapi
 from contextlib import asynccontextmanager
-from bookland.infra.database import init_db
+from fastapi.exceptions import HTTPException
+from fastapi.responses import JSONResponse
 
+from bookland.infra.database import init_db
 from bookland.interfaces.api.routes.auth import auth_route
-from bookland.interfaces.api.routes.admin import admin_user_route
+from bookland.interfaces.api.routes.admin import admin_user_route, author_route
 from bookland.interfaces.api.openapi_tags import openapi_tags
 from bookland.interfaces.api.routes.user import user_route
 
@@ -28,6 +30,25 @@ app = FastAPI(
 app.include_router(auth_route.router, prefix="/auth", tags=["Auth"])
 app.include_router(admin_user_route.router, prefix="/admin", tags=["Admin"])
 app.include_router(user_route.router, prefix="/users", tags=["Users"])
+app.include_router(author_route.router, prefix="/admin/authors", tags=["Authors"])
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request: Request, exc: HTTPException):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={
+            "message": exc.detail if isinstance(exc.detail, str) else "Ocorreu um erro."
+        },
+    )
+
+
+@app.exception_handler(Exception)
+async def general_exception_handler(request: Request, exc: Exception):
+    return JSONResponse(
+        status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+        content={"message": "Erro interno no servidor."},
+    )
 
 
 def custom_openapi():

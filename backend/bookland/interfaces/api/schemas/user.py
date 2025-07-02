@@ -33,9 +33,6 @@ class LoginUserSchema(BaseModel):
     )
 
 
-class GetUserSchema(UserIdSchema): ...
-
-
 class DemoteFromAdminUserSchema(UserIdSchema): ...
 
 
