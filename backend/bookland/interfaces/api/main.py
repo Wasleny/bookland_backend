@@ -10,7 +10,11 @@ from bookland.interfaces.api.routes.admin import admin_user_route, author_route
 from bookland.interfaces.api.openapi_tags import openapi_tags
 from bookland.interfaces.api.routes.user import user_route, criterion_route
 from bookland.interfaces.api.routes.public import genre_route, trope_route
-from bookland.utils.startup import create_default_admin_user, populate_genres, populate_tropes
+from bookland.utils.startup import (
+    create_default_admin_user,
+    populate_genres,
+    populate_tropes,
+)
 
 
 @asynccontextmanager

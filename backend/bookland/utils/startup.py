@@ -43,31 +43,31 @@ async def create_default_admin_user():
 
 async def populate_genres():
     path = Path(__file__).parent / "data" / "genres.json"
-    with open(path, encoding="utf-8", mode='r') as f:
+    with open(path, encoding="utf-8", mode="r") as f:
         genres = json.load(f)
 
     genre_documents = await GenreDocument.find().to_list()
 
     if len(genre_documents) == 0:
         for genre_data in genres:
-                genre = Genre(
-                    str(uuid4()), Label(genre_data["name"]), Slug(genre_data["slug"])
-                )
-                document = GenreMapper.to_document(genre)
-                await document.insert()
+            genre = Genre(
+                str(uuid4()), Label(genre_data["name"]), Slug(genre_data["slug"])
+            )
+            document = GenreMapper.to_document(genre)
+            await document.insert()
 
 
 async def populate_tropes():
     path = Path(__file__).parent / "data" / "tropes.json"
-    with open(path, encoding="utf-8", mode='r') as f:
+    with open(path, encoding="utf-8", mode="r") as f:
         tropes = json.load(f)
 
     trope_documents = await TropeDocument.find().to_list()
 
     if len(trope_documents) == 0:
         for trope_data in tropes:
-                trope = Trope(
-                    str(uuid4()), Label(trope_data["name"]), Slug(trope_data["slug"])
-                )
-                document = TropeMapper.to_document(trope)
-                await document.insert()
+            trope = Trope(
+                str(uuid4()), Label(trope_data["name"]), Slug(trope_data["slug"])
+            )
+            document = TropeMapper.to_document(trope)
+            await document.insert()
