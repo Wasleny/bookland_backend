@@ -1,11 +1,9 @@
-from .author import (
-    AuthorResponseSchema,
-    CreateAuthorSchema,
-    UpdateAuthorSchema
-)
+from .author import AuthorResponseSchema, CreateAuthorSchema, UpdateAuthorSchema
 
 from .criterion import (
-    CriterionResponseSchema
+    CriterionResponseSchema,
+    CreateCriterionSchema,
+    UpdateCriterionSchema,
 )
 
 from .user import (
@@ -20,3 +18,7 @@ from .user import (
 )
 
 from .response_envelope import ResponseEnvelopeSchema
+
+from .genre import GenreResponseSchema
+
+from .trope import TropeResponseSchema

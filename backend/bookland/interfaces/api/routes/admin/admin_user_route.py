@@ -1,4 +1,7 @@
 from fastapi import APIRouter, Depends
+from dotenv import load_dotenv
+from pathlib import Path
+import os
 
 from bookland.interfaces.api.schemas import (
     UserResponseSchema,
@@ -25,7 +28,13 @@ from bookland.interfaces.api.services import (
     promote_user_to_admin_usecase,
     search_user_usecase,
 )
+from bookland.interfaces.api.exceptions import forbidden_exception
 
+
+env_path = env_path = Path(".env").resolve()
+load_dotenv(dotenv_path=env_path)
+
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@bookland.com")
 
 router = APIRouter(
     dependencies=[Depends(admin_required)],
@@ -43,6 +52,9 @@ async def demote_from_admin(user_data: DemoteFromAdminUserSchema):
 
     if not user:
         return user_not_found_response()
+
+    if user.email.value == ADMIN_EMAIL:
+        raise forbidden_exception("Super admin não pode ser rebaixado.")
 
     updated_user = await demote_user_from_admin_usecase.execute(user)
 

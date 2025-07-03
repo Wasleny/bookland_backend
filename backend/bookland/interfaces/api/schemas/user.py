@@ -1,8 +1,7 @@
 from pydantic import BaseModel, EmailStr, Field
 from datetime import date
 
-from bookland.domain.enums.user_role import UserRole
-from bookland.domain.enums.user_gender import UserGender
+from bookland.domain.enums import UserRole, UserGender
 
 
 class UserIdSchema(BaseModel):
@@ -23,7 +22,6 @@ class RegisterUserSchema(BaseModel):
     gender: UserGender | None = Field(None, description="Gênero do usuário")
     birthday: date | None = Field(None, description="Data de nascimento")
     avatar_url: str | None = Field(None, description="URL do avatar do usuário")
-    role: UserRole = Field(..., description="Papel do usuário no sistema")
 
 
 class LoginUserSchema(BaseModel):

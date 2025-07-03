@@ -77,3 +77,8 @@ from .user_book.get_user_book_by_id import GetUserBookByIdUseCase
 from .user_book.get_user_book_by_user_and_book import GetUserBookByUserAndBookUseCase
 from .user_book.get_user_book_by_user import GetUserBookByUserUseCase
 from .user_book.update_user_book import UpdateUserBookUseCase
+
+
+from .genre.get_all_genres import GetAllGenresUseCase
+
+from .trope.get_all_tropes import GetAllTropesUseCase

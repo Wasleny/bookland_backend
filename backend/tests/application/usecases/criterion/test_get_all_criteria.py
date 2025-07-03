@@ -17,11 +17,11 @@ async def test_get_all_criteria_returns_all_criteria():
     usecase = GetAllCriteriaUseCase(repository)
 
     criterion1 = create_criterion()
-    criterion2 = create_criterion()
+    criterion2 = create_criterion(user_id=criterion1.user_id)
     await repository.create(criterion1)
     await repository.create(criterion2)
 
-    criteria = await usecase.execute()
+    criteria = await usecase.execute(criterion1.user_id)
 
     assert len(criteria) == 2
     assert criterion1 in criteria

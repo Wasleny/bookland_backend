@@ -21,4 +21,12 @@ openapi_tags = [
         "name": "Series",
         "description": "Operações para criação, listagem, edição e remoção lógica de séries.",
     },
+    {
+        "name": "Genres",
+        "description": "Operação de listagem de gêneros literários.",
+    },
+    {
+        "name": "Tropes",
+        "description": "Operação de listagem de tropes literárias.",
+    },
 ]

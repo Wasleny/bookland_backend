@@ -1,3 +1,5 @@
 from .mongo_repositories.mongo_author_repository import MongoAuthorRepository
 from .mongo_repositories.mongo_criterion_repository import MongoCriterionRepository
 from .mongo_repositories.mongo_user_repository import MongoUserRepository
+from .mongo_repositories.mongo_genre_repository import MongoGenreRepository
+from .mongo_repositories.mongo_trope_repository import MongoTropeRepository

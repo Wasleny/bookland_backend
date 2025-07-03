@@ -7,11 +7,11 @@ class InMemoryCriterionRepository(CriterionRepository):
     def __init__(self) -> None:
         self._criteria: dict[str, Criterion] = {}
 
-    async def get_all(self) -> list[Criterion]:
+    async def get_all(self, user_id: str) -> list[Criterion]:
         return [
             criterion
             for criterion in self._criteria.values()
-            if not criterion.is_deleted
+            if not criterion.is_deleted and criterion.user_id == user_id
         ]
 
     async def get_by_id(self, criterion_id: str) -> Criterion | None:
@@ -39,12 +39,13 @@ class InMemoryCriterionRepository(CriterionRepository):
         if criterion:
             criterion.soft_delete()
 
-    async def search(self, search_term: str) -> list[Criterion]:
+    async def search(self, search_term: str, user_id: str) -> list[Criterion]:
         normalized_search = normalize_text(search_term)
 
         return [
             criterion
             for criterion in self._criteria.values()
             if not criterion.is_deleted
+            and criterion.user_id == user_id
             and normalized_search in normalize_text(criterion.name.value)
         ]

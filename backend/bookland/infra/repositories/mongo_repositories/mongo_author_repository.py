@@ -1,5 +1,4 @@
-from datetime import datetime, timezone
-
+from bookland.infra.utils.dates_utils import datetime_now
 from bookland.domain.entities.author import Author
 from bookland.infra.mongo_models.author import AuthorDocument
 from bookland.infra.mappers.author_mapper import AuthorMapper
@@ -34,7 +33,7 @@ class MongoAuthorRepository(AuthorRepository):
 
         document.name = author.name.value
         document.nationality = author.nationality
-        document.updated_at = datetime.now(timezone.utc)
+        document.updated_at = datetime_now()
 
         await document.save()
 
@@ -44,5 +43,5 @@ class MongoAuthorRepository(AuthorRepository):
         document = await AuthorDocument.get(author_id)
 
         if document:
-            document.deleted_at = datetime.now(timezone.utc)
+            document.deleted_at = datetime_now()
             await document.save()

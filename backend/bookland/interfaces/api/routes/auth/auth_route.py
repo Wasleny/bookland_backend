@@ -13,7 +13,7 @@ from bookland.interfaces.api.security import (
     create_access_token,
     get_password_hash,
 )
-from bookland.domain.enums.user_gender import UserGender
+from bookland.domain.enums import UserGender, UserRole
 from bookland.domain.value_objects import Name, Nickname, Email, Password, Birthday
 from bookland.domain.entities.user import User
 from bookland.interfaces.api.responses import (
@@ -47,7 +47,7 @@ async def register_user(user_data: RegisterUserSchema):
             gender=user_data.gender if user_data.gender else UserGender.UNSPECIFIED,
             birthday=Birthday(user_data.birthday) if user_data.birthday else None,
             avatar_url=user_data.avatar_url,
-            role=user_data.role,
+            role=UserRole.USER,
         )
 
         current_user = await register_user_usecase.execute(new_user)

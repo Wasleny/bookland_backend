@@ -1,14 +1,7 @@
-from datetime import date
-
-from bookland.domain.entities.user import User
-from bookland.domain.enums.user_gender import UserGender
-from bookland.domain.enums.user_role import UserRole
-from bookland.infra.mongo_models.user import UserDocument
-from bookland.domain.value_objects.name_vo import Name
-from bookland.domain.value_objects.nickname_vo import Nickname
-from bookland.domain.value_objects.birthday_vo import Birthday
-from bookland.domain.value_objects.email_vo import Email
-from bookland.domain.value_objects.password_vo import Password
+from bookland.domain.entities import User
+from bookland.domain.enums import UserGender
+from bookland.infra.mongo_models import UserDocument
+from bookland.domain.value_objects import Name, Nickname, Birthday, Email, Password
 
 
 class UserMapper:
@@ -35,7 +28,7 @@ class UserMapper:
             email=user.email.value,
             password=user.password.value,
             gender=user.gender,
-            birthday=user.birthday.value,
+            birthday=user.birthday.value if user.birthday else None,
             avatar_url=user.avatar_url,
             role=user.role,
         )

@@ -19,7 +19,7 @@ async def test_search_criteria_matches_search():
     criterion = create_criterion()
     await repository.create(criterion)
 
-    criteria_found = await usecase.execute("Ritmo")
+    criteria_found = await usecase.execute("Ritmo", criterion.user_id)
 
     assert len(criteria_found) == 1
 
@@ -32,6 +32,6 @@ async def test_search_criteria_returns_empty_when_no_match():
     criterion = create_criterion()
     await repository.create(criterion)
 
-    criteria_found = await usecase.execute("Test")
+    criteria_found = await usecase.execute("Test", criterion.user_id)
 
     assert len(criteria_found) == 0

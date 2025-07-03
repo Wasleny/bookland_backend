@@ -1,6 +1,6 @@
-from bookland.domain.entities.author import Author
-from bookland.domain.value_objects.name_vo import Name
-from bookland.infra.mongo_models.author import AuthorDocument
+from bookland.domain.entities import Author
+from bookland.domain.value_objects import Name
+from bookland.infra.mongo_models import AuthorDocument
 
 
 class AuthorMapper:

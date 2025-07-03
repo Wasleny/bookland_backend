@@ -87,7 +87,7 @@ class User:
 
     @staticmethod
     def _validate_birthday(birthday):
-        if not isinstance(birthday, Birthday):
+        if not isinstance(birthday, Birthday) and birthday is not None:
             raise InvalidUserException(
                 "Data de nascimento deve ser uma instância de Birthday"
             )

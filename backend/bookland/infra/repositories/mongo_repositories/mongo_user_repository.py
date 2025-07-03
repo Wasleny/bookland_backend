@@ -1,13 +1,11 @@
-from datetime import datetime, timezone
-
 from bookland.domain.entities.user import User
 from bookland.domain.repositories.user_repository import UserRepository
 from bookland.domain.enums.user_role import UserRole
 from bookland.infra.mongo_models.user import UserDocument
 from bookland.infra.mappers.user_mapper import UserMapper
 from bookland.interfaces.api.security import verify_password
-from bookland.domain.value_objects.email_vo import Email
-from bookland.domain.value_objects.password_vo import Password
+from bookland.domain.value_objects import Email, Password
+from bookland.infra.utils.dates_utils import datetime_now
 
 
 class MongoUserRepository(UserRepository):
@@ -37,7 +35,7 @@ class MongoUserRepository(UserRepository):
             raise Exception("Usuário não encontrado.")
 
         document.role = UserRole.ADMIN
-        document.updated_at = datetime.now(timezone.utc)
+        document.updated_at = datetime_now()
         await document.save()
 
         return UserMapper.to_domain(document)
@@ -49,7 +47,7 @@ class MongoUserRepository(UserRepository):
             raise Exception("Usuário não encontrado.")
 
         document.role = UserRole.USER
-        document.updated_at = datetime.now(timezone.utc)
+        document.updated_at = datetime_now()
         await document.save()
 
         return UserMapper.to_domain(document)

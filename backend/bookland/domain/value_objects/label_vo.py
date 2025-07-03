@@ -16,7 +16,7 @@ class Label:
         if len(value) > 50:
             raise ValueError("Label deve ter tamanho menor que 50 caracteres")
 
-        if not re.fullmatch(r"^[A-Za-zÀ-ÿ0-9\s\-]+$", value):
+        if not re.fullmatch(r"^[A-Za-zÀ-ÿ0-9\s\-\']+$", value):
             raise ValueError("Label deve estar dentro do formato correto")
 
     @property
