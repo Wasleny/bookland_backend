@@ -26,6 +26,6 @@ async def test_delete_user_book_removes_not_find_returns_none():
     repository = InMemoryUserBookRepository()
     usecase = DeleteUserBookUseCase(repository)
 
-    deleted_user_book = await usecase.execute('1')
+    deleted_user_book = await usecase.execute("1")
 
     assert deleted_user_book is None

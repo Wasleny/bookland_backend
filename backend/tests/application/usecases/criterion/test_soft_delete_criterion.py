@@ -25,6 +25,6 @@ async def test_soft_delete_criterion_not_find_criterion_return_none():
     repository = InMemoryCriterionRepository()
     usecase = SoftDeleteCriterionUseCase(repository)
 
-    deleted_criterion = await usecase.execute('1')
+    deleted_criterion = await usecase.execute("1")
 
     assert deleted_criterion is None

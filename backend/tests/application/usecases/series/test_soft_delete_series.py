@@ -24,6 +24,6 @@ async def test_soft_delete_series_not_find_removes_none():
     repository = InMemorySeriesRepository()
     usecase = SoftDeleteSeriesUseCase(repository)
 
-    deleted_series = await usecase.execute('1')
+    deleted_series = await usecase.execute("1")
 
     assert deleted_series is None

@@ -25,6 +25,6 @@ async def test_soft_delete_author_not_find_author_returns_none():
     repository = InMemoryAuthorRepository()
     usecase = SoftDeleteAuthorUseCase(repository)
 
-    deleted_author = await usecase.execute('1')
+    deleted_author = await usecase.execute("1")
 
     assert deleted_author is None

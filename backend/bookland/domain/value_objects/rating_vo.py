@@ -43,6 +43,6 @@ class Rating:
 
     def __str__(self):
         return str(self.value) if self.value is not None else "N/A"
-    
+
     def __eq__(self, other) -> bool:
         return isinstance(other, Rating) and self.value == other.value

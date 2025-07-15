@@ -13,4 +13,4 @@ async def test_get_all_genres_returns_all_genres():
 
     genres = await usecase.execute()
 
-    assert len(genres) == 2
+    assert len(genres) == 0

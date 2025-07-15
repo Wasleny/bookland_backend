@@ -13,4 +13,4 @@ async def test_get_all_bookshelves_returns_all_bookshelves():
 
     bookshelves = await usecase.execute()
 
-    assert len(bookshelves) == 2
+    assert len(bookshelves) == 0

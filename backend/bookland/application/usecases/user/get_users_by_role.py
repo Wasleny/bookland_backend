@@ -3,7 +3,7 @@ from bookland.domain.repositories import UserRepository
 from bookland.domain.enums import UserRole
 
 
-class GetUserByRoleUseCase:
+class GetUsersByRoleUseCase:
     def __init__(self, repository: UserRepository):
         self._repository = repository
 

@@ -1,5 +1,5 @@
 from bookland.infra.repositories import InMemoryUserRepository
-from bookland.application.usecases import GetUserByRoleUseCase
+from bookland.application.usecases import GetUsersByRoleUseCase
 from tests.factories.user_factory import create_user
 from bookland.domain.enums import UserRole
 
@@ -10,7 +10,7 @@ import pytest_asyncio
 @pytest.mark.asyncio
 async def test_get_user_by_id_returns_user():
     repository = InMemoryUserRepository()
-    usecase = GetUserByRoleUseCase(repository)
+    usecase = GetUsersByRoleUseCase(repository)
 
     user = create_user()
     await repository.register(user)

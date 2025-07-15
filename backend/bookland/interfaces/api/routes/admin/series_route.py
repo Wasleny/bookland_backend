@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from uuid import uuid4
 
 from bookland.domain.entities import Series
-from bookland.domain.value_objects import Name
+from bookland.domain.value_objects import Title, Slug
 from bookland.interfaces.api.services import (
     create_series_usecase,
     get_all_series_usecase,
@@ -42,7 +42,9 @@ router = APIRouter(
     responses={**USER_BAD_REQUEST, **SERIES_SUCCESS_RESPONSE},
 )
 async def create_series(series: CreateSeriesSchema):
-    new_series = Series(str(uuid4()), Name(series.name))
+    new_series = Series(
+        str(uuid4()), Title(series.name), Slug(series.slug), series.description
+    )
 
     created_series = await create_series_usecase.execute(new_series)
 
@@ -95,7 +97,9 @@ async def get_series(id: str):
 async def update_series(id: str, series: UpdateSeriesSchema):
     await _get_existing_series_or_404(id)
 
-    updated_series = await update_series_usecase.execute(Series(id, Name(series.name)))
+    updated_series = await update_series_usecase.execute(
+        Series(id, Title(series.name), Slug(series.slug), series.description)
+    )
 
     return ResponseEnvelopeSchema(
         message="Série editada com sucesso.",

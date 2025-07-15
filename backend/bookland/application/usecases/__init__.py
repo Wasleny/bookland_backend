@@ -69,7 +69,7 @@ from .user.promote_user_to_admin import PromoteUserToAdminUseCase
 from .user.register_user import RegisterUserUseCase
 from .user.get_user_by_email import GetUserByEmailUseCase
 from .user.set_current_user import SetCurrentUserUseCase
-from .user.get_users_by_role import GetUserByRoleUseCase
+from .user.get_users_by_role import GetUsersByRoleUseCase
 
 
 from .user_book.create_user_book import CreateUserBookUseCase

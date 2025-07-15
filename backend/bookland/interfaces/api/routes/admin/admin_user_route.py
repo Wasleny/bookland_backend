@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Query
+from fastapi.responses import Response, JSONResponse
 
 from bookland.interfaces.api.schemas import (
     UserResponseSchema,
@@ -41,7 +42,7 @@ router = APIRouter(
 )
 async def demote_from_admin(
     user_data: DemoteFromAdminUserSchema,
-) -> ResponseEnvelopeSchema:
+) -> Response:
     """
     Rebaixa o usuário informado de administrador para usuário comum.
     """
@@ -55,9 +56,12 @@ async def demote_from_admin(
 
     updated_user = await demote_user_from_admin_usecase.execute(user)
 
-    return ResponseEnvelopeSchema(
-        message=user_messages.DEMOTE_USER_MESSAGE,
-        data={"user": UserResponseSchema.from_entity(updated_user)},
+    return JSONResponse(
+        status_code=200,
+        content=ResponseEnvelopeSchema[dict](
+            message=user_messages.DEMOTE_USER_MESSAGE,
+            data={"user": UserResponseSchema.from_entity(updated_user)},
+        ).model_dump(),
     )
 
 
@@ -68,7 +72,7 @@ async def demote_from_admin(
 )
 async def promote_to_admin(
     user_data: PromoteToAdminUserSchema,
-) -> ResponseEnvelopeSchema:
+) -> Response:
     """
     Promove o usuário informado de usuário comum para administrador.
     """
@@ -79,9 +83,12 @@ async def promote_to_admin(
 
     updated_user = await promote_user_to_admin_usecase.execute(user)
 
-    return ResponseEnvelopeSchema(
-        message=user_messages.PROMOTE_USER_MESSAGE,
-        data={"user": UserResponseSchema.from_entity(updated_user)},
+    return JSONResponse(
+        status_code=200,
+        content=ResponseEnvelopeSchema[dict](
+            message=user_messages.PROMOTE_USER_MESSAGE,
+            data={"user": UserResponseSchema.from_entity(updated_user)},
+        ).model_dump(),
     )
 
 
@@ -92,7 +99,7 @@ async def promote_to_admin(
 )
 async def get_user_by_email(
     email: str = Query(..., description="E-mail do usuário a ser buscado"),
-) -> ResponseEnvelopeSchema:
+) -> Response:
     """
     Busca usuário pelo e-mail.
     """
@@ -101,7 +108,10 @@ async def get_user_by_email(
     if not user:
         return empty_search_result_response()
 
-    return ResponseEnvelopeSchema(
-        message=user_messages.GET_USER_BY_EMAIL_MESSAGE,
-        data={"user": UserResponseSchema.from_entity(user)},
+    return JSONResponse(
+        status_code=200,
+        content=ResponseEnvelopeSchema[dict](
+            message=user_messages.GET_USER_BY_EMAIL_MESSAGE,
+            data={"user": UserResponseSchema.from_entity(user)},
+        ).model_dump(),
     )
