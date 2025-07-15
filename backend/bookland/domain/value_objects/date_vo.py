@@ -1,14 +1,22 @@
 from datetime import date
 
+from bookland.domain.exceptions import InvalidDateException
+from bookland.domain.errors import DateErrors
+
 
 class Date:
+    """
+    Value Object que representa datas genéricas no sistema.
+    Garante que a data seja uma instância de datetime.date.
+    """
+
     def __init__(self, value: date):
-        self._is_valid(value)
+        self._validate(value)
         self._value = value
 
-    def _is_valid(self, value) -> None:
+    def _validate(self, value) -> None:
         if not isinstance(value, date):
-            raise TypeError("Esperado uma instância de datetime.date")
+            raise InvalidDateException(DateErrors.INVALID_TYPE)
 
     @property
     def value(self) -> date:
@@ -17,13 +25,16 @@ class Date:
     def is_future(self) -> bool:
         return self.value > date.today()
 
-    def __str__(self) -> str:
+    def to_json(self):
         return self.value.isoformat()
 
-    def __eq__(self, other_date) -> bool:
-        if isinstance(other_date, Date):
-            return self.value == other_date.value
-        if isinstance(other_date, date):
-            return self.value == other_date
+    def __str__(self) -> str:
+        return self.value.strftime("%d/%m/%Y")
+
+    def __eq__(self, other) -> bool:
+        if isinstance(other, Date):
+            return self.value == other.value
+        if isinstance(other, date):
+            return self.value == other
 
         return False

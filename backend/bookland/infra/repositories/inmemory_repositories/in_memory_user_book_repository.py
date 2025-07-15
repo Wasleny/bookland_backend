@@ -1,5 +1,5 @@
-from bookland.domain.entities.user_book import UserBook
-from bookland.domain.repositories.user_book_repository import UserBookRepository
+from bookland.domain.entities import UserBook
+from bookland.domain.repositories import UserBookRepository
 
 
 class InMemoryUserBookRepository(UserBookRepository):
@@ -28,8 +28,13 @@ class InMemoryUserBookRepository(UserBookRepository):
 
         return None
 
-    async def delete(self, user_book_id: str) -> None:
-        self._user_book.pop(user_book_id, None)
+    async def delete(self, user_book_id: str) -> UserBook | None:
+        if user_book_id in self._user_book:
+            user_book = self._user_book.get(user_book_id)
+            self._user_book.pop(user_book_id, None)
+            return user_book
+
+        return None
 
     async def get_by_id(self, user_book_id: str) -> UserBook | None:
         return self._user_book.get(user_book_id)

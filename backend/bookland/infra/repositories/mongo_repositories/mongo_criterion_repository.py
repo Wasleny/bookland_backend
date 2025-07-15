@@ -1,8 +1,11 @@
 from bookland.domain.repositories import CriterionRepository
-from bookland.domain.entities.criterion import Criterion
-from bookland.infra.mappers.criterion_mapper import CriterionMapper
-from bookland.infra.mongo_models.criterion import CriterionDocument
+from bookland.domain.entities import Criterion
+from bookland.domain.exceptions import CriterionNotFoundException
+
+from bookland.infra.mappers import CriterionMapper
+from bookland.infra.mongo_models import CriterionDocument
 from bookland.infra.utils.dates_utils import datetime_now
+from beanie.operators import Set
 
 
 class MongoCriterionRepository(CriterionRepository):
@@ -30,27 +33,33 @@ class MongoCriterionRepository(CriterionRepository):
         return CriterionMapper.to_domain(document)
 
     async def update(self, criterion: Criterion) -> Criterion | None:
-        document = await CriterionDocument.find_one(
-            {"_id": criterion.id, "deleted_at": None}
+        criterion_to_update = CriterionMapper.to_document(criterion).model_dump(
+            exclude_none=True, exclude={"id", "_id", "created_at", "deleted_at"}
         )
 
-        if not document:
-            raise Exception("Critério não encontrado.")
+        filter = {"_id": criterion.id, "deleted_at": None}
 
-        document.name = criterion.name.value
-        document.description = criterion.description
-        document.updated_at = datetime_now()
+        update_result = await CriterionDocument.find_one(filter).update(
+            Set(criterion_to_update | {"updated_at": datetime_now()})
+        )
 
-        await document.save()
+        updated_criterion = await CriterionDocument.get(criterion.id)
 
-        return CriterionMapper.to_domain(document)
+        if updated_criterion is None or updated_criterion.deleted_at is not None:
+            raise CriterionNotFoundException()
 
-    async def soft_delete(self, criterion_id: str) -> None:
-        document = await CriterionDocument.get(criterion_id)
+        return CriterionMapper.to_domain(updated_criterion)
 
-        if document:
-            document.deleted_at = datetime_now()
-            await document.save()
+    async def soft_delete(self, criterion_id: str) -> Criterion | None:
+        criterion = await CriterionDocument.get(criterion_id)
+
+        if criterion is None or criterion.deleted_at is not None:
+            raise CriterionNotFoundException
+
+        criterion.deleted_at = datetime_now()
+        await criterion.save()
+
+        return CriterionMapper.to_domain(criterion)
 
     async def search(self, search_term: str, user_id: str) -> list[Criterion]:
         documents = await CriterionDocument.find(

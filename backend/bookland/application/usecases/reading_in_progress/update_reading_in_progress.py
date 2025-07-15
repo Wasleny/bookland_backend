@@ -1,7 +1,5 @@
-from bookland.domain.entities.reading_in_progress import ReadingInProgress
-from bookland.domain.repositories.reading_in_progress_repository import (
-    ReadingInProgressRepository,
-)
+from bookland.domain.entities import ReadingInProgress
+from bookland.domain.repositories import ReadingInProgressRepository
 
 
 class UpdateReadingInProgressUseCase:

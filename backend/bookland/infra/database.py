@@ -6,8 +6,14 @@ from bookland.infra.mongo_models import (
     CriterionDocument,
     GenreDocument,
     TropeDocument,
+    SeriesDocument,
+    BookshelfDocument,
+    BookDocument,
+    ReviewDocument,
+    UserBookDocument,
+    ReadingInProgressDocument,
 )
-from bookland.infra.settings import MONGO_URI
+from bookland.settings import MONGO_URI
 
 
 async def init_db():
@@ -21,5 +27,11 @@ async def init_db():
             CriterionDocument,
             GenreDocument,
             TropeDocument,
+            SeriesDocument,
+            BookDocument,
+            BookshelfDocument,
+            ReviewDocument,
+            UserBookDocument,
+            ReadingInProgressDocument,
         ],
     )

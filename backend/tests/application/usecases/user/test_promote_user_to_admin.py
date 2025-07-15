@@ -1,9 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_user_repository import (
-    InMemoryUserRepository,
-)
-from bookland.application.usecases.user.promote_user_to_admin import (
-    PromoteUserToAdminUseCase,
-)
+from bookland.infra.repositories import InMemoryUserRepository
+from bookland.application.usecases import PromoteUserToAdminUseCase
 from tests.factories.user_factory import create_user
 from bookland.domain.enums.user_role import UserRole
 

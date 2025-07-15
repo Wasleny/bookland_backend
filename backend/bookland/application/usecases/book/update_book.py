@@ -1,5 +1,5 @@
-from bookland.domain.entities.book import Book
-from bookland.domain.repositories.book_repository import BookRepository
+from bookland.domain.entities import Book
+from bookland.domain.repositories import BookRepository
 
 
 class UpdateBookUseCase:

@@ -1,7 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_user_repository import (
-    InMemoryUserRepository,
-)
-from bookland.application.usecases.user.register_user import RegisterUserUseCase
+from bookland.infra.repositories import InMemoryUserRepository
+from bookland.application.usecases import RegisterUserUseCase
 from tests.factories.user_factory import create_user
 
 import pytest

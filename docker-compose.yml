@@ -14,7 +14,7 @@ services:
       - "8080:8080"
     depends_on:
       - mongo
-    command: uvicorn bookland.api.main:app --host 0.0.0.0 --port 8080 --reload
+    command: uvicorn bookland.interfaces.api.main:app --host 0.0.0.0 --port 8080 --reload
     networks:
       - network_app
 
@@ -29,6 +29,20 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
     volumes:
       - mongo_data:/data/db
+    networks:
+      - network_app
+
+  mongo-test:
+    image: mongo:7
+    restart: unless-stopped
+    container_name: mongo-test
+    ports:
+      - "${MONGO_TEST_PORT}:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo_test:/data/db
     networks:
       - network_app
 
@@ -51,6 +65,7 @@ services:
 
 volumes:
   mongo_data:
+  mongo_test:
 
 networks:
   network_app:

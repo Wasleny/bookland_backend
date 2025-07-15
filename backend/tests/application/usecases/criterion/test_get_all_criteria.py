@@ -1,9 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_criterion_repository import (
-    InMemoryCriterionRepository,
-)
-from bookland.application.usecases.criterion.get_all_criteria import (
-    GetAllCriteriaUseCase,
-)
+from bookland.infra.repositories import InMemoryCriterionRepository
+from bookland.application.usecases import GetAllCriteriaUseCase
 from tests.factories.criterion_factory import create_criterion
 
 

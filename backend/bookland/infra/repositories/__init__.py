@@ -1,5 +1,34 @@
 from .mongo_repositories.mongo_author_repository import MongoAuthorRepository
+from .mongo_repositories.mongo_book_repository import MongoBookRepository
+from .mongo_repositories.mongo_bookshelf_repository import MongoBookshelfRepository
 from .mongo_repositories.mongo_criterion_repository import MongoCriterionRepository
-from .mongo_repositories.mongo_user_repository import MongoUserRepository
+from .mongo_repositories.mongo_reading_in_progress_repository import (
+    MongoReadingInProgressRepository,
+)
+from .mongo_repositories.mongo_review_repository import MongoReviewRepository
 from .mongo_repositories.mongo_genre_repository import MongoGenreRepository
 from .mongo_repositories.mongo_trope_repository import MongoTropeRepository
+from .mongo_repositories.mongo_series_repository import MongoSeriesRepository
+from .mongo_repositories.mongo_user_book_repository import MongoUserBookRepository
+from .mongo_repositories.mongo_user_repository import MongoUserRepository
+
+
+from .inmemory_repositories.in_memory_author_repository import InMemoryAuthorRepository
+from .inmemory_repositories.in_memory_book_repository import InMemoryBookRepository
+from .inmemory_repositories.in_memory_bookshelf_repository import (
+    InMemoryBookshelfRepository,
+)
+from .inmemory_repositories.in_memory_criterion_repository import (
+    InMemoryCriterionRepository,
+)
+from .inmemory_repositories.in_memory_reading_in_progress_repository import (
+    InMemoryReadingInProgressRepository,
+)
+from .inmemory_repositories.in_memory_review_repository import InMemoryReviewRepository
+from .inmemory_repositories.in_memory_series_repository import InMemorySeriesRepository
+from .inmemory_repositories.in_memory_user_book_repository import (
+    InMemoryUserBookRepository,
+)
+from .inmemory_repositories.in_memory_user_repository import InMemoryUserRepository
+from .inmemory_repositories.in_memory_genre_repository import InMemoryGenreRepository
+from .inmemory_repositories.in_memory_trope_repository import InMemoryTropeRepository

@@ -1,5 +1,4 @@
-from bookland.domain.entities.user import User
-from bookland.domain.repositories.user_repository import UserRepository
+from bookland.domain.repositories import UserRepository
 
 
 class SetCurrentUserUseCase:

@@ -1,13 +1,11 @@
 from fastapi import Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from bookland.infra.repositories.mongo_repositories.mongo_user_repository import (
-    MongoUserRepository,
-)
 from bookland.interfaces.api.security import decode_access_token
 from bookland.domain.entities.user import User
 from bookland.domain.enums.user_role import UserRole
 from bookland.interfaces.api.exceptions.user_exceptions import *
+from bookland.infra.repositories import MongoUserRepository
 
 security = HTTPBearer(auto_error=False)
 

@@ -1,30 +1,34 @@
-from bookland.domain.value_objects.label_vo import Label
-from bookland.domain.value_objects.slug_vo import Slug
-from bookland.domain.exceptions.bookshelf_exception import InvalidBookshelfException
+from bookland.domain.value_objects import Label, Slug
+from bookland.domain.exceptions import InvalidBookshelfException
+from bookland.domain.errors import CommonErrors
 
 
 class Bookshelf:
+    """
+    Entity que representa uma estante no sistema.
+
+    Inclui os seguintes campos:
+    - ID
+    - nome
+    - slug
+    """
+
     def __init__(self, id: str, name: Label, slug: Slug):
-        self._validate_bookshelf(name, slug)
+        self._validate(id, name, slug)
 
         self._id = id
         self._name = name
         self._slug = slug
 
-    @staticmethod
-    def _validate_bookshelf(name, slug):
-        Bookshelf._validate_name(name)
-        Bookshelf._validate_slug(slug)
+    def _validate(self, id: str, name: Label, slug: Slug):
+        if not isinstance(id, str) or len(id) == 0:
+            raise InvalidBookshelfException(CommonErrors.INVALID_ID)
 
-    @staticmethod
-    def _validate_name(name):
         if not isinstance(name, Label):
-            raise InvalidBookshelfException("Nome deve ser uma instância de Label")
+            raise InvalidBookshelfException(CommonErrors.INVALID_LABEL)
 
-    @staticmethod
-    def _validate_slug(slug):
         if not isinstance(slug, Slug):
-            raise InvalidBookshelfException("Slug deve ser uma instância de Slug")
+            raise InvalidBookshelfException(CommonErrors.INVALID_SLUG)
 
     @property
     def id(self):

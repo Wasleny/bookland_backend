@@ -1,0 +1,5 @@
+CREATE_AUTHOR_MESSAGE = "Autor cadastrado com sucesso."
+GET_AUTHOR_MESSAGE = "Autor encontrado."
+GET_ALL_AUTHORS_MESSAGE = "Autores encontrados."
+UPDATE_AUTHOR_MESSAGE = "Autor atualizado com sucesso."
+DELETE_AUTHOR_MESSAGE = "Autor excluído com sucesso."

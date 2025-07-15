@@ -1,322 +1,1273 @@
 [
-  { "name": "Enemies to Lovers", "slug": "enemies-to-lovers" },
-  { "name": "Love Triangle", "slug": "love-triangle" },
-  { "name": "Found Family", "slug": "found-family" },
-  { "name": "Chosen One", "slug": "chosen-one" },
-  { "name": "Forbidden Love", "slug": "forbidden-love" },
-  { "name": "Fake Dating", "slug": "fake-dating" },
-  { "name": "Secret Identity", "slug": "secret-identity" },
-  { "name": "Rags to Riches", "slug": "rags-to-riches" },
-  { "name": "Amnesia", "slug": "amnesia" },
-  { "name": "Opposites Attract", "slug": "opposites-attract" },
-  { "name": "Second Chance Romance", "slug": "second-chance-romance" },
-  { "name": "Slow Burn", "slug": "slow-burn" },
-  { "name": "Grumpy Sunshine", "slug": "grumpy-sunshine" },
-  { "name": "Forced Proximity", "slug": "forced-proximity" },
-  { "name": "Hero's Journey", "slug": "heros-journey" },
-  { "name": "Coming of Age", "slug": "coming-of-age" },
-  { "name": "Unreliable Narrator", "slug": "unreliable-narrator" },
-  { "name": "Time Travel", "slug": "time-travel" },
-  { "name": "Secret Royalty", "slug": "secret-royalty" },
-  { "name": "Mentor Figure", "slug": "mentor-figure" },
-  { "name": "Tragic Hero", "slug": "tragic-hero" },
-  { "name": "Revenge Plot", "slug": "revenge-plot" },
-  { "name": "Cursed Object", "slug": "cursed-object" },
-  { "name": "Magical Academy", "slug": "magical-academy" },
-  { "name": "Friends to Lovers", "slug": "friends-to-lovers" },
-  { "name": "Reluctant Hero", "slug": "reluctant-hero" },
-  { "name": "Love at First Sight", "slug": "love-at-first-sight" },
-  { "name": "Parallel Universe", "slug": "parallel-universe" },
-  { "name": "Post-Apocalyptic World", "slug": "post-apocalyptic-world" },
-  { "name": "Secret Society", "slug": "secret-society" },
-  { "name": "Villain Redemption", "slug": "villain-redemption" },
-  { "name": "Anti-Hero", "slug": "anti-hero" },
-  { "name": "Fake Marriage", "slug": "fake-marriage" },
-  { "name": "Marriage of Convenience", "slug": "marriage-of-convenience" },
-  { "name": "Arranged Marriage", "slug": "arranged-marriage" },
-  { "name": "One Bed Only", "slug": "one-bed-only" },
-  { "name": "Stuck in an Elevator", "slug": "stuck-in-an-elevator" },
-  { "name": "Competence Porn", "slug": "competence-porn" },
-  { "name": "Heist Crew", "slug": "heist-crew" },
-  { "name": "Rivalry Turned Romance", "slug": "rivalry-turned-romance" },
+  {
+    "name": "Enemies to Lovers",
+    "slug": "enemies-to-lovers",
+    "name_pt_br": "De Inimigos a Amantes"
+  },
+  {
+    "name": "Love Triangle",
+    "slug": "love-triangle",
+    "name_pt_br": "Triângulo Amoroso"
+  },
+  {
+    "name": "Found Family",
+    "slug": "found-family",
+    "name_pt_br": "Família Encontrada"
+  },
+  { "name": "Chosen One", "slug": "chosen-one", "name_pt_br": "O Escolhido" },
+  {
+    "name": "Forbidden Love",
+    "slug": "forbidden-love",
+    "name_pt_br": "Amor Proibido"
+  },
+  {
+    "name": "Fake Dating",
+    "slug": "fake-dating",
+    "name_pt_br": "Namoro Falso"
+  },
+  {
+    "name": "Secret Identity",
+    "slug": "secret-identity",
+    "name_pt_br": "Identidade Secreta"
+  },
+  {
+    "name": "Rags to Riches",
+    "slug": "rags-to-riches",
+    "name_pt_br": "Da Pobreza à Riqueza"
+  },
+  { "name": "Amnesia", "slug": "amnesia", "name_pt_br": "Amnésia" },
+  {
+    "name": "Opposites Attract",
+    "slug": "opposites-attract",
+    "name_pt_br": "Os Opostos se Atraem"
+  },
+  {
+    "name": "Second Chance Romance",
+    "slug": "second-chance-romance",
+    "name_pt_br": "Romance de Segunda Chance"
+  },
+  { "name": "Slow Burn", "slug": "slow-burn", "name_pt_br": "Romance Lento" },
+  {
+    "name": "Grumpy Sunshine",
+    "slug": "grumpy-sunshine",
+    "name_pt_br": "Rabugento e Radiante"
+  },
+  {
+    "name": "Forced Proximity",
+    "slug": "forced-proximity",
+    "name_pt_br": "Proximidade Forçada"
+  },
+  {
+    "name": "Hero's Journey",
+    "slug": "heros-journey",
+    "name_pt_br": "Jornada do Herói"
+  },
+  {
+    "name": "Coming of Age",
+    "slug": "coming-of-age",
+    "name_pt_br": "Despertar / Maturidade"
+  },
+  {
+    "name": "Unreliable Narrator",
+    "slug": "unreliable-narrator",
+    "name_pt_br": "Narrador Não Confiável"
+  },
+  {
+    "name": "Time Travel",
+    "slug": "time-travel",
+    "name_pt_br": "Viagem no Tempo"
+  },
+  {
+    "name": "Secret Royalty",
+    "slug": "secret-royalty",
+    "name_pt_br": "Realeza Secreta"
+  },
+  {
+    "name": "Mentor Figure",
+    "slug": "mentor-figure",
+    "name_pt_br": "Figura do Mentor"
+  },
+  {
+    "name": "Tragic Hero",
+    "slug": "tragic-hero",
+    "name_pt_br": "Herói Trágico"
+  },
+  {
+    "name": "Revenge Plot",
+    "slug": "revenge-plot",
+    "name_pt_br": "Plano de Vingança"
+  },
+  {
+    "name": "Cursed Object",
+    "slug": "cursed-object",
+    "name_pt_br": "Objeto Amaldiçoado"
+  },
+  {
+    "name": "Magical Academy",
+    "slug": "magical-academy",
+    "name_pt_br": "Academia Mágica"
+  },
+  {
+    "name": "Friends to Lovers",
+    "slug": "friends-to-lovers",
+    "name_pt_br": "De Amigos a Amantes"
+  },
+  {
+    "name": "Reluctant Hero",
+    "slug": "reluctant-hero",
+    "name_pt_br": "Herói Relutante"
+  },
+  {
+    "name": "Love at First Sight",
+    "slug": "love-at-first-sight",
+    "name_pt_br": "Amor à Primeira Vista"
+  },
+  {
+    "name": "Parallel Universe",
+    "slug": "parallel-universe",
+    "name_pt_br": "Universo Paralelo"
+  },
+  {
+    "name": "Post-Apocalyptic World",
+    "slug": "post-apocalyptic-world",
+    "name_pt_br": "Mundo Pós-Apocalíptico"
+  },
+  {
+    "name": "Secret Society",
+    "slug": "secret-society",
+    "name_pt_br": "Sociedade Secreta"
+  },
+  {
+    "name": "Villain Redemption",
+    "slug": "villain-redemption",
+    "name_pt_br": "Redenção do Vilão"
+  },
+  { "name": "Anti-Hero", "slug": "anti-hero", "name_pt_br": "Anti-Herói" },
+  {
+    "name": "Fake Marriage",
+    "slug": "fake-marriage",
+    "name_pt_br": "Casamento Falso"
+  },
+  {
+    "name": "Marriage of Convenience",
+    "slug": "marriage-of-convenience",
+    "name_pt_br": "Casamento por Conveniência"
+  },
+  {
+    "name": "Arranged Marriage",
+    "slug": "arranged-marriage",
+    "name_pt_br": "Casamento Arranjado"
+  },
+  {
+    "name": "One Bed Only",
+    "slug": "one-bed-only",
+    "name_pt_br": "Só Uma Cama"
+  },
+  {
+    "name": "Stuck in an Elevator",
+    "slug": "stuck-in-an-elevator",
+    "name_pt_br": "Presos no Elevador"
+  },
+  {
+    "name": "Competence Porn",
+    "slug": "competence-porn",
+    "name_pt_br": "Pornô da Competência"
+  },
+  {
+    "name": "Heist Crew",
+    "slug": "heist-crew",
+    "name_pt_br": "Equipe de Assalto"
+  },
+  {
+    "name": "Rivalry Turned Romance",
+    "slug": "rivalry-turned-romance",
+    "name_pt_br": "Rivalidade que Vira Romance"
+  },
   {
     "name": "Villain is the Love Interest",
-    "slug": "villain-is-the-love-interest"
+    "slug": "villain-is-the-love-interest",
+    "name_pt_br": "Vilão é o Interesse Amoroso"
   },
-  { "name": "Body Swap", "slug": "body-swap" },
-  { "name": "Found Footage", "slug": "found-footage" },
+  { "name": "Body Swap", "slug": "body-swap", "name_pt_br": "Troca de Corpos" },
+  {
+    "name": "Found Footage",
+    "slug": "found-footage",
+    "name_pt_br": "Filmagem Encontrada"
+  },
   {
     "name": "Detective with a Dark Past",
-    "slug": "detective-with-a-dark-past"
+    "slug": "detective-with-a-dark-past",
+    "name_pt_br": "Detetive com Passado Sombrio"
   },
-  { "name": "Whodunnit", "slug": "whodunnit" },
-  { "name": "Locked Room Mystery", "slug": "locked-room-mystery" },
-  { "name": "Small Town Secrets", "slug": "small-town-secrets" },
-  { "name": "Billionaire Romance", "slug": "billionaire-romance" },
-  { "name": "Monster Romance", "slug": "monster-romance" },
-  { "name": "Alien Romance", "slug": "alien-romance" },
-  { "name": "Cyberpunk Rebellion", "slug": "cyberpunk-rebellion" },
-  { "name": "Lost Princess", "slug": "lost-princess" },
-  { "name": "Mythical Creatures", "slug": "mythical-creatures" },
-  { "name": "Fake Amnesia", "slug": "fake-amnesia" },
-  { "name": "Memory Loss Recovery", "slug": "memory-loss-recovery" },
-  { "name": "Royal Court Intrigue", "slug": "royal-court-intrigue" },
-  { "name": "Political Marriage", "slug": "political-marriage" },
+  {
+    "name": "Whodunnit",
+    "slug": "whodunnit",
+    "name_pt_br": "Mistério do Assassino"
+  },
+  {
+    "name": "Locked Room Mystery",
+    "slug": "locked-room-mystery",
+    "name_pt_br": "Mistério da Sala Trancada"
+  },
+  {
+    "name": "Small Town Secrets",
+    "slug": "small-town-secrets",
+    "name_pt_br": "Segredos da Cidade Pequena"
+  },
+  {
+    "name": "Billionaire Romance",
+    "slug": "billionaire-romance",
+    "name_pt_br": "Romance com Bilionário"
+  },
+  {
+    "name": "Monster Romance",
+    "slug": "monster-romance",
+    "name_pt_br": "Romance com Monstro"
+  },
+  {
+    "name": "Alien Romance",
+    "slug": "alien-romance",
+    "name_pt_br": "Romance com Alienígena"
+  },
+  {
+    "name": "Cyberpunk Rebellion",
+    "slug": "cyberpunk-rebellion",
+    "name_pt_br": "Rebelião Cyberpunk"
+  },
+  {
+    "name": "Lost Princess",
+    "slug": "lost-princess",
+    "name_pt_br": "Princesa Perdida"
+  },
+  {
+    "name": "Mythical Creatures",
+    "slug": "mythical-creatures",
+    "name_pt_br": "Criaturas Míticas"
+  },
+  {
+    "name": "Fake Amnesia",
+    "slug": "fake-amnesia",
+    "name_pt_br": "Amnésia Falsa"
+  },
+  {
+    "name": "Memory Loss Recovery",
+    "slug": "memory-loss-recovery",
+    "name_pt_br": "Recuperação da Perda de Memória"
+  },
+  {
+    "name": "Royal Court Intrigue",
+    "slug": "royal-court-intrigue",
+    "name_pt_br": "Intrigas da Corte Real"
+  },
+  {
+    "name": "Political Marriage",
+    "slug": "political-marriage",
+    "name_pt_br": "Casamento Político"
+  },
   {
     "name": "Assassin with a Conscience",
-    "slug": "assassin-with-a-conscience"
+    "slug": "assassin-with-a-conscience",
+    "name_pt_br": "Assassino com Consciência"
   },
-  { "name": "Undercover Agent", "slug": "undercover-agent" },
-  { "name": "Secret Baby", "slug": "secret-baby" },
-  { "name": "Single Parent Romance", "slug": "single-parent-romance" },
-  { "name": "Grief and Healing", "slug": "grief-and-healing" },
-  { "name": "Small Town Romance", "slug": "small-town-romance" },
-  { "name": "Unexpected Pregnancy", "slug": "unexpected-pregnancy" },
-  { "name": "Rescue Romance", "slug": "rescue-romance" },
-  { "name": "Warrior Princess", "slug": "warrior-princess" },
-  { "name": "Rogue AI", "slug": "rogue-ai" },
-  { "name": "Artificial Love Interest", "slug": "artificial-love-interest" },
-  { "name": "Spaceship Crew Dynamics", "slug": "spaceship-crew-dynamics" },
+  {
+    "name": "Undercover Agent",
+    "slug": "undercover-agent",
+    "name_pt_br": "Agente Disfarçado"
+  },
+  {
+    "name": "Secret Baby",
+    "slug": "secret-baby",
+    "name_pt_br": "Bebê Secreto"
+  },
+  {
+    "name": "Single Parent Romance",
+    "slug": "single-parent-romance",
+    "name_pt_br": "Romance com Pai/Mãe Solteiro(a)"
+  },
+  {
+    "name": "Grief and Healing",
+    "slug": "grief-and-healing",
+    "name_pt_br": "Luto e Cura"
+  },
+  {
+    "name": "Small Town Romance",
+    "slug": "small-town-romance",
+    "name_pt_br": "Romance em Cidade Pequena"
+  },
+  {
+    "name": "Unexpected Pregnancy",
+    "slug": "unexpected-pregnancy",
+    "name_pt_br": "Gravidez Inesperada"
+  },
+  {
+    "name": "Rescue Romance",
+    "slug": "rescue-romance",
+    "name_pt_br": "Romance de Resgate"
+  },
+  {
+    "name": "Warrior Princess",
+    "slug": "warrior-princess",
+    "name_pt_br": "Princesa Guerreira"
+  },
+  {
+    "name": "Rogue AI",
+    "slug": "rogue-ai",
+    "name_pt_br": "IA Fora de Controle"
+  },
+  {
+    "name": "Artificial Love Interest",
+    "slug": "artificial-love-interest",
+    "name_pt_br": "Interesse Amoroso Artificial"
+  },
+  {
+    "name": "Spaceship Crew Dynamics",
+    "slug": "spaceship-crew-dynamics",
+    "name_pt_br": "Dinâmica da Tripulação da Nave"
+  },
   {
     "name": "Trapped on a Deserted Island",
-    "slug": "trapped-on-a-deserted-island"
+    "slug": "trapped-on-a-deserted-island",
+    "name_pt_br": "Presos em Ilha Deserta"
   },
-  { "name": "Apocalypse Survival", "slug": "apocalypse-survival" },
-  { "name": "Forbidden Magic", "slug": "forbidden-magic" },
-  { "name": "Witch Hunt", "slug": "witch-hunt" },
-  { "name": "Ancient Prophecy", "slug": "ancient-prophecy" },
-  { "name": "Cursed Romance", "slug": "cursed-romance" },
-  { "name": "Dark Secret from the Past", "slug": "dark-secret-from-the-past" },
-  { "name": "Femme Fatale", "slug": "femme-fatale" },
-  { "name": "The Butler Did It", "slug": "the-butler-did-it" },
-  { "name": "Evil Twin", "slug": "evil-twin" },
-  { "name": "Mistaken Identity", "slug": "mistaken-identity" },
-  { "name": "The MacGuffin", "slug": "the-macguffin" },
-  { "name": "The Prophecy Twist", "slug": "the-prophecy-twist" },
-  { "name": "The Mentor Betrayal", "slug": "the-mentor-betrayal" },
-  { "name": "The Final Girl", "slug": "the-final-girl" },
-  { "name": "Eldritch Horror", "slug": "eldritch-horror" },
-  { "name": "Deal with the Devil", "slug": "deal-with-the-devil" },
-  { "name": "Haunted House", "slug": "haunted-house" },
-  { "name": "The Bodyguard Romance", "slug": "the-bodyguard-romance" },
-  { "name": "The Healer's Burden", "slug": "the-healers-burden" },
-  { "name": "The Reluctant Ruler", "slug": "the-reluctant-ruler" },
-  { "name": "Loyal Knight", "slug": "loyal-knight" },
-  { "name": "Evil Empire", "slug": "evil-empire" },
-  { "name": "The Artifact of Doom", "slug": "the-artifact-of-doom" },
-  { "name": "Reformed Criminal", "slug": "reformed-criminal" },
-  { "name": "The Secret Underground", "slug": "the-secret-underground" },
-  { "name": "The Lost Civilization", "slug": "the-lost-civilization" },
-  { "name": "The Sleeper Agent", "slug": "the-sleeper-agent" },
-  { "name": "The Deadly Tournament", "slug": "the-deadly-tournament" },
-  { "name": "The Silent Protagonist", "slug": "the-silent-protagonist" },
-  { "name": "The Outsider Hero", "slug": "the-outsider-hero" },
-  { "name": "The Corrupt Church", "slug": "the-corrupt-church" },
-  { "name": "The Puppet Ruler", "slug": "the-puppet-ruler" },
-  { "name": "The Living Weapon", "slug": "the-living-weapon" },
-  { "name": "The Memory Implant", "slug": "the-memory-implant" },
-  { "name": "The Rebel Princess", "slug": "the-rebel-princess" },
-  { "name": "The Unwilling Chosen One", "slug": "the-unwilling-chosen-one" },
-  { "name": "Enemies with Benefits", "slug": "enemies-with-benefits" },
-  { "name": "Secret Relationship", "slug": "secret-relationship" },
-  { "name": "Age Gap Romance", "slug": "age-gap-romance" },
+  {
+    "name": "Apocalypse Survival",
+    "slug": "apocalypse-survival",
+    "name_pt_br": "Sobrevivência ao Apocalipse"
+  },
+  {
+    "name": "Forbidden Magic",
+    "slug": "forbidden-magic",
+    "name_pt_br": "Magia Proibida"
+  },
+  {
+    "name": "Witch Hunt",
+    "slug": "witch-hunt",
+    "name_pt_br": "Caça às Bruxas"
+  },
+  {
+    "name": "Ancient Prophecy",
+    "slug": "ancient-prophecy",
+    "name_pt_br": "Profecia Antiga"
+  },
+  {
+    "name": "Cursed Romance",
+    "slug": "cursed-romance",
+    "name_pt_br": "Romance Amaldiçoado"
+  },
+  {
+    "name": "Dark Secret from the Past",
+    "slug": "dark-secret-from-the-past",
+    "name_pt_br": "Segredo Sombrio do Passado"
+  },
+  {
+    "name": "Femme Fatale",
+    "slug": "femme-fatale",
+    "name_pt_br": "Femme Fatale"
+  },
+  {
+    "name": "The Butler Did It",
+    "slug": "the-butler-did-it",
+    "name_pt_br": "O Mordomo Foi o Autor"
+  },
+  { "name": "Evil Twin", "slug": "evil-twin", "name_pt_br": "Gêmeo Maligno" },
+  {
+    "name": "Mistaken Identity",
+    "slug": "mistaken-identity",
+    "name_pt_br": "Identidade Errada"
+  },
+  {
+    "name": "The MacGuffin",
+    "slug": "the-macguffin",
+    "name_pt_br": "O MacGuffin"
+  },
+  {
+    "name": "The Prophecy Twist",
+    "slug": "the-prophecy-twist",
+    "name_pt_br": "Reviravolta na Profecia"
+  },
+  {
+    "name": "The Mentor Betrayal",
+    "slug": "the-mentor-betrayal",
+    "name_pt_br": "Traição do Mentor"
+  },
+  {
+    "name": "The Final Girl",
+    "slug": "the-final-girl",
+    "name_pt_br": "A Última Garota"
+  },
+  {
+    "name": "Eldritch Horror",
+    "slug": "eldritch-horror",
+    "name_pt_br": "Horror Eldritch"
+  },
+  {
+    "name": "Deal with the Devil",
+    "slug": "deal-with-the-devil",
+    "name_pt_br": "Pacto com o Diabo"
+  },
+  {
+    "name": "Haunted House",
+    "slug": "haunted-house",
+    "name_pt_br": "Casa Assombrada"
+  },
+  {
+    "name": "The Bodyguard Romance",
+    "slug": "the-bodyguard-romance",
+    "name_pt_br": "Romance com o Guarda-costas"
+  },
+  {
+    "name": "The Healer's Burden",
+    "slug": "the-healers-burden",
+    "name_pt_br": "O Fardo do Curandeiro"
+  },
+  {
+    "name": "The Reluctant Ruler",
+    "slug": "the-reluctant-ruler",
+    "name_pt_br": "O Governante Relutante"
+  },
+  {
+    "name": "Loyal Knight",
+    "slug": "loyal-knight",
+    "name_pt_br": "Cavaleiro Leal"
+  },
+  {
+    "name": "Evil Empire",
+    "slug": "evil-empire",
+    "name_pt_br": "Império Maligno"
+  },
+  {
+    "name": "The Artifact of Doom",
+    "slug": "the-artifact-of-doom",
+    "name_pt_br": "O Artefato da Perdição"
+  },
+  {
+    "name": "Reformed Criminal",
+    "slug": "reformed-criminal",
+    "name_pt_br": "Criminoso Reformado"
+  },
+  {
+    "name": "The Secret Underground",
+    "slug": "the-secret-underground",
+    "name_pt_br": "O Subterrâneo Secreto"
+  },
+  {
+    "name": "The Lost Civilization",
+    "slug": "the-lost-civilization",
+    "name_pt_br": "A Civilização Perdida"
+  },
+  {
+    "name": "The Sleeper Agent",
+    "slug": "the-sleeper-agent",
+    "name_pt_br": "Agente Dorminhoco"
+  },
+  {
+    "name": "The Deadly Tournament",
+    "slug": "the-deadly-tournament",
+    "name_pt_br": "O Torneio Mortal"
+  },
+  {
+    "name": "The Silent Protagonist",
+    "slug": "the-silent-protagonist",
+    "name_pt_br": "O Protagonista Silencioso"
+  },
+  {
+    "name": "The Outsider Hero",
+    "slug": "the-outsider-hero",
+    "name_pt_br": "O Herói Forasteiro"
+  },
+  {
+    "name": "The Corrupt Church",
+    "slug": "the-corrupt-church",
+    "name_pt_br": "A Igreja Corrupta"
+  },
+  {
+    "name": "The Puppet Ruler",
+    "slug": "the-puppet-ruler",
+    "name_pt_br": "O Governante Marionete"
+  },
+  {
+    "name": "The Living Weapon",
+    "slug": "the-living-weapon",
+    "name_pt_br": "A Arma Viva"
+  },
+  {
+    "name": "The Memory Implant",
+    "slug": "the-memory-implant",
+    "name_pt_br": "O Implante de Memória"
+  },
+  {
+    "name": "The Rebel Princess",
+    "slug": "the-rebel-princess",
+    "name_pt_br": "A Princesa Rebelde"
+  },
+  {
+    "name": "The Unwilling Chosen One",
+    "slug": "the-unwilling-chosen-one",
+    "name_pt_br": "O Escolhido Relutante"
+  },
+  {
+    "name": "Enemies with Benefits",
+    "slug": "enemies-with-benefits",
+    "name_pt_br": "Inimigos com Benefícios"
+  },
+  {
+    "name": "Secret Relationship",
+    "slug": "secret-relationship",
+    "name_pt_br": "Relacionamento Secreto"
+  },
+  {
+    "name": "Age Gap Romance",
+    "slug": "age-gap-romance",
+    "name_pt_br": "Romance com Diferença de Idade"
+  },
   {
     "name": "Falling for the Best Friend's Sibling",
-    "slug": "falling-for-the-best-friends-sibling"
+    "slug": "falling-for-the-best-friends-sibling",
+    "name_pt_br": "Apaixonando-se pelo Irmão/Irmã do Melhor Amigo"
   },
-  { "name": "Hate to Love", "slug": "hate-to-love" },
+  {
+    "name": "Hate to Love",
+    "slug": "hate-to-love",
+    "name_pt_br": "De Ódio a Amor"
+  },
   {
     "name": "Morally Grey Love Interest",
-    "slug": "morally-grey-love-interest"
+    "slug": "morally-grey-love-interest",
+    "name_pt_br": "Interesse Amoroso Moralmente Cinzento"
   },
-  { "name": "Dark Billionaire", "slug": "dark-billionaire" },
+  {
+    "name": "Dark Billionaire",
+    "slug": "dark-billionaire",
+    "name_pt_br": "Bilionário Sombrio"
+  },
   {
     "name": "Kidnapped by the Love Interest",
-    "slug": "kidnapped-by-the-love-interest"
+    "slug": "kidnapped-by-the-love-interest",
+    "name_pt_br": "Sequestrado pelo Interesse Amoroso"
   },
-  { "name": "Feral Protector", "slug": "feral-protector" },
-  { "name": "Possessive Alpha", "slug": "possessive-alpha" },
-  { "name": "Fae Prince", "slug": "fae-prince" },
+  {
+    "name": "Feral Protector",
+    "slug": "feral-protector",
+    "name_pt_br": "Protetor Feral"
+  },
+  {
+    "name": "Possessive Alpha",
+    "slug": "possessive-alpha",
+    "name_pt_br": "Alfa Possessivo"
+  },
+  { "name": "Fae Prince", "slug": "fae-prince", "name_pt_br": "Príncipe Fada" },
   {
     "name": "Royalty Disguised as Commoner",
-    "slug": "royalty-disguised-as-commoner"
+    "slug": "royalty-disguised-as-commoner",
+    "name_pt_br": "Realeza Disfarçada de Plebeia"
   },
-  { "name": "Magical Bond", "slug": "magical-bond" },
-  { "name": "Rescued by the Villain", "slug": "rescued-by-the-villain" },
-  { "name": "Dark Academy", "slug": "dark-academy" },
-  { "name": "Witch x Hunter Romance", "slug": "witch-x-hunter-romance" },
-  { "name": "Assassin x Target Romance", "slug": "assassin-x-target-romance" },
-  { "name": "Curse Breaker", "slug": "curse-breaker" },
-  { "name": "Fated Rivals", "slug": "fated-rivals" },
-  { "name": "Runaway Princess", "slug": "runaway-princess" },
-  { "name": "Dark Protector", "slug": "dark-protector" },
-  { "name": "Secret Heir", "slug": "secret-heir" },
-  { "name": "Enemies to Partners", "slug": "enemies-to-partners" },
-  { "name": "Betrayal Romance", "slug": "betrayal-romance" },
-  { "name": "Underworld Romance", "slug": "underworld-romance" },
-  { "name": "Fake Breakup", "slug": "fake-breakup" },
-  { "name": "Shared Trauma Bond", "slug": "shared-trauma-bond" },
-  { "name": "Guardian Angel Romance", "slug": "guardian-angel-romance" },
-  { "name": "Wounded Warrior", "slug": "wounded-warrior" },
-  { "name": "Fae Warrior Romance", "slug": "fae-warrior-romance" },
-  { "name": "Loyal Assassin", "slug": "loyal-assassin" },
-  { "name": "Secret Organization", "slug": "secret-organization" },
-  { "name": "Oppressed Rebellion", "slug": "oppressed-rebellion" },
-  { "name": "Villain's Heir", "slug": "villains-heir" },
-  { "name": "Time Loop Romance", "slug": "time-loop-romance" },
-  { "name": "Royal Succession War", "slug": "royal-succession-war" },
-  { "name": "Orphan Chosen by Destiny", "slug": "orphan-chosen-by-destiny" },
-  { "name": "Urban Magic", "slug": "urban-magic" },
+  {
+    "name": "Magical Bond",
+    "slug": "magical-bond",
+    "name_pt_br": "Vínculo Mágico"
+  },
+  {
+    "name": "Rescued by the Villain",
+    "slug": "rescued-by-the-villain",
+    "name_pt_br": "Resgatado pelo Vilão"
+  },
+  {
+    "name": "Dark Academy",
+    "slug": "dark-academy",
+    "name_pt_br": "Academia Sombria"
+  },
+  {
+    "name": "Witch x Hunter Romance",
+    "slug": "witch-x-hunter-romance",
+    "name_pt_br": "Romance Bruxa x Caçador"
+  },
+  {
+    "name": "Assassin x Target Romance",
+    "slug": "assassin-x-target-romance",
+    "name_pt_br": "Romance Assassino x Alvo"
+  },
+  {
+    "name": "Curse Breaker",
+    "slug": "curse-breaker",
+    "name_pt_br": "Quebra-maldições"
+  },
+  {
+    "name": "Fated Rivals",
+    "slug": "fated-rivals",
+    "name_pt_br": "Rivais Predestinados"
+  },
+  {
+    "name": "Runaway Princess",
+    "slug": "runaway-princess",
+    "name_pt_br": "Princesa Fugitiva"
+  },
+  {
+    "name": "Dark Protector",
+    "slug": "dark-protector",
+    "name_pt_br": "Protetor Sombrio"
+  },
+  {
+    "name": "Secret Heir",
+    "slug": "secret-heir",
+    "name_pt_br": "Herança Secreta"
+  },
+  {
+    "name": "Enemies to Partners",
+    "slug": "enemies-to-partners",
+    "name_pt_br": "De Inimigos a Parceiros"
+  },
+  {
+    "name": "Betrayal Romance",
+    "slug": "betrayal-romance",
+    "name_pt_br": "Romance de Traição"
+  },
+  {
+    "name": "Underworld Romance",
+    "slug": "underworld-romance",
+    "name_pt_br": "Romance do Submundo"
+  },
+  {
+    "name": "Fake Breakup",
+    "slug": "fake-breakup",
+    "name_pt_br": "Fim de Namoro Falso"
+  },
+  {
+    "name": "Shared Trauma Bond",
+    "slug": "shared-trauma-bond",
+    "name_pt_br": "Vínculo de Trauma Compartilhado"
+  },
+  {
+    "name": "Guardian Angel Romance",
+    "slug": "guardian-angel-romance",
+    "name_pt_br": "Romance com Anjo Guardião"
+  },
+  {
+    "name": "Wounded Warrior",
+    "slug": "wounded-warrior",
+    "name_pt_br": "Guerreiro Ferido"
+  },
+  {
+    "name": "Fae Warrior Romance",
+    "slug": "fae-warrior-romance",
+    "name_pt_br": "Romance com Guerreiro Fada"
+  },
+  {
+    "name": "Loyal Assassin",
+    "slug": "loyal-assassin",
+    "name_pt_br": "Assassino Leal"
+  },
+  {
+    "name": "Secret Organization",
+    "slug": "secret-organization",
+    "name_pt_br": "Organização Secreta"
+  },
+  {
+    "name": "Oppressed Rebellion",
+    "slug": "oppressed-rebellion",
+    "name_pt_br": "Rebelião Oprimida"
+  },
+  {
+    "name": "Villain's Heir",
+    "slug": "villains-heir",
+    "name_pt_br": "Herdeiro do Vilão"
+  },
+  {
+    "name": "Time Loop Romance",
+    "slug": "time-loop-romance",
+    "name_pt_br": "Romance em Loop Temporal"
+  },
+  {
+    "name": "Royal Succession War",
+    "slug": "royal-succession-war",
+    "name_pt_br": "Guerra pela Sucessão Real"
+  },
+  {
+    "name": "Orphan Chosen by Destiny",
+    "slug": "orphan-chosen-by-destiny",
+    "name_pt_br": "Órfão Escolhido pelo Destino"
+  },
+  {
+    "name": "Urban Magic",
+    "slug": "urban-magic",
+    "name_pt_br": "Magia Urbana"
+  },
   {
     "name": "Detective x Criminal Romance",
-    "slug": "detective-x-criminal-romance"
+    "slug": "detective-x-criminal-romance",
+    "name_pt_br": "Romance Detetive x Criminoso"
   },
-  { "name": "Thief x Royal Romance", "slug": "thief-x-royal-romance" },
-  { "name": "Immortal Falls for Mortal", "slug": "immortal-falls-for-mortal" },
-  { "name": "Secret Magical Heritage", "slug": "secret-magical-heritage" },
-  { "name": "Demon x Angel Romance", "slug": "demon-x-angel-romance" },
-  { "name": "Reluctant Villain", "slug": "reluctant-villain" },
-  { "name": "Shadow Realm", "slug": "shadow-realm" },
+  {
+    "name": "Thief x Royal Romance",
+    "slug": "thief-x-royal-romance",
+    "name_pt_br": "Romance Ladrão x Real"
+  },
+  {
+    "name": "Immortal Falls for Mortal",
+    "slug": "immortal-falls-for-mortal",
+    "name_pt_br": "Imortal Apaixona-se por Mortal"
+  },
+  {
+    "name": "Secret Magical Heritage",
+    "slug": "secret-magical-heritage",
+    "name_pt_br": "Herança Mágica Secreta"
+  },
+  {
+    "name": "Demon x Angel Romance",
+    "slug": "demon-x-angel-romance",
+    "name_pt_br": "Romance Demônio x Anjo"
+  },
+  {
+    "name": "Reluctant Villain",
+    "slug": "reluctant-villain",
+    "name_pt_br": "Vilão Relutante"
+  },
+  {
+    "name": "Shadow Realm",
+    "slug": "shadow-realm",
+    "name_pt_br": "Reino das Sombras"
+  },
   {
     "name": "Artificial Intelligence Love",
-    "slug": "artificial-intelligence-love"
+    "slug": "artificial-intelligence-love",
+    "name_pt_br": "Amor por Inteligência Artificial"
   },
-  { "name": "Possessed Hero", "slug": "possessed-hero" },
+  {
+    "name": "Possessed Hero",
+    "slug": "possessed-hero",
+    "name_pt_br": "Herói Possuído"
+  },
   {
     "name": "Shapeshifter Love Interest",
-    "slug": "shapeshifter-love-interest"
+    "slug": "shapeshifter-love-interest",
+    "name_pt_br": "Interesse Amoroso Metamorfo"
   },
-  { "name": "Witch x Royalty Romance", "slug": "witch-x-royalty-romance" },
-  { "name": "Gladiator Romance", "slug": "gladiator-romance" },
-  { "name": "Battle Couple", "slug": "battle-couple" },
-  { "name": "Ancient Enemy Alliance", "slug": "ancient-enemy-alliance" },
-  { "name": "Unlikely Saviors", "slug": "unlikely-saviors" },
-  { "name": "Secret Magical Contract", "slug": "secret-magical-contract" },
-  { "name": "Fallen Hero", "slug": "fallen-hero" },
-  { "name": "Ghost x Human Love", "slug": "ghost-x-human-love" },
-  { "name": "Mutual Destruction Pact", "slug": "mutual-destruction-pact" },
-  { "name": "Royal Bastard Heir", "slug": "royal-bastard-heir" },
-  { "name": "Witch Coven Intrigue", "slug": "witch-coven-intrigue" },
-  { "name": "Dreamwalker Romance", "slug": "dreamwalker-romance" },
-  { "name": "Knight x Sorcerer Romance", "slug": "knight-x-sorcerer-romance" },
-  { "name": "Parallel World War", "slug": "parallel-world-war" },
-  { "name": "The Chosen Enemy", "slug": "the-chosen-enemy" },
-  { "name": "Dark Forest Survival", "slug": "dark-forest-survival" },
-  { "name": "Reluctant Bondmates", "slug": "reluctant-bondmates" },
+  {
+    "name": "Witch x Royalty Romance",
+    "slug": "witch-x-royalty-romance",
+    "name_pt_br": "Romance Bruxa x Realeza"
+  },
+  {
+    "name": "Gladiator Romance",
+    "slug": "gladiator-romance",
+    "name_pt_br": "Romance Gladiador"
+  },
+  {
+    "name": "Battle Couple",
+    "slug": "battle-couple",
+    "name_pt_br": "Casal de Batalha"
+  },
+  {
+    "name": "Ancient Enemy Alliance",
+    "slug": "ancient-enemy-alliance",
+    "name_pt_br": "Aliança de Inimigos Antigos"
+  },
+  {
+    "name": "Unlikely Saviors",
+    "slug": "unlikely-saviors",
+    "name_pt_br": "Salvadores Improváveis"
+  },
+  {
+    "name": "Secret Magical Contract",
+    "slug": "secret-magical-contract",
+    "name_pt_br": "Contrato Mágico Secreto"
+  },
+  { "name": "Fallen Hero", "slug": "fallen-hero", "name_pt_br": "Herói Caído" },
+  {
+    "name": "Ghost x Human Love",
+    "slug": "ghost-x-human-love",
+    "name_pt_br": "Amor Fantasma x Humano"
+  },
+  {
+    "name": "Mutual Destruction Pact",
+    "slug": "mutual-destruction-pact",
+    "name_pt_br": "Pacto de Destruição Mútua"
+  },
+  {
+    "name": "Royal Bastard Heir",
+    "slug": "royal-bastard-heir",
+    "name_pt_br": "Herdeiro Bastardo Real"
+  },
+  {
+    "name": "Witch Coven Intrigue",
+    "slug": "witch-coven-intrigue",
+    "name_pt_br": "Intriga do Coven de Bruxas"
+  },
+  {
+    "name": "Dreamwalker Romance",
+    "slug": "dreamwalker-romance",
+    "name_pt_br": "Romance do Caminhante dos Sonhos"
+  },
+  {
+    "name": "Knight x Sorcerer Romance",
+    "slug": "knight-x-sorcerer-romance",
+    "name_pt_br": "Romance Cavaleiro x Feiticeiro"
+  },
+  {
+    "name": "Parallel World War",
+    "slug": "parallel-world-war",
+    "name_pt_br": "Guerra de Mundos Paralelos"
+  },
+  {
+    "name": "The Chosen Enemy",
+    "slug": "the-chosen-enemy",
+    "name_pt_br": "O Inimigo Escolhido"
+  },
+  {
+    "name": "Dark Forest Survival",
+    "slug": "dark-forest-survival",
+    "name_pt_br": "Sobrevivência na Floresta Sombria"
+  },
+  {
+    "name": "Reluctant Bondmates",
+    "slug": "reluctant-bondmates",
+    "name_pt_br": "Companheiros Relutantes"
+  },
   {
     "name": "Undercover in the Royal Court",
-    "slug": "undercover-in-the-royal-court"
+    "slug": "undercover-in-the-royal-court",
+    "name_pt_br": "Disfarçado na Corte Real"
   },
-  { "name": "Secret Reincarnation", "slug": "secret-reincarnation" },
-  { "name": "Impostor Royalty", "slug": "impostor-royalty" },
-  { "name": "Rival Kingdoms Alliance", "slug": "rival-kingdoms-alliance" },
-  { "name": "Outlaw x Law Enforcer", "slug": "outlaw-x-law-enforcer" },
-  { "name": "Rescue Mission Romance", "slug": "rescue-mission-romance" },
+  {
+    "name": "Secret Reincarnation",
+    "slug": "secret-reincarnation",
+    "name_pt_br": "Reencarnação Secreta"
+  },
+  {
+    "name": "Impostor Royalty",
+    "slug": "impostor-royalty",
+    "name_pt_br": "Realeza Impostora"
+  },
+  {
+    "name": "Rival Kingdoms Alliance",
+    "slug": "rival-kingdoms-alliance",
+    "name_pt_br": "Aliança de Reinos Rivais"
+  },
+  {
+    "name": "Outlaw x Law Enforcer",
+    "slug": "outlaw-x-law-enforcer",
+    "name_pt_br": "Fora da Lei x Executor da Lei"
+  },
+  {
+    "name": "Rescue Mission Romance",
+    "slug": "rescue-mission-romance",
+    "name_pt_br": "Romance de Missão de Resgate"
+  },
   {
     "name": "Vampire Hunter x Vampire Romance",
-    "slug": "vampire-hunter-x-vampire-romance"
+    "slug": "vampire-hunter-x-vampire-romance",
+    "name_pt_br": "Romance Caçador de Vampiros x Vampiro"
   },
-  { "name": "Runaway Groom", "slug": "runaway-groom" },
-  { "name": "The Silent Assassin", "slug": "the-silent-assassin" },
-  { "name": "The Heir in Hiding", "slug": "the-heir-in-hiding" },
-  { "name": "Truce Turned Love", "slug": "truce-turned-love" },
+  {
+    "name": "Runaway Groom",
+    "slug": "runaway-groom",
+    "name_pt_br": "Noivo Fugitivo"
+  },
+  {
+    "name": "The Silent Assassin",
+    "slug": "the-silent-assassin",
+    "name_pt_br": "O Assassino Silencioso"
+  },
+  {
+    "name": "The Heir in Hiding",
+    "slug": "the-heir-in-hiding",
+    "name_pt_br": "O Herdeiro Oculto"
+  },
+  {
+    "name": "Truce Turned Love",
+    "slug": "truce-turned-love",
+    "name_pt_br": "Trégua que Virou Amor"
+  },
   {
     "name": "Warring Clans Forbidden Romance",
-    "slug": "warring-clans-forbidden-romance"
+    "slug": "warring-clans-forbidden-romance",
+    "name_pt_br": "Romance Proibido entre Clãs em Guerra"
   },
-  { "name": "Accidental Magical Bond", "slug": "accidental-magical-bond" },
-  { "name": "The Last Sorcerer", "slug": "the-last-sorcerer" },
-  { "name": "Royal Spy Network", "slug": "royal-spy-network" },
-  { "name": "Secret War Council", "slug": "secret-war-council" },
-  { "name": "Pirate King Romance", "slug": "pirate-king-romance" },
-  { "name": "Vengeful Ghost Romance", "slug": "vengeful-ghost-romance" },
-  { "name": "Rogue Sorcerer", "slug": "rogue-sorcerer" },
-  { "name": "Reluctant King", "slug": "reluctant-king" },
-  { "name": "Royal Betrayal", "slug": "royal-betrayal" },
-  { "name": "Witch x Demon Pact", "slug": "witch-x-demon-pact" },
+  {
+    "name": "Accidental Magical Bond",
+    "slug": "accidental-magical-bond",
+    "name_pt_br": "Vínculo Mágico Acidental"
+  },
+  {
+    "name": "The Last Sorcerer",
+    "slug": "the-last-sorcerer",
+    "name_pt_br": "O Último Feiticeiro"
+  },
+  {
+    "name": "Royal Spy Network",
+    "slug": "royal-spy-network",
+    "name_pt_br": "Rede de Espionagem Real"
+  },
+  {
+    "name": "Secret War Council",
+    "slug": "secret-war-council",
+    "name_pt_br": "Conselho Secreto de Guerra"
+  },
+  {
+    "name": "Pirate King Romance",
+    "slug": "pirate-king-romance",
+    "name_pt_br": "Romance do Rei Pirata"
+  },
+  {
+    "name": "Vengeful Ghost Romance",
+    "slug": "vengeful-ghost-romance",
+    "name_pt_br": "Romance do Fantasma Vingativo"
+  },
+  {
+    "name": "Rogue Sorcerer",
+    "slug": "rogue-sorcerer",
+    "name_pt_br": "Feiticeiro Fora da Lei"
+  },
+  {
+    "name": "Reluctant King",
+    "slug": "reluctant-king",
+    "name_pt_br": "Rei Relutante"
+  },
+  {
+    "name": "Royal Betrayal",
+    "slug": "royal-betrayal",
+    "name_pt_br": "Traição Real"
+  },
+  {
+    "name": "Witch x Demon Pact",
+    "slug": "witch-x-demon-pact",
+    "name_pt_br": "Pacto Bruxa x Demônio"
+  },
   {
     "name": "Dark Prince x Light Princess",
-    "slug": "dark-prince-x-light-princess"
+    "slug": "dark-prince-x-light-princess",
+    "name_pt_br": "Príncipe Sombrio x Princesa de Luz"
   },
-  { "name": "Inescapable Destiny", "slug": "inescapable-destiny" },
-  { "name": "The Forgotten Twin", "slug": "the-forgotten-twin" },
+  {
+    "name": "Inescapable Destiny",
+    "slug": "inescapable-destiny",
+    "name_pt_br": "Destino Inescapável"
+  },
+  {
+    "name": "The Forgotten Twin",
+    "slug": "the-forgotten-twin",
+    "name_pt_br": "O Gêmeo Esquecido"
+  },
   {
     "name": "Forbidden Magical Artifact",
-    "slug": "forbidden-magical-artifact"
+    "slug": "forbidden-magical-artifact",
+    "name_pt_br": "Artefato Mágico Proibido"
   },
   {
     "name": "Criminal Mastermind Romance",
-    "slug": "criminal-mastermind-romance"
+    "slug": "criminal-mastermind-romance",
+    "name_pt_br": "Romance com Mestre do Crime"
   },
-  { "name": "Vampire Court Intrigue", "slug": "vampire-court-intrigue" },
-  { "name": "The Oracle's Curse", "slug": "the-oracles-curse" },
-  { "name": "Soulmate Mismatch", "slug": "soulmate-mismatch" },
-  { "name": "Healer x Warrior Romance", "slug": "healer-x-warrior-romance" },
-  { "name": "Secret Twin Swap", "slug": "secret-twin-swap" },
-  { "name": "Dragon Rider Bond", "slug": "dragon-rider-bond" },
-  { "name": "Exiled Royalty", "slug": "exiled-royalty" },
-  { "name": "The Masked Lover", "slug": "the-masked-lover" },
-  { "name": "Dark Carnival", "slug": "dark-carnival" },
-  { "name": "Hunter x Prey Romance", "slug": "hunter-x-prey-romance" },
-  { "name": "Runaway Bridegroom", "slug": "runaway-bridegroom" },
-  { "name": "The Forbidden Kingdom", "slug": "the-forbidden-kingdom" },
-  { "name": "Reaper x Mortal Romance", "slug": "reaper-x-mortal-romance" },
-  { "name": "Shadow Assassin Romance", "slug": "shadow-assassin-romance" },
-  { "name": "The Exiled Sorcerer", "slug": "the-exiled-sorcerer" },
-  { "name": "Star-Crossed Lovers", "slug": "star-crossed-lovers" },
-  { "name": "Secret Mission", "slug": "secret-mission" },
-  { "name": "Time Skip", "slug": "time-skip" },
-  { "name": "Villainous Breakdown", "slug": "villainous-breakdown" },
-  { "name": "Chosen Family", "slug": "chosen-family" },
-  { "name": "Hidden Power", "slug": "hidden-power" },
-  { "name": "Kidnapping and Rescue", "slug": "kidnapping-and-rescue" },
-  { "name": "Prophecy Fulfillment", "slug": "prophecy-fulfillment" },
-  { "name": "Reluctant Sidekick", "slug": "reluctant-sidekick" },
-  { "name": "Betrayal by a Friend", "slug": "betrayal-by-a-friend" },
-  { "name": "Cross-Dressing", "slug": "cross-dressing" },
-  { "name": "Secret Legacy", "slug": "secret-legacy" },
+  {
+    "name": "Vampire Court Intrigue",
+    "slug": "vampire-court-intrigue",
+    "name_pt_br": "Intriga na Corte Vampírica"
+  },
+  {
+    "name": "The Oracle's Curse",
+    "slug": "the-oracles-curse",
+    "name_pt_br": "A Maldição do Oráculo"
+  },
+  {
+    "name": "Soulmate Mismatch",
+    "slug": "soulmate-mismatch",
+    "name_pt_br": "Almas Gêmeas Incompatíveis"
+  },
+  {
+    "name": "Healer x Warrior Romance",
+    "slug": "healer-x-warrior-romance",
+    "name_pt_br": "Romance Curandeiro x Guerreiro"
+  },
+  {
+    "name": "Secret Twin Swap",
+    "slug": "secret-twin-swap",
+    "name_pt_br": "Troca Secreta de Gêmeos"
+  },
+  {
+    "name": "Dragon Rider Bond",
+    "slug": "dragon-rider-bond",
+    "name_pt_br": "Vínculo do Cavaleiro de Dragão"
+  },
+  {
+    "name": "Exiled Royalty",
+    "slug": "exiled-royalty",
+    "name_pt_br": "Realeza Exilada"
+  },
+  {
+    "name": "The Masked Lover",
+    "slug": "the-masked-lover",
+    "name_pt_br": "O Amante Mascarado"
+  },
+  {
+    "name": "Dark Carnival",
+    "slug": "dark-carnival",
+    "name_pt_br": "Carnaval Sombrio"
+  },
+  {
+    "name": "Hunter x Prey Romance",
+    "slug": "hunter-x-prey-romance",
+    "name_pt_br": "Romance Caçador x Presa"
+  },
+  {
+    "name": "Runaway Bridegroom",
+    "slug": "runaway-bridegroom",
+    "name_pt_br": "Noivo Fugitivo"
+  },
+  {
+    "name": "The Forbidden Kingdom",
+    "slug": "the-forbidden-kingdom",
+    "name_pt_br": "O Reino Proibido"
+  },
+  {
+    "name": "Reaper x Mortal Romance",
+    "slug": "reaper-x-mortal-romance",
+    "name_pt_br": "Romance Ceifador x Mortal"
+  },
+  {
+    "name": "Shadow Assassin Romance",
+    "slug": "shadow-assassin-romance",
+    "name_pt_br": "Romance do Assassino das Sombras"
+  },
+  {
+    "name": "The Exiled Sorcerer",
+    "slug": "the-exiled-sorcerer",
+    "name_pt_br": "O Feiticeiro Exilado"
+  },
+  {
+    "name": "Star-Crossed Lovers",
+    "slug": "star-crossed-lovers",
+    "name_pt_br": "Amantes Estrelados (Destino Trágico)"
+  },
+  {
+    "name": "Secret Mission",
+    "slug": "secret-mission",
+    "name_pt_br": "Missão Secreta"
+  },
+  { "name": "Time Skip", "slug": "time-skip", "name_pt_br": "Salto Temporal" },
+  {
+    "name": "Villainous Breakdown",
+    "slug": "villainous-breakdown",
+    "name_pt_br": "Colapso do Vilão"
+  },
+  {
+    "name": "Chosen Family",
+    "slug": "chosen-family",
+    "name_pt_br": "Família Escolhida"
+  },
+  {
+    "name": "Hidden Power",
+    "slug": "hidden-power",
+    "name_pt_br": "Poder Oculto"
+  },
+  {
+    "name": "Kidnapping and Rescue",
+    "slug": "kidnapping-and-rescue",
+    "name_pt_br": "Sequestro e Resgate"
+  },
+  {
+    "name": "Prophecy Fulfillment",
+    "slug": "prophecy-fulfillment",
+    "name_pt_br": "Cumprimento da Profecia"
+  },
+  {
+    "name": "Reluctant Sidekick",
+    "slug": "reluctant-sidekick",
+    "name_pt_br": "Ajudante Relutante"
+  },
+  {
+    "name": "Betrayal by a Friend",
+    "slug": "betrayal-by-a-friend",
+    "name_pt_br": "Traição por um Amigo"
+  },
+  {
+    "name": "Cross-Dressing",
+    "slug": "cross-dressing",
+    "name_pt_br": "Travestismo"
+  },
+  {
+    "name": "Secret Legacy",
+    "slug": "secret-legacy",
+    "name_pt_br": "Legado Secreto"
+  },
   {
     "name": "Villain with a Heart of Gold",
-    "slug": "villain-with-a-heart-of-gold"
+    "slug": "villain-with-a-heart-of-gold",
+    "name_pt_br": "Vilão com Coração de Ouro"
   },
-  { "name": "Forbidden Friendship", "slug": "forbidden-friendship" },
-  { "name": "Reincarnation", "slug": "reincarnation" },
-  { "name": "Amnesia Recovery", "slug": "amnesia-recovery" },
-  { "name": "Revenge Turned Redemption", "slug": "revenge-turned-redemption" },
-  { "name": "Magical Artifact Quest", "slug": "magical-artifact-quest" },
-  { "name": "Unwilling Hero", "slug": "unwilling-hero" },
-  { "name": "Mistaken Identity Comedy", "slug": "mistaken-identity-comedy" },
-  { "name": "Love Against All Odds", "slug": "love-against-all-odds" },
-  { "name": "Hidden Royalty", "slug": "hidden-royalty" },
-  { "name": "Epic Battle", "slug": "epic-battle" },
-  { "name": "Tortured Artist", "slug": "tortured-artist" },
-  { "name": "Unlikely Mentor", "slug": "unlikely-mentor" },
-  { "name": "Road Trip", "slug": "road-trip" },
-  { "name": "Secret Society Initiation", "slug": "secret-society-initiation" },
-  { "name": "Sacrificial Heroism", "slug": "sacrificial-heroism" },
+  {
+    "name": "Forbidden Friendship",
+    "slug": "forbidden-friendship",
+    "name_pt_br": "Amizade Proibida"
+  },
+  {
+    "name": "Reincarnation",
+    "slug": "reincarnation",
+    "name_pt_br": "Reencarnação"
+  },
+  {
+    "name": "Amnesia Recovery",
+    "slug": "amnesia-recovery",
+    "name_pt_br": "Recuperação de Amnésia"
+  },
+  {
+    "name": "Revenge Turned Redemption",
+    "slug": "revenge-turned-redemption",
+    "name_pt_br": "Vingança que Virou Redenção"
+  },
+  {
+    "name": "Magical Artifact Quest",
+    "slug": "magical-artifact-quest",
+    "name_pt_br": "Busca pelo Artefato Mágico"
+  },
+  {
+    "name": "Unwilling Hero",
+    "slug": "unwilling-hero",
+    "name_pt_br": "Herói Relutante"
+  },
+  {
+    "name": "Mistaken Identity Comedy",
+    "slug": "mistaken-identity-comedy",
+    "name_pt_br": "Comédia de Identidade Errada"
+  },
+  {
+    "name": "Love Against All Odds",
+    "slug": "love-against-all-odds",
+    "name_pt_br": "Amor Contra Todas as Probabilidades"
+  },
+  {
+    "name": "Hidden Royalty",
+    "slug": "hidden-royalty",
+    "name_pt_br": "Realeza Oculta"
+  },
+  {
+    "name": "Epic Battle",
+    "slug": "epic-battle",
+    "name_pt_br": "Batalha Épica"
+  },
+  {
+    "name": "Tortured Artist",
+    "slug": "tortured-artist",
+    "name_pt_br": "Artista Torturado"
+  },
+  {
+    "name": "Unlikely Mentor",
+    "slug": "unlikely-mentor",
+    "name_pt_br": "Mentor Improvável"
+  },
+  { "name": "Road Trip", "slug": "road-trip", "name_pt_br": "Viagem de Carro" },
+  {
+    "name": "Secret Society Initiation",
+    "slug": "secret-society-initiation",
+    "name_pt_br": "Iniciação em Sociedade Secreta"
+  },
+  {
+    "name": "Sacrificial Heroism",
+    "slug": "sacrificial-heroism",
+    "name_pt_br": "Heroísmo Sacrificial"
+  },
   {
     "name": "Childhood Friends Reunited",
-    "slug": "childhood-friends-reunited"
+    "slug": "childhood-friends-reunited",
+    "name_pt_br": "Amigos de Infância Reunidos"
   },
-  { "name": "Undercover Romance", "slug": "undercover-romance" },
-  { "name": "Second Chance at Life", "slug": "second-chance-at-life" },
-  { "name": "Wandering Hero", "slug": "wandering-hero" },
-  { "name": "Time Loop", "slug": "time-loop" },
-  { "name": "Forbidden Knowledge", "slug": "forbidden-knowledge" },
-  { "name": "Love-Hate Relationship", "slug": "love-hate-relationship" },
-  { "name": "Magical Curse", "slug": "magical-curse" },
-  { "name": "Unlikely Allies", "slug": "unlikely-allies" },
-  { "name": "Sacred Duty", "slug": "sacred-duty" },
-  { "name": "Ghostly Guide", "slug": "ghostly-guide" },
-  { "name": "Hidden Villain", "slug": "hidden-villain" },
-  { "name": "Quest for Redemption", "slug": "quest-for-redemption" },
-  { "name": "Secret Diary", "slug": "secret-diary" },
-  { "name": "Reluctant Ruler", "slug": "reluctant-ruler" },
-  { "name": "The Lost Heir", "slug": "the-lost-heir" },
-  { "name": "Dragon Rider", "slug": "dragon-rider" },
-  { "name": "Double Agent", "slug": "double-agent" },
-  { "name": "Forbidden Romance", "slug": "forbidden-romance" },
-  { "name": "Battle of Wits", "slug": "battle-of-wits" },
-  { "name": "Secret Baby Reveal", "slug": "secret-baby-reveal" },
-  { "name": "Magical School Rivalry", "slug": "magical-school-rivalry" }
+  {
+    "name": "Undercover Romance",
+    "slug": "undercover-romance",
+    "name_pt_br": "Romance Disfarçado"
+  },
+  {
+    "name": "Second Chance at Life",
+    "slug": "second-chance-at-life",
+    "name_pt_br": "Segunda Chance na Vida"
+  },
+  {
+    "name": "Wandering Hero",
+    "slug": "wandering-hero",
+    "name_pt_br": "Herói Errante"
+  },
+  { "name": "Time Loop", "slug": "time-loop", "name_pt_br": "Loop Temporal" },
+  {
+    "name": "Forbidden Knowledge",
+    "slug": "forbidden-knowledge",
+    "name_pt_br": "Conhecimento Proibido"
+  },
+  {
+    "name": "Love-Hate Relationship",
+    "slug": "love-hate-relationship",
+    "name_pt_br": "Relação de Amor e Ódio"
+  },
+  {
+    "name": "Magical Curse",
+    "slug": "magical-curse",
+    "name_pt_br": "Maldição Mágica"
+  },
+  {
+    "name": "Unlikely Allies",
+    "slug": "unlikely-allies",
+    "name_pt_br": "Aliados Improváveis"
+  },
+  {
+    "name": "Sacred Duty",
+    "slug": "sacred-duty",
+    "name_pt_br": "Dever Sagrado"
+  },
+  {
+    "name": "Ghostly Guide",
+    "slug": "ghostly-guide",
+    "name_pt_br": "Guia Fantasmagórico"
+  },
+  {
+    "name": "Hidden Villain",
+    "slug": "hidden-villain",
+    "name_pt_br": "Vilão Oculto"
+  },
+  {
+    "name": "Quest for Redemption",
+    "slug": "quest-for-redemption",
+    "name_pt_br": "Busca pela Redenção"
+  },
+  {
+    "name": "Secret Diary",
+    "slug": "secret-diary",
+    "name_pt_br": "Diário Secreto"
+  },
+  {
+    "name": "Reluctant Ruler",
+    "slug": "reluctant-ruler",
+    "name_pt_br": "Governante Relutante"
+  },
+  {
+    "name": "The Lost Heir",
+    "slug": "the-lost-heir",
+    "name_pt_br": "O Herdeiro Perdido"
+  },
+  {
+    "name": "Dragon Rider",
+    "slug": "dragon-rider",
+    "name_pt_br": "Cavaleiro de Dragão"
+  },
+  {
+    "name": "Double Agent",
+    "slug": "double-agent",
+    "name_pt_br": "Agente Duplo"
+  },
+  {
+    "name": "Forbidden Romance",
+    "slug": "forbidden-romance",
+    "name_pt_br": "Romance Proibido"
+  },
+  {
+    "name": "Battle of Wits",
+    "slug": "battle-of-wits",
+    "name_pt_br": "Batalha de Inteligência"
+  },
+  {
+    "name": "Secret Baby Reveal",
+    "slug": "secret-baby-reveal",
+    "name_pt_br": "Revelação de Bebê Secreto"
+  },
+  {
+    "name": "Magical School Rivalry",
+    "slug": "magical-school-rivalry",
+    "name_pt_br": "Rivalidade em Escola Mágica"
+  }
 ]

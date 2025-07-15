@@ -1,9 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_review_repository import (
-    InMemoryReviewRepository,
-)
-from bookland.application.usecases.review.get_most_recent_review_reading import (
-    GetMostRecentReviewReadingUseCase,
-)
+from bookland.infra.repositories import InMemoryReviewRepository
+from bookland.application.usecases import GetMostRecentReviewReadingUseCase
 from tests.factories.review_factory import create_review
 
 

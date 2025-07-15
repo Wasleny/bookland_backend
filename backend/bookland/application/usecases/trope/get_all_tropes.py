@@ -1,4 +1,4 @@
-from bookland.domain.repositories.trope_repository import TropeRepository
+from bookland.domain.repositories import TropeRepository
 from bookland.domain.entities import Trope
 
 

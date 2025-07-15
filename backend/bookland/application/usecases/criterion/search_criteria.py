@@ -1,5 +1,5 @@
-from bookland.domain.repositories.criterion_repository import CriterionRepository
-from bookland.domain.entities.criterion import Criterion
+from bookland.domain.repositories import CriterionRepository
+from bookland.domain.entities import Criterion
 
 
 class SearchCriteriaUseCase:

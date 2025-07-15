@@ -1,8 +1,7 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_review_repository import (
-    InMemoryReviewRepository,
-)
-from bookland.application.usecases.review.update_review import UpdateReviewUseCase
+from bookland.infra.repositories import InMemoryReviewRepository
+from bookland.application.usecases import UpdateReviewUseCase
 from tests.factories.review_factory import create_review
+from bookland.domain.value_objects import Rating
 
 
 import pytest
@@ -17,12 +16,12 @@ async def test_update_review_updates_review_data():
     review = create_review()
     await repository.create(review)
 
-    updated_data = create_review(id=review.id, rating=4)
+    updated_data = create_review(id=review.id, rating=Rating(4))
 
     updated_review = await usecase.execute(updated_data)
 
     assert updated_review.body == "Esse livro transformou a minha vida"
-    assert updated_review.rating == 4
+    assert updated_review.rating.value == 4
 
 
 @pytest.mark.asyncio

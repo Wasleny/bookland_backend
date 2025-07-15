@@ -1,2 +1,0 @@
-class InvalidReadingInProgressException(Exception):
-    pass

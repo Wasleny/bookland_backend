@@ -1,9 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_reading_in_progress_repository import (
-    InMemoryReadingInProgressRepository,
-)
-from bookland.application.usecases.reading_in_progress.update_reading_in_progress import (
-    UpdateReadingInProgressUseCase,
-)
+from bookland.infra.repositories import InMemoryReadingInProgressRepository
+from bookland.application.usecases import UpdateReadingInProgressUseCase
 from tests.factories.reading_in_progress_factory import create_reading_in_progress
 
 

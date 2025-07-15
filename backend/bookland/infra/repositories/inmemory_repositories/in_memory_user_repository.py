@@ -1,7 +1,7 @@
-from bookland.domain.entities.user import User
-from bookland.domain.repositories.user_repository import UserRepository
-from bookland.domain.value_objects.email_vo import Email
-from bookland.domain.value_objects.password_vo import Password
+from bookland.domain.entities import User
+from bookland.domain.repositories import UserRepository
+from bookland.domain.value_objects import Email, Password
+from bookland.domain.enums import UserRole
 
 
 class InMemoryUserRepository(UserRepository):
@@ -42,17 +42,20 @@ class InMemoryUserRepository(UserRepository):
 
     async def demote_from_admin(self, user: User) -> User | None:
         if user.id in self._users:
-            self._users[user.id].demote_to_admin()
+            self._users[user.id].demote_from_admin()
             return self._users[user.id]
 
         return None
 
-    async def search(self, search_term: str) -> User | None:
+    async def get_by_email(self, email: str) -> User | None:
         for user in self._users.values():
-            if user.email.value == search_term:
+            if user.email == email:
                 return user
 
         return None
 
     async def get_by_id(self, user_id: str) -> User | None:
         return self._users.get(user_id)
+
+    async def get_by_role(self, role: UserRole) -> list[User]:
+        return [user for user in self._users.values() if user.role == role]

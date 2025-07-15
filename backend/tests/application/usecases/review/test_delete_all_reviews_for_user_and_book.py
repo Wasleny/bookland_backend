@@ -1,9 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_review_repository import (
-    InMemoryReviewRepository,
-)
-from bookland.application.usecases.review.delete_all_reviews_for_user_and_book import (
-    DeleteAllReviewsForUserAndBookUseCase,
-)
+from bookland.infra.repositories import InMemoryReviewRepository
+from bookland.application.usecases import DeleteAllReviewsForUserAndBookUseCase
 from tests.factories.review_factory import create_review
 
 

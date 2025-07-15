@@ -67,8 +67,9 @@ from .user.login_user import LoginUserUseCase
 from .user.logout_user import LogoutUserUseCase
 from .user.promote_user_to_admin import PromoteUserToAdminUseCase
 from .user.register_user import RegisterUserUseCase
-from .user.search_user import SearchUserUseCase
+from .user.get_user_by_email import GetUserByEmailUseCase
 from .user.set_current_user import SetCurrentUserUseCase
+from .user.get_users_by_role import GetUserByRoleUseCase
 
 
 from .user_book.create_user_book import CreateUserBookUseCase
@@ -82,3 +83,5 @@ from .user_book.update_user_book import UpdateUserBookUseCase
 from .genre.get_all_genres import GetAllGenresUseCase
 
 from .trope.get_all_tropes import GetAllTropesUseCase
+
+from .bookshelf.get_all_bookshelves import GetAllBookshelvesUseCase

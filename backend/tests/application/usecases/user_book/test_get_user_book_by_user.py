@@ -1,9 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_user_book_repository import (
-    InMemoryUserBookRepository,
-)
-from bookland.application.usecases.user_book.get_user_book_by_user import (
-    GetUserBookByUserUseCase,
-)
+from bookland.infra.repositories import InMemoryUserBookRepository
+from bookland.application.usecases import GetUserBookByUserUseCase
 from tests.factories.user_book_factory import create_user_book
 
 import pytest

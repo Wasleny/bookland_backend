@@ -1,32 +1,43 @@
-from bookland.domain.value_objects.label_vo import Label
-from bookland.domain.value_objects.slug_vo import Slug
-from bookland.domain.exceptions.genre_exception import InvalidGenreException
 from datetime import datetime
+
+from bookland.domain.value_objects import Label, Slug
+from bookland.domain.exceptions import InvalidGenreException
+from bookland.domain.errors import CommonErrors
 
 
 class Genre:
-    def __init__(self, id: str, name: Label, slug: Slug):
-        self._validate_genre(name, slug)
+    """
+    Entity que representa um gênero literário no sistema.
+
+    Inclui os seguintes campos:
+    - ID
+    - nome
+    - nome em português
+    - slug
+    - estado de exclusão lógica (soft delete)
+    """
+
+    def __init__(self, id: str, name: Label, name_pt_br: Label, slug: Slug):
+        self._validate(id, name, name_pt_br, slug)
 
         self._id = id
         self._name = name
+        self._name_pt_br = name_pt_br
         self._slug = slug
         self._deleted_at = None
 
-    @staticmethod
-    def _validate_genre(name, slug):
-        Genre._validate_name(name)
-        Genre._validate_slug(slug)
+    def _validate(self, id: str, name: Label, name_pt_br: Label, slug: Slug):
+        if not isinstance(id, str) or len(id) == 0:
+            raise InvalidGenreException(CommonErrors.INVALID_ID)
 
-    @staticmethod
-    def _validate_name(name):
         if not isinstance(name, Label):
-            raise InvalidGenreException("Nome deve ser uma instância de Label")
+            raise InvalidGenreException(CommonErrors.INVALID_LABEL)
 
-    @staticmethod
-    def _validate_slug(slug):
+        if not isinstance(name_pt_br, Label):
+            raise InvalidGenreException(CommonErrors.INVALID_LABEL_PT_BR)
+
         if not isinstance(slug, Slug):
-            raise InvalidGenreException("Slug deve ser uma instância de Slug")
+            raise InvalidGenreException(CommonErrors.INVALID_SLUG)
 
     def soft_delete(self):
         if not self.is_deleted:
@@ -39,6 +50,10 @@ class Genre:
     @property
     def name(self):
         return self._name
+
+    @property
+    def name_pt_br(self):
+        return self._name_pt_br
 
     @property
     def slug(self):

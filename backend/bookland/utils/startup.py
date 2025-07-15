@@ -1,29 +1,22 @@
-from dotenv import load_dotenv
-from pathlib import Path
-import os
 from uuid import uuid4
+from pathlib import Path
 import json
 
-from bookland.interfaces.api.services import search_user_usecase, register_user_usecase
-from bookland.domain.entities import User, Genre, Trope
+from bookland.interfaces.api.services import (
+    get_user_by_email_usecase,
+    register_user_usecase,
+)
+from bookland.domain.entities import User, Genre, Trope, Bookshelf
 from bookland.domain.value_objects import Name, Nickname, Password, Email, Label, Slug
 from bookland.domain.enums import UserGender, UserRole
 from bookland.interfaces.api.security import get_password_hash
-from bookland.infra.mappers import GenreMapper, TropeMapper
-from bookland.infra.mongo_models import GenreDocument, TropeDocument
-
-
-env_path = Path(__file__).parent.parent / ".env"
-load_dotenv(dotenv_path=env_path)
-
-ADMIN_NAME = os.getenv("ADMIN_NAME", "Super Admin")
-ADMIN_NICKNAME = os.getenv("ADMIN_NICKNAME", "super_admin")
-ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "admin@bookland.com")
-ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "adminpass")
+from bookland.infra.mappers import GenreMapper, TropeMapper, BookshelfMapper
+from bookland.infra.mongo_models import GenreDocument, TropeDocument, BookshelfDocument
+from bookland.settings import ADMIN_NAME, ADMIN_NICKNAME, ADMIN_EMAIL, ADMIN_PASSWORD
 
 
 async def create_default_admin_user():
-    existing_admin = await search_user_usecase.execute(ADMIN_EMAIL)
+    existing_admin = await get_user_by_email_usecase.execute(ADMIN_EMAIL)
 
     if existing_admin is None:
         admin_user = User(
@@ -33,7 +26,7 @@ async def create_default_admin_user():
             email=Email(ADMIN_EMAIL),
             password=Password(get_password_hash(ADMIN_PASSWORD)),
             gender=UserGender.UNSPECIFIED,
-            birthday=None,
+            birthdate=None,
             avatar_url=None,
             role=UserRole.ADMIN,
         )
@@ -70,4 +63,20 @@ async def populate_tropes():
                 str(uuid4()), Label(trope_data["name"]), Slug(trope_data["slug"])
             )
             document = TropeMapper.to_document(trope)
+            await document.insert()
+
+
+async def populate_bookshelves():
+    path = Path(__file__).parent / "data" / "shelves.json"
+    with open(path, encoding="utf-8", mode="r") as f:
+        shelves = json.load(f)
+
+    shelf_documents = await BookshelfDocument.find().to_list()
+
+    if len(shelf_documents) == 0:
+        for shelf_data in shelves:
+            shelf = Bookshelf(
+                str(uuid4()), Label(shelf_data["name"]), Slug(shelf_data["slug"])
+            )
+            document = BookshelfMapper.to_document(shelf)
             await document.insert()

@@ -1,5 +1,5 @@
-from bookland.domain.entities.series import Series
-from bookland.domain.repositories.series_repository import SeriesRepository
+from bookland.domain.entities import Series
+from bookland.domain.repositories import SeriesRepository
 
 
 class InMemorySeriesRepository(SeriesRepository):
@@ -28,8 +28,11 @@ class InMemorySeriesRepository(SeriesRepository):
 
         return None
 
-    async def soft_delete(self, series_id: str) -> None:
+    async def soft_delete(self, series_id: str) -> Series | None:
         series = self._series.get(series_id)
 
         if series:
             series.soft_delete()
+            return series
+
+        return None

@@ -1,5 +1,5 @@
-from bookland.domain.entities.user_book import UserBook
-from bookland.domain.repositories.user_book_repository import UserBookRepository
+from bookland.domain.entities import UserBook
+from bookland.domain.repositories import UserBookRepository
 
 
 class GetUserBookByUserUseCase:

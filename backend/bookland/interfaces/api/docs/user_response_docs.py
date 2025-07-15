@@ -6,7 +6,7 @@ user_example = {
     "nickname": "string",
     "email": "user@example.com",
     "gender": "male",
-    "birthday": "2025-06-28",
+    "birthdate": "2025-06-28",
     "avatar_url": "string",
     "role": "role",
 }

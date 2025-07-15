@@ -1,4 +1,4 @@
-from .birthday_vo import Birthday
+from .birthdate_vo import BirthDate
 from .date_vo import Date
 from .email_vo import Email
 from .isbn_vo import Isbn

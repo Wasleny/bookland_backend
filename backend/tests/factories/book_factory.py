@@ -1,18 +1,16 @@
 import pytest
 from uuid import uuid4
 from datetime import date
-from bookland.domain.entities.book import Book
-from bookland.domain.value_objects.name_vo import Name
-from bookland.domain.value_objects.label_vo import Label
-from bookland.domain.value_objects.isbn_vo import Isbn
-from bookland.domain.value_objects.date_vo import Date
-from bookland.domain.enums.book_format import BookFormat
+
+from bookland.domain.entities import Book
+from bookland.domain.value_objects import Title, Isbn, Date, Slug
+from bookland.domain.enums import BookFormat
 
 
 def create_book(**overrides):
     base = {
         "id": str(uuid4()),
-        "title": Name("Trono de Vidro"),
+        "title": Title("Trono de Vidro"),
         "author_ids": ["1"],
         "main_genre_id": "1",
         "cover": "path/to/image",
@@ -21,7 +19,8 @@ def create_book(**overrides):
         "pages": 392,
         "publication_date": Date(date(2012, 8, 7)),
         "language": "Português",
-        "original_title": Name("Throne of Glass"),
+        "original_title": Title("Throne of Glass"),
+        "slug": Slug("trono-de-vidro"),
         "secondary_genre_ids": ["2", "3"],
         "trope_ids": ["1", "2"],
         "series_id": "1",

@@ -9,6 +9,7 @@ class TropeMapper:
         return Trope(
             id=document.id,
             name=Label(document.name),
+            name_pt_br=Label(document.name_pt_br),
             slug=Slug(document.slug),
         )
 
@@ -17,5 +18,6 @@ class TropeMapper:
         return TropeDocument(
             id=trope.id,
             name=trope.name.value,
+            name_pt_br=trope.name_pt_br.value,
             slug=trope.slug.value,
         )

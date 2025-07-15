@@ -1,42 +1,47 @@
-class ReadingCriteria:
-    def __init__(self, criterion: str, rating: int):
-        self._validate(criterion, rating)
+from bookland.domain.value_objects import Label, Rating
+from bookland.domain.exceptions import InvalidReadingCriteriaException
+from bookland.domain.errors import ReadingCriteriaErrors
 
+
+class ReadingCriteria:
+    """
+    Value Object que representa um par de critério literário e nota.
+    Garante que o critério seja do tipo Label e a nota do tipo Rating.
+    """
+
+    def __init__(self, criterion: Label, rating: Rating):
+        self._validate(criterion, rating)
         self._criterion = criterion
         self._rating = rating
 
-    @staticmethod
-    def _validate(criterion, rating):
-        ReadingCriteria._validate_criterion(criterion)
-        ReadingCriteria._validate_rating(rating)
+    def _validate(self, criterion: Label, rating: Rating) -> None:
+        if not isinstance(rating, Rating) or not isinstance(rating.value, int):
+            raise InvalidReadingCriteriaException(
+                ReadingCriteriaErrors.RATING_INVALID_TYPE
+            )
 
-    @staticmethod
-    def _validate_criterion(criterion):
-        if not isinstance(criterion, str) or len(criterion) < 3:
-            raise ValueError("Critério deve ser string e ter no miníno 3 caracteres")
-
-    @staticmethod
-    def _validate_rating(rating):
-        if not isinstance(rating, int) or rating not in [1, 2, 3, 4, 5]:
-            raise ValueError("Nota deve ser inteiro e ser igual a 1, 2, 3, 4 ou 5")
+        if not isinstance(criterion, Label):
+            raise InvalidReadingCriteriaException(
+                ReadingCriteriaErrors.CRITERION_INVALID_TYPE
+            )
 
     @property
-    def criterion(self):
-        return self._criterion
+    def criterion(self) -> str:
+        return self._criterion.value
 
     @property
     def rating(self):
-        return self._rating
+        return self._rating.value
 
-    def to_dict(self):
-        return {"criterion": self._criterion, "rating": self._rating}
+    def to_dict(self) -> dict:
+        return {"criterion": self.criterion, "rating": self.rating}
 
-    def __str__(self):
-        return f"{self._criterion}: {self._rating}"
+    def __str__(self) -> str:
+        return f"{self.criterion}: {self.rating}"
 
-    def __eq__(self, other_reading_criteria):
+    def __eq__(self, other) -> bool:
         return (
-            isinstance(other_reading_criteria, ReadingCriteria)
-            and self.criterion == other_reading_criteria.criterion
-            and self.rating == other_reading_criteria.rating
+            isinstance(other, ReadingCriteria)
+            and self.criterion == other.criterion
+            and self.rating == other.rating
         )

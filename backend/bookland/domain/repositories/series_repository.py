@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from bookland.domain.entities.series import Series
+
+from bookland.domain.entities import Series
 
 
 class SeriesRepository(ABC):
@@ -16,4 +17,4 @@ class SeriesRepository(ABC):
     async def update(self, series: Series) -> Series | None: ...
 
     @abstractmethod
-    async def soft_delete(self, series_id: str) -> None: ...
+    async def soft_delete(self, series_id: str) -> Series | None: ...

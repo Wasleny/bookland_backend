@@ -1,18 +1,16 @@
 import pytest
 from datetime import date
-from bookland.domain.entities.book import Book
-from bookland.domain.value_objects.name_vo import Name
-from bookland.domain.value_objects.label_vo import Label
-from bookland.domain.value_objects.isbn_vo import Isbn
-from bookland.domain.value_objects.date_vo import Date
-from bookland.domain.enums.book_format import BookFormat
-from bookland.domain.exceptions.book_exception import InvalidBookException
+
+from bookland.domain.entities import Book
+from bookland.domain.value_objects import Title, Isbn, Date, Slug, Rating
+from bookland.domain.enums import BookFormat
+from bookland.domain.exceptions import InvalidBookException
 
 
 def make_book_data(**overrides):
     base = {
         "id": "1",
-        "title": Name("Trono de Vidro"),
+        "title": Title("Trono de Vidro"),
         "author_ids": ["1"],
         "main_genre_id": "1",
         "cover": "path/to/image",
@@ -21,7 +19,8 @@ def make_book_data(**overrides):
         "pages": 392,
         "publication_date": Date(date(2012, 8, 7)),
         "language": "Português",
-        "original_title": Name("Throne of Glass"),
+        "original_title": Title("Throne of Glass"),
+        "slug": Slug("trono-de-vidro"),
         "secondary_genre_ids": ["2", "3"],
         "trope_ids": ["1", "2"],
         "series_id": "1",
@@ -42,7 +41,7 @@ def test_valid_book_should_be_created():
     book = Book(**make_book_data())
 
     assert book.id == book_data["id"]
-    assert book.title == book_data["title"].value
+    assert book.title == book_data["title"]
     assert book.author_ids == book_data["author_ids"]
     assert book.main_genre_id == book_data["main_genre_id"]
     assert book.cover == book_data["cover"]
@@ -58,55 +57,67 @@ def test_valid_book_should_be_created():
     assert book.original_series_id == book_data["original_series_id"]
     assert book.book_number == book_data["book_number"]
     assert book.publisher == book_data["publisher"]
-    assert book.isbn10 == book_data["isbn10"].value
-    assert book.isbn13 == book_data["isbn13"].value
+    assert book.isbn10 == book_data["isbn10"]
+    assert book.isbn13 == book_data["isbn13"]
     assert book.asin == book_data["asin"]
     assert book.is_deleted == False
     assert book.deleted_at is None
+    assert book.alternative_edition_ids is None
+    assert book.slug == book_data["slug"]
+    assert book.average_rating == Rating(None)
+    assert book.reviews_count == 0
+    assert book.ratings_count == 0
 
 
 def test_valid_book_without_asin_should_be_created():
-    book_data = make_book_data(asin=None)
-    book = Book(**book_data)
+    book = Book(**make_book_data(asin=None))
+
+    assert book.asin is None
 
 
 def test_valid_book_without_isbn_should_be_created():
-    book_data = make_book_data(isbn13=None)
-    book = Book(**book_data)
+    book = Book(**make_book_data(isbn13=None))
+
+    assert book.isbn13 is None
 
 
 def test_valid_book_without_publisher_should_be_created():
-    book_data = make_book_data(publisher=None)
-    book = Book(**book_data)
+    book = Book(**make_book_data(publisher=None))
+
+    assert book.publisher is None
 
 
 def test_valid_book_without_book_number_should_be_created():
-    book_data = make_book_data(book_number=None)
-    book = Book(**book_data)
+    book = Book(**make_book_data(book_number=None))
+
+    assert book.book_number is None
 
 
 def test_valid_book_without_original_series_id_should_be_created():
-    book_data = make_book_data(original_series_id=None)
-    book = Book(**book_data)
+    book = Book(**make_book_data(original_series_id=None))
+
+    assert book.original_series_id is None
 
 
 def test_valid_book_without_series_id_should_be_created():
-    book_data = make_book_data(series_id=None)
-    book = Book(**book_data)
+    book = Book(**make_book_data(series_id=None))
+
+    assert book.series_id is None
 
 
 def test_invalid_title_should_raise_invalid_book_exception():
-    book_data = make_book_data(title="")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(title=""))
+
+
+def test_invalid_slug_should_raise_invalid_book_exception():
+    with pytest.raises(InvalidBookException):
+        Book(**make_book_data(slug=None))
 
 
 def test_invalid_original_title_should_raise_invalid_book_exception():
-    book_data = make_book_data(original_title="")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(original_title=""))
 
 
 def test_invalid_author_ids_should_raise_invalid_book_exception():
@@ -116,116 +127,114 @@ def test_invalid_author_ids_should_raise_invalid_book_exception():
         Book(**book_data)
 
 
-def test_invalid_main_genre_should_raise_invalid_book_exception():
-    book_data = make_book_data(main_genre_id="")
-
+def test_invalid_id_should_raise_invalid_book_exception():
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(id=1))
+
+
+def test_invalid_main_genre_should_raise_invalid_book_exception():
+    with pytest.raises(InvalidBookException):
+        Book(**make_book_data(main_genre_id=""))
 
 
 def test_invalid_secondary_genre_ids_should_raise_invalid_book_exception():
-    book_data = make_book_data(secondary_genre_ids="")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(secondary_genre_ids=""))
 
 
 def test_invalid_trope_ids_should_raise_invalid_book_exception():
-    book_data = make_book_data(trope_ids="")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(trope_ids=""))
 
 
 def test_invalid_cover_should_raise_invalid_book_exception():
-    book_data = make_book_data(cover="")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(cover=""))
 
 
 def test_invalid_series_id_should_raise_invalid_book_exception():
-    book_data = make_book_data(series_id=2)
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(series_id=2))
 
 
 def test_invalid_original_series_id_should_raise_invalid_book_exception():
-    book_data = make_book_data(original_series_id=2)
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(original_series_id=2))
 
 
 def test_invalid_synopsis_should_raise_invalid_book_exception():
-    book_data = make_book_data(synopsis="")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(synopsis=""))
 
 
 def test_invalid_format_should_raise_invalid_book_exception():
-    book_data = make_book_data(format="paperback")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(format="paperback"))
 
 
 def test_invalid_pages_should_raise_invalid_book_exception():
-    book_data = make_book_data(pages="320")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(pages="320"))
 
 
 def test_invalid_book_number_should_raise_invalid_book_exception():
-    book_data = make_book_data(book_number=2)
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(book_number=2))
 
 
 def test_invalid_publication_date_should_raise_invalid_book_exception():
-    book_data = make_book_data(publication_date="2025-01-01")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(publication_date="2025-01-01"))
 
 
 def test_invalid_publisher_should_raise_invalid_book_exception():
-    book_data = make_book_data(publisher="")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(publisher=""))
 
 
 def test_invalid_isbn13_should_raise_invalid_book_exception():
-    book_data = make_book_data(isbn13="9789897541773")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(isbn13="9789897541773"))
 
 
 def test_invalid_isbn10_should_raise_invalid_book_exception():
-    book_data = make_book_data(isbn10="9789897541773")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(isbn10="9789897541773"))
 
 
 def test_invalid_asin_should_raise_invalid_book_exception():
-    book_data = make_book_data(asin="9789897541773")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(asin="9789897541773"))
 
 
 def test_invalid_language_should_raise_invalid_book_exception():
-    book_data = make_book_data(language="")
-
     with pytest.raises(InvalidBookException):
-        Book(**book_data)
+        Book(**make_book_data(language=""))
+
+
+def test_invalid_alternative_edition_ids_should_raise_invalid_book_exception():
+    with pytest.raises(InvalidBookException):
+        Book(**make_book_data(alternative_edition_ids=[]))
+
+
+def test_invalid_average_rating_should_raise_invalid_book_exception():
+    with pytest.raises(InvalidBookException):
+        Book(**make_book_data(average_rating=0))
+
+
+def test_invalid_reviews_count_should_raise_invalid_book_exception():
+    with pytest.raises(InvalidBookException):
+        Book(**make_book_data(reviews_count="0"))
+
+
+def test_invalid_ratings_count_should_raise_invalid_book_exception():
+    with pytest.raises(InvalidBookException):
+        Book(**make_book_data(ratings_count="0"))
+
+
+def test_invalid_deleted_at_should_raise_invalid_book_exception():
+    with pytest.raises(InvalidBookException):
+        Book(**make_book_data(deleted_at="2025-06-20"))
 
 
 def test_soft_delete_marks_book_as_deleted():

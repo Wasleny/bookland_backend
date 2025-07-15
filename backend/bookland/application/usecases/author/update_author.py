@@ -1,5 +1,5 @@
-from bookland.domain.entities.author import Author
-from bookland.domain.repositories.author_repository import AuthorRepository
+from bookland.domain.entities import Author
+from bookland.domain.repositories import AuthorRepository
 
 
 class UpdateAuthorUseCase:

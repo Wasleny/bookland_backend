@@ -1,25 +1,42 @@
-from datetime import date
-from bookland.domain.exceptions.review_exception import InvalidReviewException
-from bookland.domain.value_objects.reading_criteria_vo import ReadingCriteria
-from bookland.domain.value_objects.date_vo import Date
+from bookland.domain.exceptions import InvalidReviewException
+from bookland.domain.value_objects import ReadingCriteria, Date, Rating
+from bookland.domain.errors import ReviewErrors, CommonErrors
 
 
 class Review:
+    """
+    Entity que representa uma resenha de livro no sistema.
+
+    Inclui os seguintes campos:
+    - ID
+    - ID do usuário
+    - ID do livro
+    - indicação de spoiler
+    - indicação de resenha mais recente do livro
+    - nota atribuída
+    - texto da resenha
+    - data de início da leitura
+    - data de término da leitura
+    - lista de critérios de composição da nota
+    - lista de critérios independentes avaliados
+    """
+
     def __init__(
         self,
         id: str,
         user_id: str,
         book_id: str,
-        rating: int | None = None,
+        spoiler: bool,
+        most_recent_reading: bool,
+        rating: Rating | None = None,
         body: str | None = None,
-        spoiler: bool | None = None,
         start_date: Date | None = None,
         end_date: Date | None = None,
-        most_recent_reading: bool | None = None,
         rating_composition_criteria: list[ReadingCriteria] | None = None,
         independent_rating_criteria: list[ReadingCriteria] | None = None,
     ):
         self._validate(
+            id,
             user_id,
             book_id,
             rating,
@@ -43,121 +60,68 @@ class Review:
         self._most_recent_reading = most_recent_reading
         self._rating_composition_criteria = rating_composition_criteria
         self._independent_rating_criteria = independent_rating_criteria
-        self._created_at = Date(date.today())
-        self._updated_at = None
 
-    @staticmethod
     def _validate(
-        user_id,
-        book_id,
-        rating,
-        body,
-        spoiler,
-        start_date,
-        end_date,
-        most_recent_reading,
-        rating_composition_criteria,
-        independent_rating_criteria,
-    ):
-        Review._validate_user_id(user_id)
-        Review._validate_book_id(book_id)
-        Review._validate_rating(rating)
-        Review._validate_body(body)
-        Review._validate_spoiler(spoiler)
-        Review._validate_start_date(start_date)
-        Review._validate_end_date(end_date)
-        Review._validate_most_recent_reading(most_recent_reading)
-        Review._validate_rating_criteria(rating_composition_criteria)
-        Review._validate_rating_criteria(independent_rating_criteria)
+        self,
+        id: str,
+        user_id: str,
+        book_id: str,
+        rating: Rating | None,
+        body: str | None,
+        spoiler: bool,
+        start_date: Date | None,
+        end_date: Date | None,
+        most_recent_reading: bool,
+        rating_composition_criteria: list | None,
+        independent_rating_criteria: list | None,
+    ) -> None:
+        if not isinstance(id, str) or len(id) == 0:
+            raise InvalidReviewException(CommonErrors.INVALID_ID)
 
-    @staticmethod
-    def _validate_user_id(user_id):
-        if not isinstance(user_id, str) or len(user_id) < 1:
-            raise InvalidReviewException(
-                "O id do usuário deve ser string e ter tamanho maior que zero"
-            )
+        if not isinstance(user_id, str) or len(user_id) == 0:
+            raise InvalidReviewException(CommonErrors.INVALID_USER_ID)
 
-    @staticmethod
-    def _validate_book_id(book_id):
-        if not isinstance(book_id, str) or len(book_id) < 1:
-            raise InvalidReviewException(
-                "O id do livro deve ser string e ter tamanho maior que zero"
-            )
+        if not isinstance(book_id, str) or len(book_id) == 0:
+            raise InvalidReviewException(CommonErrors.INVALID_BOOK_ID)
 
-    @staticmethod
-    def _validate_rating(rating):
-        if rating is None:
-            return
+        if (
+            not isinstance(rating, Rating)
+            or not isinstance(rating.value, int)
+            and not rating.is_empty()
+        ):
+            raise InvalidReviewException(ReviewErrors.INVALID_RATING)
 
-        if not isinstance(rating, int) or rating not in [1, 2, 3, 4, 5]:
-            raise InvalidReviewException(
-                "A avaliação do livro deve ser inteiro e ser 1, 2, 3, 4 ou 5"
-            )
-
-    @staticmethod
-    def _validate_body(body):
-        if body is None:
-            return
-
-        if not isinstance(body, str) or len(body) < 3:
-            raise InvalidReviewException(
-                "A resenha deve ser string e ter tamanho miníno de 3 caracteres"
-            )
-
-    @staticmethod
-    def _validate_spoiler(spoiler):
-        if spoiler is None:
-            return
+        if body is not None and (not isinstance(body, str) or len(body) < 3):
+            raise InvalidReviewException(ReviewErrors.INVALID_REVIEW)
 
         if not isinstance(spoiler, bool):
-            raise InvalidReviewException("Spoiler deve ser um boolean")
+            raise InvalidReviewException(ReviewErrors.INVALID_SPOILER)
 
-    @staticmethod
-    def _validate_start_date(start_date):
-        if start_date is None:
-            return
+        if start_date is not None and not isinstance(start_date, Date):
+            raise InvalidReviewException(ReviewErrors.INVALID_START_DATE)
 
-        if not isinstance(start_date, Date):
-            raise InvalidReviewException(
-                "A data de início deve ser uma instância de Date"
-            )
-
-    @staticmethod
-    def _validate_end_date(end_date):
-        if end_date is None:
-            return
-
-        if not isinstance(end_date, Date):
-            raise InvalidReviewException(
-                "A data de início deve ser uma instância de Date"
-            )
-
-    @staticmethod
-    def _validate_most_recent_reading(most_recent_reading):
-        if most_recent_reading is None:
-            return
+        if end_date is not None and not isinstance(end_date, Date):
+            raise InvalidReviewException(ReviewErrors.INVALID_END_DATE)
 
         if not isinstance(most_recent_reading, bool):
-            raise InvalidReviewException("A leitura mais recente deve ser um boolean")
+            raise InvalidReviewException(ReviewErrors.INVALID_MOST_RECENT)
 
-    @staticmethod
-    def _validate_rating_criteria(rating_criteria):
+        self._validate_rating_criteria(rating_composition_criteria)
+        self._validate_rating_criteria(independent_rating_criteria)
+
+    def _validate_rating_criteria(self, rating_criteria: list | None) -> None:
         if rating_criteria == None:
             return
 
         if not isinstance(rating_criteria, list):
-            raise InvalidReviewException(
-                "A lista de critérios de composição / independentes devem ser uma instância de list"
-            )
+            raise InvalidReviewException(ReviewErrors.INVALID_CRITERIA_LIST)
 
         if len(rating_criteria) == 0:
-            raise InvalidReviewException("A lista precisa ter pelo menos um elemento")
+            raise InvalidReviewException(ReviewErrors.EMPTY_CRITERIA_LIST)
 
         for item in rating_criteria:
             if not isinstance(item, ReadingCriteria):
-                raise InvalidReviewException(
-                    "Cada critério com nota devem ser uma instância de ReadingCriteria"
-                )
+                raise InvalidReviewException(ReviewErrors.INVALID_CRITERIA_ITEM)
 
     @property
     def id(self):
@@ -185,11 +149,11 @@ class Review:
 
     @property
     def start_date(self):
-        return None if self._start_date is None else self._start_date.value
+        return self._start_date
 
     @property
     def end_date(self):
-        return None if self._end_date is None else self._end_date.value
+        return self._end_date
 
     @property
     def most_recent_reading(self):
@@ -202,11 +166,3 @@ class Review:
     @property
     def independent_rating_criteria(self):
         return self._independent_rating_criteria
-
-    @property
-    def created_at(self):
-        return None if self._created_at is None else self._created_at.value
-
-    @property
-    def updated_at(self):
-        return None if self._updated_at is None else self._updated_at.value

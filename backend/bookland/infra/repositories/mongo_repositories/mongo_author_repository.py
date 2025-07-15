@@ -1,8 +1,11 @@
+from bookland.domain.entities import Author
+from bookland.domain.repositories import AuthorRepository
+from bookland.domain.exceptions import AuthorNotFoundException
+
+from bookland.infra.mongo_models import AuthorDocument
+from bookland.infra.mappers import AuthorMapper
 from bookland.infra.utils.dates_utils import datetime_now
-from bookland.domain.entities.author import Author
-from bookland.infra.mongo_models.author import AuthorDocument
-from bookland.infra.mappers.author_mapper import AuthorMapper
-from bookland.domain.repositories.author_repository import AuthorRepository
+from beanie.operators import Set
 
 
 class MongoAuthorRepository(AuthorRepository):
@@ -25,23 +28,34 @@ class MongoAuthorRepository(AuthorRepository):
 
         return AuthorMapper.to_domain(document)
 
-    async def update(self, author: Author) -> Author:
-        document = await AuthorDocument.get(author.id)
+    async def update(self, author: Author) -> Author | None:
+        author_to_update = AuthorMapper.to_document(author).model_dump(
+            exclude_none=True, exclude={"id", "_id", "created_at", "deleted_at"}
+        )
 
-        if not document:
-            raise Exception("Autor não encontrado.")
+        filter = {"_id": author.id, "deleted_at": None}
 
-        document.name = author.name.value
-        document.nationality = author.nationality
-        document.updated_at = datetime_now()
+        update_result = await AuthorDocument.find_one(filter).update(
+            Set(author_to_update | {"updated_at": datetime_now()})
+        )
 
-        await document.save()
+        if update_result.modified_count == 0:
+            raise AuthorNotFoundException()
 
-        return AuthorMapper.to_domain(document)
+        updated_author = await AuthorDocument.get(author.id)
 
-    async def soft_delete(self, author_id: str) -> None:
-        document = await AuthorDocument.get(author_id)
+        if updated_author is None or updated_author.deleted_at is not None:
+            raise AuthorNotFoundException()
 
-        if document:
-            document.deleted_at = datetime_now()
-            await document.save()
+        return AuthorMapper.to_domain(updated_author)
+
+    async def soft_delete(self, author_id: str) -> Author | None:
+        author = await AuthorDocument.get(author_id)
+
+        if author is None or author.deleted_at is not None:
+            raise AuthorNotFoundException
+
+        author.deleted_at = datetime_now()
+        await author.save()
+
+        return AuthorMapper.to_domain(author)

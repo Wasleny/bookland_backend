@@ -1,7 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_user_repository import (
-    InMemoryUserRepository,
-)
-from bookland.application.usecases.user.get_current_user import GetCurrentUserUseCase
+from bookland.infra.repositories import InMemoryUserRepository
+from bookland.application.usecases import GetCurrentUserUseCase
 from tests.factories.user_factory import create_user
 
 

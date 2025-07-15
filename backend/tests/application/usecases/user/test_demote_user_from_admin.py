@@ -1,9 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_user_repository import (
-    InMemoryUserRepository,
-)
-from bookland.application.usecases.user.demote_user_from_admin import (
-    DemoteUserFromAdminUseCase,
-)
+from bookland.infra.repositories import InMemoryUserRepository
+from bookland.application.usecases import DemoteUserFromAdminUseCase
 from tests.factories.user_factory import create_user
 from bookland.domain.enums.user_role import UserRole
 

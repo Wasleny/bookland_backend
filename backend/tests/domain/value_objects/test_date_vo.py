@@ -1,6 +1,8 @@
 import pytest
 from datetime import date
-from bookland.domain.value_objects.date_vo import Date
+
+from bookland.domain.value_objects import Date
+from bookland.domain.exceptions import InvalidDateException
 
 
 def test_valid_date_should_be_accepted():
@@ -9,8 +11,8 @@ def test_valid_date_should_be_accepted():
     assert valid_date.value == date(2025, 6, 20)
 
 
-def test_invalid_date_should_be_raise_type_error():
-    with pytest.raises(TypeError):
+def test_invalid_date_should_be_raise_invalid_date_exception():
+    with pytest.raises(InvalidDateException):
         Date("2025-05-20")
 
 
@@ -34,4 +36,11 @@ def test_dates_with_same_value_should_be_equal():
 
 def test_str_should_return_formatted_date():
     valid_date = Date(date(2025, 6, 20))
-    assert str(valid_date) == "2025-06-20"
+
+    assert str(valid_date) == "20/06/2025"
+
+
+def test_to_json_should_return_formatted_date():
+    valid_date = Date(date(2025, 6, 20))
+
+    assert valid_date.to_json() == "2025-06-20"

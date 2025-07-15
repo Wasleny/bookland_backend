@@ -1,5 +1,6 @@
-from bookland.domain.repositories.genre_repository import GenreRepository
+from bookland.domain.repositories import GenreRepository
 from bookland.domain.entities import Genre
+
 from bookland.infra.mappers import GenreMapper
 from bookland.infra.mongo_models import GenreDocument
 

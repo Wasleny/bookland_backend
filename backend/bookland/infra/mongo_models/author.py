@@ -8,8 +8,10 @@ from bookland.infra.utils.dates_utils import datetime_now
 
 class AuthorDocument(Document):
     id: str = Field(default_factory=generate_uuid, alias="_id")  # type: ignore[assignment]
+
     name: str
     nationality: str | None = None
+
     created_at: datetime = Field(default_factory=datetime_now)
     updated_at: datetime = Field(default_factory=datetime_now)
     deleted_at: datetime | None = None

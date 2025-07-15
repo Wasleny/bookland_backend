@@ -1,7 +1,7 @@
 import pytest
 from bookland.domain.entities.author import Author
 from bookland.domain.value_objects.name_vo import Name
-from bookland.domain.exceptions.author_exception import InvalidAuthorException
+from bookland.domain.exceptions.entities.author_exception import InvalidAuthorException
 
 
 def test_valid_author_should_be_created():
@@ -17,6 +17,16 @@ def test_valid_author_should_be_created():
 def test_invalid_name_should_raise_invalid_author_exception():
     with pytest.raises(InvalidAuthorException):
         Author("1", "Sarah J. Maas", "Estados Unidos")
+
+
+def test_invalid_id_should_raise_invalid_author_exception():
+    with pytest.raises(InvalidAuthorException):
+        Author(1, Name("Sarah J. Maas"), "Estados Unidos")
+
+
+def test_invalid_nationality_should_raise_invalid_author_exception():
+    with pytest.raises(InvalidAuthorException):
+        Author("1", Name("Sarah J. Maas"), 1)
 
 
 def test_soft_delete_marks_author_as_deleted():

@@ -1,11 +1,24 @@
-from bookland.domain.value_objects.label_vo import Label
-from bookland.domain.exceptions.criterion_exception import InvalidCriterionException
 from datetime import datetime
+
+from bookland.domain.value_objects import Label
+from bookland.domain.exceptions import InvalidCriterionException
+from bookland.domain.errors import CommonErrors
 
 
 class Criterion:
+    """
+    Entity que representa um critério no sistema.
+
+    Inclui os seguintes campos:
+    - ID
+    - nome
+    - descrição
+    - ID do usuário
+    - estado de exclusão lógica (soft delete)
+    """
+
     def __init__(self, id: str, name: Label, description: str, user_id: str):
-        self._validate_criterion(name, description, user_id)
+        self._validate(id, name, description, user_id)
 
         self._id = id
         self._name = name
@@ -13,30 +26,18 @@ class Criterion:
         self._user_id = user_id
         self._deleted_at = None
 
-    @staticmethod
-    def _validate_criterion(name, description, user_id):
-        Criterion._validate_name(name)
-        Criterion._validate_description(description)
-        Criterion._validate_user_id(user_id)
+    def _validate(self, id: str, name: Label, description: str, user_id: str):
+        if not isinstance(id, str) or len(id) == 0:
+            raise InvalidCriterionException(CommonErrors.INVALID_ID)
 
-    @staticmethod
-    def _validate_name(name):
         if not isinstance(name, Label):
-            raise InvalidCriterionException("Nome deve ser uma instância de Label")
+            raise InvalidCriterionException(CommonErrors.INVALID_LABEL)
 
-    @staticmethod
-    def _validate_description(description):
         if not isinstance(description, str) or len(description) < 1:
-            raise InvalidCriterionException(
-                "Descrição deve ter tamanho maior que zero e ser uma string"
-            )
+            raise InvalidCriterionException(CommonErrors.INVALID_DESCRIPTION)
 
-    @staticmethod
-    def _validate_user_id(user_id):
-        if not isinstance(user_id, str) or len(user_id) < 1:
-            raise InvalidCriterionException(
-                "Id do usuário deve ser uma string e deve existir"
-            )
+        if not isinstance(user_id, str) or len(user_id) == 0:
+            raise InvalidCriterionException(CommonErrors.INVALID_USER_ID)
 
     def soft_delete(self):
         if not self.is_deleted:

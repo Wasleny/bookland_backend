@@ -1,13 +1,32 @@
-# self._id = id
-# self._user_id = user_id
-# self._book_id = book_id
-# self._rating = rating
-# self._body = body
-# self._spoiler = spoiler
-# self._start_date = start_date
-# self._end_date = end_date
-# self._most_recent_reading = most_recent_reading
-# self._rating_composition_criteria = rating_composition_criteria
-# self._independent_rating_criteria = independent_rating_criteria
-# self._created_at = Date(date.today())
-# self._updated_at = None
+from beanie import Document
+from pydantic import Field, BaseModel
+from datetime import datetime, date
+
+from bookland.infra.mongo_models.utils import generate_uuid
+from bookland.infra.utils.dates_utils import datetime_now
+
+
+class ReadingCriteriaModel(BaseModel):
+    criterion: str
+    rating: int
+
+
+class ReviewDocument(Document):
+    id: str = Field(default_factory=generate_uuid, alias="_id")  # type: ignore[assignment]
+
+    user_id: str
+    book_id: str
+    rating: int
+    body: str
+    spoiler: bool
+    start_date: date
+    end_date: date
+    most_recent_reading: bool
+    rating_composition_criteria: list[ReadingCriteriaModel]
+    independent_rating_criteria: list[ReadingCriteriaModel]
+
+    created_at: datetime = Field(default_factory=datetime_now)
+    updated_at: datetime = Field(default_factory=datetime_now)
+
+    class Settings:
+        name = "reviews"

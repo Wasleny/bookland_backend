@@ -12,7 +12,7 @@ from .user_service import (
     get_user_by_id_usecase,
     demote_user_from_admin_usecase,
     promote_user_to_admin_usecase,
-    search_user_usecase,
+    get_user_by_email_usecase,
 )
 
 from .criterion_service import (

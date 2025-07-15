@@ -1,7 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_author_repository import (
-    InMemoryAuthorRepository,
-)
-from bookland.application.usecases.author.create_author import CreateAuthorUseCase
+from bookland.infra.repositories import InMemoryAuthorRepository
+from bookland.application.usecases import CreateAuthorUseCase
 from tests.factories.author_factory import create_author
 
 import pytest

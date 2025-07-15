@@ -1,14 +1,30 @@
-from bookland.domain.value_objects.name_vo import Name
-from bookland.domain.value_objects.nickname_vo import Nickname
-from bookland.domain.value_objects.email_vo import Email
-from bookland.domain.value_objects.password_vo import Password
-from bookland.domain.value_objects.birthday_vo import Birthday
-from bookland.domain.enums.user_role import UserRole
-from bookland.domain.enums.user_gender import UserGender
-from bookland.domain.exceptions.user_exception import InvalidUserException
+from bookland.domain.value_objects import (
+    Name,
+    Nickname,
+    Email,
+    Password,
+    BirthDate,
+    Rating,
+)
+from bookland.domain.enums import UserRole, UserGender
+from bookland.domain.exceptions import InvalidUserException
+from bookland.domain.errors import UserErrors, CommonErrors
 
 
 class User:
+    """
+    Entity que representa um usuário no sistema.
+
+    Inclui os seguintes campos:
+    - ID
+    - nome
+    - nickname
+    - e-mail
+    - senha
+    - gênero
+    - data de nascimento
+    """
+
     def __init__(
         self,
         id: str,
@@ -17,19 +33,25 @@ class User:
         email: Email,
         password: Password,
         gender: UserGender,
-        birthday: Birthday | None,
+        birthdate: BirthDate | None,
         avatar_url: str | None,
         role: UserRole,
+        ratings_count: int = 0,
+        average_rating: Rating = Rating(None),
+        reviews_count: int = 0,
     ):
-
-        self._validate_user(
+        self._validate(
+            id,
             role,
             name,
             nickname,
             email,
             password,
             gender,
-            birthday,
+            birthdate,
+            ratings_count,
+            average_rating,
+            reviews_count,
         )
 
         self._id = id
@@ -38,65 +60,65 @@ class User:
         self._email = email
         self._password = password
         self._gender = gender
-        self._birthday = birthday
-        self._rating_count = 0
-        self._average_rating = 0
-        self._review_count = 0
+        self._birthdate = birthdate
+        self._ratings_count = ratings_count
+        self._average_rating = average_rating
+        self._reviews_count = reviews_count
         self._avatar_url = avatar_url
         self._role = role
 
-    @staticmethod
-    def _validate_user(role, name, nickname, email, password, gender, birthday):
-        User._validate_role(role)
-        User._validate_name(name)
-        User._validate_nickname(nickname)
-        User._validate_email(email)
-        User._validate_password(password)
-        User._validate_gender(gender)
-        User._validate_birthday(birthday)
+    def _validate(
+        self,
+        id: str,
+        role: UserRole,
+        name: Name,
+        nickname: Nickname,
+        email: Email,
+        password: Password,
+        gender: UserGender,
+        birthdate: BirthDate | None,
+        ratings_count: int,
+        average_rating: Rating,
+        reviews_count: int,
+    ) -> None:
+        if not isinstance(id, str) or len(id) == 0:
+            raise InvalidUserException(CommonErrors.INVALID_ID)
 
-    @staticmethod
-    def _validate_role(role):
         if not isinstance(role, UserRole):
-            raise InvalidUserException("Role deve ser um dos valores de UserRole")
+            raise InvalidUserException(UserErrors.INVALID_ROLE)
 
-    @staticmethod
-    def _validate_name(name):
         if not isinstance(name, Name):
-            raise InvalidUserException("Nome deve ser uma instância de Name")
+            raise InvalidUserException(CommonErrors.INVALID_NAME)
 
-    @staticmethod
-    def _validate_nickname(nickname):
         if not isinstance(nickname, Nickname):
-            raise InvalidUserException("Nickname deve ser uma instância de Nickname")
+            raise InvalidUserException(UserErrors.INVALID_NICKNAME)
 
-    @staticmethod
-    def _validate_email(email):
         if not isinstance(email, Email):
-            raise InvalidUserException("Email deve ser uma instância de Email")
+            raise InvalidUserException(UserErrors.INVALID_EMAIL)
 
-    @staticmethod
-    def _validate_password(password):
         if not isinstance(password, Password):
-            raise InvalidUserException("Senha deve ser uma instância de Password")
+            raise InvalidUserException(UserErrors.INVALID_PASSWORD)
 
-    @staticmethod
-    def _validate_gender(gender):
         if not isinstance(gender, UserGender):
-            raise InvalidUserException("Gênero deve ser um dos valores de UserGender")
+            raise InvalidUserException(UserErrors.INVALID_GENDER)
 
-    @staticmethod
-    def _validate_birthday(birthday):
-        if not isinstance(birthday, Birthday) and birthday is not None:
-            raise InvalidUserException(
-                "Data de nascimento deve ser uma instância de Birthday"
-            )
+        if not isinstance(birthdate, BirthDate) and birthdate is not None:
+            raise InvalidUserException(UserErrors.INVALID_BIRTHDATE)
+
+        if not isinstance(average_rating, Rating):
+            raise InvalidUserException(CommonErrors.INVALID_AVERAGE_RATING)
+
+        if not isinstance(reviews_count, int):
+            raise InvalidUserException(CommonErrors.INVALID_REVIEWS_COUNT)
+
+        if not isinstance(ratings_count, int):
+            raise InvalidUserException(CommonErrors.INVALID_RATINGS_COUNT)
 
     def promote_to_admin(self):
         if self.role == UserRole.USER:
             self._role = UserRole.ADMIN
 
-    def demote_to_admin(self):
+    def demote_from_admin(self):
         if self.role == UserRole.ADMIN:
             self._role = UserRole.USER
 
@@ -125,20 +147,20 @@ class User:
         return self._gender
 
     @property
-    def birthday(self):
-        return self._birthday
+    def birthdate(self):
+        return self._birthdate
 
     @property
-    def rating_count(self):
-        return self._rating_count
+    def ratings_count(self):
+        return self._ratings_count
 
     @property
     def average_rating(self):
         return self._average_rating
 
     @property
-    def review_count(self):
-        return self._review_count
+    def reviews_count(self):
+        return self._reviews_count
 
     @property
     def avatar_url(self):

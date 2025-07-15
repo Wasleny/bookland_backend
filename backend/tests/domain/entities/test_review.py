@@ -1,9 +1,9 @@
 import pytest
 from datetime import date
-from bookland.domain.exceptions.review_exception import InvalidReviewException
-from bookland.domain.value_objects.reading_criteria_vo import ReadingCriteria
-from bookland.domain.value_objects.date_vo import Date
-from bookland.domain.entities.review import Review
+
+from bookland.domain.exceptions import InvalidReviewException
+from bookland.domain.value_objects import ReadingCriteria, Date, Label, Rating
+from bookland.domain.entities import Review
 
 
 def make_review_data(**overrides):
@@ -11,17 +11,19 @@ def make_review_data(**overrides):
         "id": "1",
         "user_id": "1",
         "book_id": "1",
-        "rating": 5,
+        "rating": Rating(5),
         "body": "Esse livro transformou a minha vida",
         "spoiler": False,
         "start_date": Date(date(2025, 6, 20)),
         "end_date": Date(date(2025, 6, 20)),
         "most_recent_reading": False,
         "rating_composition_criteria": [
-            ReadingCriteria("Enredo", 5),
-            ReadingCriteria("Escrita", 5),
+            ReadingCriteria(Label("Enredo"), Rating(5)),
+            ReadingCriteria(Label("Escrita"), Rating(5)),
         ],
-        "independent_rating_criteria": [ReadingCriteria("Impacto Emocional", 5)],
+        "independent_rating_criteria": [
+            ReadingCriteria(Label("Impacto Emocional"), Rating(5))
+        ],
     }
     base.update(overrides)
 
@@ -47,8 +49,6 @@ def test_valid_review_should_be_accepted():
     assert (
         review.independent_rating_criteria == review_data["independent_rating_criteria"]
     )
-    assert review.created_at == Date(date.today())
-    assert review.updated_at is None
 
 
 def test_invalid_user_id_should_raise_invalid_review_exception():
@@ -62,12 +62,17 @@ def test_invalid_book_id_should_raise_invalid_review_exception():
 
 
 def test_valid_review_without_rating_should_be_accepted():
-    Review(**make_review_data(rating=None))
+    Review(**make_review_data(rating=Rating(None)))
 
 
 def test_invalid_rating_should_raise_invalid_review_exception():
     with pytest.raises(InvalidReviewException):
         Review(**make_review_data(rating=6))
+
+
+def test_invalid_id_should_raise_invalid_review_exception():
+    with pytest.raises(InvalidReviewException):
+        Review(**make_review_data(id=6))
 
 
 def test_valid_review_without_body_should_be_accepted():
@@ -77,10 +82,6 @@ def test_valid_review_without_body_should_be_accepted():
 def test_invalid_body_should_raise_invalid_review_exception():
     with pytest.raises(InvalidReviewException):
         Review(**make_review_data(body=""))
-
-
-def test_valid_review_without_spoiler_should_be_accepted():
-    Review(**make_review_data(spoiler=None))
 
 
 def test_invalid_spoiler_should_raise_invalid_review_exception():
@@ -104,10 +105,6 @@ def test_valid_review_without_end_date_should_be_accepted():
 def test_invalid_end_date_should_raise_invalid_review_exception():
     with pytest.raises(InvalidReviewException):
         Review(**make_review_data(end_date="2025-06-20"))
-
-
-def test_valid_review_without_most_recent_reading_should_be_accepted():
-    Review(**make_review_data(most_recent_reading=None))
 
 
 def test_invalid_most_recent_reading_should_raise_invalid_review_exception():

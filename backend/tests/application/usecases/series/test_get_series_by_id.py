@@ -1,7 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_series_repository import (
-    InMemorySeriesRepository,
-)
-from bookland.application.usecases.series.get_series_by_id import GetSeriesByIdUseCase
+from bookland.infra.repositories import InMemorySeriesRepository
+from bookland.application.usecases import GetSeriesByIdUseCase
 from tests.factories.series_factory import create_series
 
 

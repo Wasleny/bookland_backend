@@ -1,11 +1,17 @@
-from bookland.domain.entities.user import User
-from bookland.domain.repositories.user_repository import UserRepository
-from bookland.domain.enums.user_role import UserRole
-from bookland.infra.mongo_models.user import UserDocument
-from bookland.infra.mappers.user_mapper import UserMapper
-from bookland.interfaces.api.security import verify_password
+from bookland.domain.entities import User
+from bookland.domain.repositories import UserRepository
+from bookland.domain.enums import UserRole
 from bookland.domain.value_objects import Email, Password
+from bookland.domain.exceptions import (
+    EmailAlreadyExistsException,
+    UserNotFoundException,
+)
+
+from bookland.infra.mongo_models import UserDocument
+from bookland.infra.mappers import UserMapper
 from bookland.infra.utils.dates_utils import datetime_now
+
+from bookland.interfaces.api.security import verify_password
 
 
 class MongoUserRepository(UserRepository):
@@ -21,7 +27,7 @@ class MongoUserRepository(UserRepository):
         user_found = await UserDocument.find_one({"email": user.email.value})
 
         if user_found:
-            raise Exception("E-mail já cadastrado no sistema.")
+            raise EmailAlreadyExistsException()
 
         document = UserMapper.to_document(user)
         await document.insert()
@@ -32,7 +38,7 @@ class MongoUserRepository(UserRepository):
         document = await UserDocument.find_one({"_id": user.id, "deleted_at": None})
 
         if not document:
-            raise Exception("Usuário não encontrado.")
+            raise UserNotFoundException()
 
         document.role = UserRole.ADMIN
         document.updated_at = datetime_now()
@@ -44,7 +50,7 @@ class MongoUserRepository(UserRepository):
         document = await UserDocument.find_one({"_id": user.id, "deleted_at": None})
 
         if not document:
-            raise Exception("Usuário não encontrado.")
+            raise UserNotFoundException()
 
         document.role = UserRole.USER
         document.updated_at = datetime_now()
@@ -52,10 +58,8 @@ class MongoUserRepository(UserRepository):
 
         return UserMapper.to_domain(document)
 
-    async def search(self, search_term: str) -> User | None:
-        document = await UserDocument.find_one(
-            {"email": search_term, "deleted_at": None}
-        )
+    async def get_by_email(self, email: str) -> User | None:
+        document = await UserDocument.find_one({"email": email, "deleted_at": None})
 
         return UserMapper.to_domain(document) if document else None
 
@@ -64,8 +68,18 @@ class MongoUserRepository(UserRepository):
 
         return UserMapper.to_domain(document) if document else None
 
-    async def logout(self) -> None: ...
+    async def get_by_role(self, role: UserRole) -> list[User]:
+        documents = await UserDocument.find(
+            {"role": role, "deleted_at": None}
+        ).to_list()
 
-    async def get_current_user(self) -> User | None: ...
+        return [UserMapper.to_domain(document) for document in documents]
 
-    async def set_current_user(self, user_id: str) -> None: ...
+    async def logout(self) -> None:
+        raise NotImplementedError("...")
+
+    async def get_current_user(self) -> User | None:
+        raise NotImplementedError("...")
+
+    async def set_current_user(self, user_id: str) -> None:
+        raise NotImplementedError("...")

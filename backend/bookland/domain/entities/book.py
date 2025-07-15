@@ -1,17 +1,34 @@
-from bookland.domain.value_objects.name_vo import Name
-from bookland.domain.value_objects.label_vo import Label
-from bookland.domain.value_objects.isbn_vo import Isbn
-from bookland.domain.value_objects.date_vo import Date
-from bookland.domain.enums.book_format import BookFormat
-from bookland.domain.exceptions.book_exception import InvalidBookException
 from datetime import datetime
+
+from bookland.domain.value_objects import Title, Isbn, Date, Slug, Rating
+from bookland.domain.enums import BookFormat
+from bookland.domain.exceptions import InvalidBookException
+from bookland.domain.errors import CommonErrors, BookErrors
 
 
 class Book:
+    """
+    Entity que representa um livro no sistema
+
+    Inclui os seguintes campos:
+    - ID
+    - título e título original
+    - autores (lista de IDs)
+    - gênero principal e gêneros secundários (por ID)
+    - tropes associadas (por ID)
+    - informações de publicação (editora, data, idioma, ISBN, ASIN)
+    - série e número dentro da série
+    - formato, quantidade de páginas e sinopse
+    - média de avaliação, contagem de resenhas e avaliações
+    - edições alternativas
+    - estado de exclusão lógica (soft delete)
+    - slug
+    """
+
     def __init__(
         self,
         id: str,
-        title: Name,
+        title: Title,
         author_ids: list[str],
         main_genre_id: str,
         cover: str,
@@ -20,9 +37,10 @@ class Book:
         pages: int,
         publication_date: Date,
         language: str,
-        original_title: Name,
-        secondary_genre_ids: list = [],
-        trope_ids: list = [],
+        original_title: Title,
+        slug: Slug,
+        secondary_genre_ids: list[str] = [],
+        trope_ids: list[str] = [],
         series_id: str | None = None,
         original_series_id: str | None = None,
         book_number: float | None = None,
@@ -30,8 +48,14 @@ class Book:
         isbn10: Isbn | None = None,
         isbn13: Isbn | None = None,
         asin: str | None = None,
+        alternative_edition_ids: list | None = None,
+        average_rating: Rating = Rating(None),
+        reviews_count: int = 0,
+        ratings_count: int = 0,
+        deleted_at: datetime | None = None,
     ):
-        self._validate_book(
+        self._validate(
+            id,
             title,
             author_ids,
             main_genre_id,
@@ -42,6 +66,7 @@ class Book:
             publication_date,
             language,
             original_title,
+            slug,
             secondary_genre_ids,
             trope_ids,
             series_id,
@@ -51,6 +76,11 @@ class Book:
             isbn10,
             isbn13,
             asin,
+            alternative_edition_ids,
+            average_rating,
+            reviews_count,
+            ratings_count,
+            deleted_at,
         )
 
         self._id = id
@@ -64,9 +94,9 @@ class Book:
         self._series_id = series_id
         self._original_series_id = original_series_id
         self._book_number = book_number
-        self._average_rating = None
-        self._reviews_count = None
-        self._ratings_count = None
+        self._average_rating = average_rating
+        self._reviews_count = reviews_count
+        self._ratings_count = ratings_count
         self._synopsis = synopsis
         self._format = format
         self._pages = pages
@@ -76,183 +106,128 @@ class Book:
         self._isbn13 = isbn13
         self._asin = asin
         self._language = language
-        self._edition_count = 1
-        self._deleted_at = None
+        self._alternative_edition_ids = alternative_edition_ids
+        self._deleted_at = deleted_at
+        self._slug = slug
 
-    @staticmethod
-    def _validate_book(
-        title,
-        author_ids,
-        main_genre_id,
-        cover,
-        synopsis,
-        format,
-        pages,
-        publication_date,
-        language,
-        original_title,
-        secondary_genre_ids,
-        trope_ids,
-        series_id,
-        original_series_id,
-        book_number,
-        publisher,
-        isbn10,
-        isbn13,
-        asin,
-    ):
-        Book._validate_title(title)
-        Book._validate_author_ids(author_ids)
-        Book._validate_main_genre_id(main_genre_id)
-        Book._validate_cover(cover)
-        Book._validate_synopsis(synopsis)
-        Book._validate_format(format)
-        Book._validate_pages(pages)
-        Book._validate_publication_date(publication_date)
-        Book._validate_language(language)
-        Book._validate_original_title(original_title)
-        Book._validate_secondary_genre_ids(secondary_genre_ids)
-        Book._validate_trope_ids(trope_ids)
-        Book._validate_series_id(series_id)
-        Book._validate_original_series_id(original_series_id)
-        Book._validate_book_number(book_number)
-        Book._validate_publisher(publisher)
-        Book._validate_isbn(isbn10)
-        Book._validate_isbn(isbn13)
-        Book._validate_asin(asin)
+    def _validate(
+        self,
+        id: str,
+        title: Title,
+        author_ids: list,
+        main_genre_id: str,
+        cover: str,
+        synopsis: str,
+        format: BookFormat,
+        pages: int,
+        publication_date: Date,
+        language: str,
+        original_title: Title,
+        slug: Slug,
+        secondary_genre_ids: list,
+        trope_ids: list,
+        series_id: str | None,
+        original_series_id: str | None,
+        book_number: float | None,
+        publisher: str | None,
+        isbn10: Isbn | None,
+        isbn13: Isbn | None,
+        asin: str | None,
+        alternative_edition_ids: list | None,
+        average_rating: Rating,
+        reviews_count: int,
+        ratings_count: int,
+        deleted_at: datetime | None,
+    ) -> None:
+        if not isinstance(id, str) or len(id) == 0:
+            raise InvalidBookException(CommonErrors.INVALID_ID)
 
-    @staticmethod
-    def _validate_asin(asin):
-        if asin is None:
-            return
+        if not isinstance(title, Title):
+            raise InvalidBookException(BookErrors.INVALID_TITLE)
 
-        if not isinstance(asin, str) or len(asin) != 10:
-            raise InvalidBookException(
-                "ASIN deve ser uma string e ter tamanho igual a 10"
-            )
+        if not isinstance(author_ids, list) or len(author_ids) == 0:
+            raise InvalidBookException(BookErrors.INVALID_AUTHORS)
 
-    @staticmethod
-    def _validate_isbn(isbn):
-        if isbn is None:
-            return
+        if not isinstance(main_genre_id, str) or len(main_genre_id) == 0:
+            raise InvalidBookException(BookErrors.INVALID_GENRE)
 
-        if not isinstance(isbn, Isbn):
-            raise InvalidBookException("ISBN deve ser uma instância de Isbn")
+        if not isinstance(cover, str) or len(cover) == 0:
+            raise InvalidBookException(BookErrors.INVALID_COVER)
 
-    @staticmethod
-    def _validate_publisher(publisher):
-        if publisher is None:
-            return
+        if not isinstance(synopsis, str) or len(synopsis) == 0:
+            raise InvalidBookException(BookErrors.INVALID_SYNOPSIS)
 
-        if not isinstance(publisher, str) or len(publisher) < 1:
-            raise InvalidBookException(
-                "A editora deve ser uma string e ter tamanho maior que zero"
-            )
+        if not isinstance(format, BookFormat):
+            raise InvalidBookException(BookErrors.INVALID_FORMAT)
 
-    @staticmethod
-    def _validate_book_number(book_number):
-        if book_number is None:
-            return
+        if not isinstance(pages, int) or pages <= 0:
+            raise InvalidBookException(BookErrors.INVALID_PAGE_COUNT)
 
-        if not isinstance(book_number, float) or book_number <= 0:
-            raise InvalidBookException(
-                "O número do livro deve ser um float e maior que zero"
-            )
+        if not isinstance(publication_date, Date):
+            raise InvalidBookException(BookErrors.INVALID_PUBLICATION_DATE)
 
-    @staticmethod
-    def _validate_original_series_id(series_id):
-        if series_id is None:
-            return
+        if not isinstance(language, str) or len(language) == 0:
+            raise InvalidBookException(BookErrors.INVALID_LANGUAGE)
 
-        if not isinstance(series_id, str) or len(series_id) < 1:
-            raise InvalidBookException(
-                "Id da série original deve ser uma string e ter tamanho maior que zero"
-            )
-
-    @staticmethod
-    def _validate_series_id(series_id):
-        if series_id is None:
-            return
-
-        if not isinstance(series_id, str) or len(series_id) < 1:
-            raise InvalidBookException(
-                "Id da série deve ser uma string e ter tamanho maior que zero"
-            )
-
-    @staticmethod
-    def _validate_trope_ids(trope_ids):
-        if not isinstance(trope_ids, list):
-            raise InvalidBookException("Tropes deve ser uma lista")
-
-    @staticmethod
-    def _validate_secondary_genre_ids(secondary_genre_ids):
+        if not isinstance(original_title, Title):
+            raise InvalidBookException(BookErrors.INVALID_ORIGINAL_TITLE)
 
         if not isinstance(secondary_genre_ids, list):
-            raise InvalidBookException("Gêneros secondários deve ser uma lista")
+            raise InvalidBookException(BookErrors.INVALID_SECONDARY_GENRES)
 
-    @staticmethod
-    def _validate_original_title(original_title):
-        if not isinstance(original_title, Name):
-            raise InvalidBookException("Idioma deve ser uma instância de Name")
+        if not isinstance(trope_ids, list):
+            raise InvalidBookException(BookErrors.INVALID_TROPES)
 
-    @staticmethod
-    def _validate_language(language):
-        if not isinstance(language, str) or len(language) < 1:
-            raise InvalidBookException(
-                "Idioma deve ser uma string e ter tamanho maior que zero"
-            )
+        if series_id is not None and (
+            not isinstance(series_id, str) or len(series_id) == 0
+        ):
+            raise InvalidBookException(BookErrors.INVALID_SERIES_ID)
 
-    @staticmethod
-    def _validate_publication_date(publication_date):
-        if not isinstance(publication_date, Date):
-            raise InvalidBookException(
-                "Data de publicação deve ser uma instância de Date"
-            )
+        if original_series_id is not None and (
+            not isinstance(original_series_id, str) or len(original_series_id) == 0
+        ):
+            raise InvalidBookException(BookErrors.INVALID_ORIGINAL_SERIES_ID)
 
-    @staticmethod
-    def _validate_pages(pages):
-        if not isinstance(pages, int) or pages <= 0:
-            raise InvalidBookException("Formato deve ser um inteiro")
+        if book_number is not None and (
+            not isinstance(book_number, float) or book_number <= 0
+        ):
+            raise InvalidBookException(BookErrors.INVALID_BOOK_NUMBER)
 
-    @staticmethod
-    def _validate_format(format):
-        if not isinstance(format, BookFormat):
-            raise InvalidBookException("Formato deve ser uma instância de BookFormat")
+        if publisher is not None and (
+            not isinstance(publisher, str) or len(publisher) == 0
+        ):
+            raise InvalidBookException(BookErrors.INVALID_PUBLISHER)
 
-    @staticmethod
-    def _validate_synopsis(synopsis):
-        if not isinstance(synopsis, str) or len(synopsis) < 1:
-            raise InvalidBookException(
-                "Sinopse deve ser uma string e deve ter tamanho maior que zero"
-            )
+        self._validate_isbn(isbn10)
+        self._validate_isbn(isbn13)
 
-    @staticmethod
-    def _validate_cover(cover):
-        if not isinstance(cover, str) or len(cover) < 1:
-            raise InvalidBookException(
-                "Capa deve ser uma string e deve ter tamanho maior que zero"
-            )
+        if asin is not None and (not isinstance(asin, str) or len(asin) != 10):
+            raise InvalidBookException(BookErrors.INVALID_ASIN)
 
-    @staticmethod
-    def _validate_main_genre_id(main_genre_id):
-        if not isinstance(main_genre_id, str) or len(main_genre_id) < 1:
-            raise InvalidBookException(
-                "Gênero principal deve ser uma string e deve ter tamanho maior que zero"
-            )
+        if not isinstance(slug, Slug) or len(slug.value) < 1:
+            raise InvalidBookException(CommonErrors.INVALID_SLUG)
 
-    @staticmethod
-    def _validate_author_ids(author_ids):
-        if not isinstance(author_ids, list) or len(author_ids) < 1:
-            raise InvalidBookException(
-                "Nome do livro deve ser uma lista e deve ter tamanho maior que zero"
-            )
+        if alternative_edition_ids is not None and (
+            not isinstance(alternative_edition_ids, list)
+            or len(alternative_edition_ids) == 0
+        ):
+            raise InvalidBookException(BookErrors.INVALID_ALTERNATIVE_EDITIONS)
 
-    @staticmethod
-    def _validate_title(title):
-        if not isinstance(title, Name) or len(title.value) < 1:
-            raise InvalidBookException(
-                "Nome do livro deve ser uma instância de Name e deve ter tamanho maior que zero"
-            )
+        if not isinstance(average_rating, Rating):
+            raise InvalidBookException(CommonErrors.INVALID_AVERAGE_RATING)
+
+        if not isinstance(reviews_count, int):
+            raise InvalidBookException(CommonErrors.INVALID_REVIEWS_COUNT)
+
+        if not isinstance(ratings_count, int):
+            raise InvalidBookException(CommonErrors.INVALID_RATINGS_COUNT)
+
+        if deleted_at is not None and not isinstance(deleted_at, datetime):
+            raise InvalidBookException(CommonErrors.INVALID_DELETED_AT)
+
+    def _validate_isbn(self, isbn):
+        if isbn is not None and not isinstance(isbn, Isbn):
+            raise InvalidBookException(BookErrors.INVALID_ISBN)
 
     def soft_delete(self):
         if not self.is_deleted:
@@ -264,7 +239,7 @@ class Book:
 
     @property
     def title(self):
-        return self._title.value
+        return self._title
 
     @property
     def author_ids(self):
@@ -328,11 +303,11 @@ class Book:
 
     @property
     def isbn10(self):
-        return self._isbn10.value
+        return self._isbn10
 
     @property
     def isbn13(self):
-        return self._isbn13.value
+        return self._isbn13
 
     @property
     def asin(self):
@@ -345,3 +320,23 @@ class Book:
     @property
     def deleted_at(self):
         return self._deleted_at
+
+    @property
+    def alternative_edition_ids(self):
+        return self._alternative_edition_ids
+
+    @property
+    def slug(self):
+        return self._slug
+
+    @property
+    def average_rating(self):
+        return self._average_rating
+
+    @property
+    def reviews_count(self):
+        return self._reviews_count
+
+    @property
+    def ratings_count(self):
+        return self._ratings_count

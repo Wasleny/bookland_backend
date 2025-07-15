@@ -11,9 +11,8 @@ from .user import (
     AuthResponseSchema,
     DemoteFromAdminUserSchema,
     LoginUserSchema,
-    PromoteFromAdminUserSchema,
+    PromoteToAdminUserSchema,
     RegisterUserSchema,
-    SearchUserSchema,
     UserResponseSchema,
 )
 
@@ -22,3 +21,5 @@ from .response_envelope import ResponseEnvelopeSchema
 from .genre import GenreResponseSchema
 
 from .trope import TropeResponseSchema
+
+from .series import SeriesResponseSchema, CreateSeriesSchema, UpdateSeriesSchema

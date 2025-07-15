@@ -1,5 +1,6 @@
-from bookland.domain.repositories.trope_repository import TropeRepository
+from bookland.domain.repositories import TropeRepository
 from bookland.domain.entities import Trope
+
 from bookland.infra.mappers import TropeMapper
 from bookland.infra.mongo_models import TropeDocument
 

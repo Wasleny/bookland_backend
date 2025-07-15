@@ -1,7 +1,9 @@
 import pytest
 from bookland.domain.entities.criterion import Criterion
 from bookland.domain.value_objects.label_vo import Label
-from bookland.domain.exceptions.criterion_exception import InvalidCriterionException
+from bookland.domain.exceptions.entities.criterion_exception import (
+    InvalidCriterionException,
+)
 
 
 def test_valid_criterion_should_be_created():
@@ -41,6 +43,11 @@ def test_invalid_description_should_raise_invalid_criterion_exception():
 def test_invalid_user_id_should_raise_invalid_criterion_exception():
     with pytest.raises(InvalidCriterionException):
         Criterion("1", Label("Narrativa"), "Avalia a narrativa", "")
+
+
+def test_invalid_id_should_raise_invalid_criterion_exception():
+    with pytest.raises(InvalidCriterionException):
+        Criterion(1, Label("Narrativa"), "Avalia a narrativa", "1")
 
 
 def test_soft_delete_marks_criterion_as_deleted():

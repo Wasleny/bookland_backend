@@ -8,3 +8,4 @@ from .series_repository import SeriesRepository
 from .trope_repository import TropeRepository
 from .user_book_repository import UserBookRepository
 from .user_repository import UserRepository
+from .bookshelf_repository import BookshelfRepository

@@ -1,2 +1,0 @@
-class InvalidTropeException(Exception):
-    pass

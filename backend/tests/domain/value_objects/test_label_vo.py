@@ -1,5 +1,7 @@
 import pytest
-from bookland.domain.value_objects.label_vo import Label
+
+from bookland.domain.value_objects import Label
+from bookland.domain.exceptions import InvalidLabelException
 
 
 def test_valid_label_should_be_accepted():
@@ -8,19 +10,24 @@ def test_valid_label_should_be_accepted():
     assert label.value == "Quero Ler"
 
 
-def test_empty_label_name_should_raise_value_error():
-    with pytest.raises(ValueError):
+def test_empty_label_name_should_raise_invalid_label_exception():
+    with pytest.raises(InvalidLabelException):
         Label("")
 
 
-def test_invalid_label_should_raise_value_error():
-    with pytest.raises(ValueError):
+def test_invalid_label_should_raise_invalid_label_exception():
+    with pytest.raises(InvalidLabelException):
         Label("quero.ler")
 
 
-def test_label_exceeding_max_length_should_raise_value_error():
-    with pytest.raises(ValueError):
+def test_label_exceeding_max_length_should_raise_invalid_label_exception():
+    with pytest.raises(InvalidLabelException):
         Label("A" * 51)
+
+
+def test_label_not_string_should_raise_invalid_label_exception():
+    with pytest.raises(InvalidLabelException):
+        Label(None)
 
 
 def test_labels_with_same_value_should_be_equal():
@@ -32,4 +39,5 @@ def test_labels_with_same_value_should_be_equal():
 
 def test_str_should_return_label_name_value():
     label = Label("Quero Ler")
+
     assert str(label) == "Quero Ler"

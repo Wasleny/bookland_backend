@@ -1,51 +1,39 @@
-from bookland.domain.exceptions.reading_in_progress_exception import (
-    InvalidReadingInProgressException,
-)
+from bookland.domain.exceptions import InvalidReadingInProgressException
+from bookland.domain.errors import CommonErrors, ReadingInProgressErrors
 
 
 class ReadingInProgress:
+    """
+    Entity que representa uma leitura em progresso no sistema.
+
+    Inclui os seguintes campos:
+    - ID
+    - ID do usuário
+    - ID do livro
+    - progresso de leitura
+    """
+
     def __init__(self, id: str, book_id: str, user_id: str, progress: int):
-        self._validate(book_id, user_id, progress)
+        self._validate(id, book_id, user_id, progress)
 
         self._id = id
         self._book_id = book_id
         self._user_id = user_id
         self._progress = progress
 
-    @staticmethod
-    def _validate(book_id, user_id, progress):
-        ReadingInProgress._validate_book_id(book_id)
-        ReadingInProgress._validate_user_id(user_id)
-        ReadingInProgress._validate_progress(progress)
+    def _validate(self, id: str, book_id: str, user_id: str, progress: int):
+        if not isinstance(id, str) or len(id) == 0:
+            raise InvalidReadingInProgressException(CommonErrors.INVALID_ID)
 
-    @staticmethod
-    def _validate_user_id(user_id):
-        if not isinstance(user_id, str):
-            raise InvalidReadingInProgressException("O id do usuário deve ser stringo")
+        if not isinstance(user_id, str) or len(user_id) == 0:
+            raise InvalidReadingInProgressException(CommonErrors.INVALID_USER_ID)
 
-        if len(user_id) < 1:
+        if not isinstance(book_id, str) or len(book_id) == 0:
+            raise InvalidReadingInProgressException(CommonErrors.INVALID_BOOK_ID)
+
+        if not isinstance(progress, int) or not (0 <= progress <= 100):
             raise InvalidReadingInProgressException(
-                "O id do usuário deve ter tamanho maior que zero"
-            )
-
-    @staticmethod
-    def _validate_book_id(book_id):
-        if not isinstance(book_id, str):
-            raise InvalidReadingInProgressException("O id do livro deve ser string")
-
-        if len(book_id) < 1:
-            raise InvalidReadingInProgressException(
-                "O id do livro deve ter tamanho maior que zero"
-            )
-
-    @staticmethod
-    def _validate_progress(progress):
-        if not isinstance(progress, int):
-            raise InvalidReadingInProgressException("O progresso deve ser inteiro")
-
-        if not (0 <= progress <= 100):
-            raise InvalidReadingInProgressException(
-                "O progresso deve ser um valor entre 0 e 100"
+                ReadingInProgressErrors.INVALID_PROGRESS
             )
 
     @property

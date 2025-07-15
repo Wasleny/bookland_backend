@@ -1,5 +1,5 @@
-from bookland.domain.entities.criterion import Criterion
-from bookland.domain.repositories.criterion_repository import CriterionRepository
+from bookland.domain.entities import Criterion
+from bookland.domain.repositories import CriterionRepository
 from bookland.utils.text_utils import normalize_text
 
 
@@ -33,11 +33,14 @@ class InMemoryCriterionRepository(CriterionRepository):
 
         return None
 
-    async def soft_delete(self, criterion_id: str) -> None:
+    async def soft_delete(self, criterion_id: str) -> Criterion | None:
         criterion = self._criteria.get(criterion_id)
 
         if criterion:
             criterion.soft_delete()
+            return criterion
+
+        return None
 
     async def search(self, search_term: str, user_id: str) -> list[Criterion]:
         normalized_search = normalize_text(search_term)

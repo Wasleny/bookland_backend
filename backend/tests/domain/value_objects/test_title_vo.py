@@ -1,5 +1,7 @@
 import pytest
-from bookland.domain.value_objects.title_vo import Title
+
+from bookland.domain.value_objects import Title
+from bookland.domain.exceptions import InvalidTitleException
 
 
 def test_valid_title_should_be_accepted():
@@ -8,18 +10,23 @@ def test_valid_title_should_be_accepted():
     assert title.value == "O Senhor dos Anéis: As Duas Torres"
 
 
-def test_title_with_only_whitespace_should_raise_value_error():
-    with pytest.raises(ValueError):
+def test_title_with_only_whitespace_should_raise_invalid_title_exception():
+    with pytest.raises(InvalidTitleException):
         Title(" ")
 
 
-def test_title_exceeding_max_length_should_raise_value_error():
-    with pytest.raises(ValueError):
+def test_title_not_string_should_raise_invalid_title_exception():
+    with pytest.raises(InvalidTitleException):
+        Title(6)
+
+
+def test_title_exceeding_max_length_should_raise_invalid_title_exception():
+    with pytest.raises(InvalidTitleException):
         Title("A" * 151)
 
 
-def test_title_with_forbidden_characters_should_raise_value_error():
-    with pytest.raises(ValueError):
+def test_title_with_forbidden_characters_should_raise_invalid_title_exception():
+    with pytest.raises(InvalidTitleException):
         Title("Title @")
 
 

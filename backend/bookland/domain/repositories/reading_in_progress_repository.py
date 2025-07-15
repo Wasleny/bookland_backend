@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from bookland.domain.entities.reading_in_progress import ReadingInProgress
+
+from bookland.domain.entities import ReadingInProgress
 
 
 class ReadingInProgressRepository(ABC):
@@ -27,4 +28,4 @@ class ReadingInProgressRepository(ABC):
     ) -> ReadingInProgress | None: ...
 
     @abstractmethod
-    async def delete(self, reading_in_progress_id: str) -> None: ...
+    async def delete(self, reading_in_progress_id: str) -> ReadingInProgress | None: ...

@@ -1,5 +1,7 @@
 import pytest
-from bookland.domain.value_objects.email_vo import Email
+
+from bookland.domain.value_objects import Email
+from bookland.domain.exceptions import InvalidEmailException
 
 
 def test_valid_email_should_be_accepted():
@@ -8,8 +10,8 @@ def test_valid_email_should_be_accepted():
     assert email.value == "user@example.com"
 
 
-def test_invalid_email_should_raise_value_error():
-    with pytest.raises(ValueError):
+def test_invalid_email_should_raise_invalid_email_exception():
+    with pytest.raises(InvalidEmailException):
         Email("invalid-email")
 
 
@@ -22,4 +24,5 @@ def test_emails_with_same_value_should_be_equal():
 
 def test_str_should_return_email_value():
     email = Email("user@example.com")
+
     assert str(email) == "user@example.com"

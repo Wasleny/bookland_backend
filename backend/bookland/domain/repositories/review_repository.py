@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from bookland.domain.entities.review import Review
+
+from bookland.domain.entities import Review
 
 
 class ReviewRepository(ABC):
@@ -15,7 +16,7 @@ class ReviewRepository(ABC):
     ) -> list[Review]: ...
 
     @abstractmethod
-    async def get_most_recent_reading(
+    async def get_book_most_recent_reading(
         self, user_id: str, book_id: str
     ) -> Review | None: ...
 
@@ -26,9 +27,9 @@ class ReviewRepository(ABC):
     async def update(self, review: Review) -> Review | None: ...
 
     @abstractmethod
-    async def delete(self, review_id: str) -> None: ...
+    async def delete(self, review_id: str) -> Review | None: ...
 
     @abstractmethod
     async def delete_all_for_user_and_book(
         self, user_id: str, book_id: str
-    ) -> None: ...
+    ) -> list[Review]: ...

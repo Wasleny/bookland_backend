@@ -1,2 +1,0 @@
-class InvalidReviewException(Exception):
-    pass

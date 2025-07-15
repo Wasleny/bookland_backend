@@ -1,7 +1,14 @@
 from bookland.domain.entities import User
 from bookland.domain.enums import UserGender
 from bookland.infra.mongo_models import UserDocument
-from bookland.domain.value_objects import Name, Nickname, Birthday, Email, Password
+from bookland.domain.value_objects import (
+    Name,
+    Nickname,
+    BirthDate,
+    Email,
+    Password,
+    Rating,
+)
 
 
 class UserMapper:
@@ -14,9 +21,12 @@ class UserMapper:
             email=Email(document.email),
             password=Password(document.password),
             gender=document.gender if document.gender else UserGender.UNSPECIFIED,
-            birthday=Birthday(document.birthday) if document.birthday else None,
+            birthdate=BirthDate(document.birthdate) if document.birthdate else None,
             avatar_url=document.avatar_url if document.avatar_url else None,
             role=document.role,
+            ratings_count=document.ratings_count,
+            average_rating=Rating(document.average_rating),
+            reviews_count=document.reviews_count,
         )
 
     @staticmethod
@@ -28,7 +38,10 @@ class UserMapper:
             email=user.email.value,
             password=user.password.value,
             gender=user.gender,
-            birthday=user.birthday.value if user.birthday else None,
+            birthdate=user.birthdate.value if user.birthdate else None,
             avatar_url=user.avatar_url,
             role=user.role,
+            ratings_count=user.ratings_count,
+            average_rating=user.average_rating.value,
+            reviews_count=user.reviews_count,
         )

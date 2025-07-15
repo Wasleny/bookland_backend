@@ -1,7 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_book_repository import (
-    InMemoryBookRepository,
-)
-from bookland.application.usecases.book.update_book import UpdateBookUseCase
+from bookland.infra.repositories import InMemoryBookRepository
+from bookland.application.usecases import UpdateBookUseCase
 from tests.factories.book_factory import create_book
 
 
@@ -22,7 +20,7 @@ async def test_update_book_updates_book_data():
     updated_book = await usecase.execute(updated_data)
 
     assert updated_book.pages == 400
-    assert updated_book.title == "Trono de Vidro"
+    assert updated_book.title.value == "Trono de Vidro"
 
 
 @pytest.mark.asyncio

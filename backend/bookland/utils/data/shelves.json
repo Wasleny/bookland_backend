@@ -1,0 +1,14 @@
+[
+  {
+    "name": "Read",
+    "slug": "read"
+  },
+  {
+    "name": "Want to Read",
+    "slug": "want-to-read"
+  },
+  {
+    "name": "Currently Reading",
+    "slug": "currently-reading"
+  }
+]

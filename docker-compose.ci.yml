@@ -4,7 +4,7 @@ services:
   bookland:
     build:
       context: .
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     container_name: bookland
     env_file:
       - backend/.env
@@ -14,7 +14,7 @@ services:
       - "8080:8080"
     networks:
       - network_app
-    command: uvicorn bookland.api.main:app --host 0.0.0.0 --port 8080 --reload
+    command: uvicorn bookland.interfaces.api.main:app --host 0.0.0.0 --port 8080 --reload
 
 networks:
   network_app:

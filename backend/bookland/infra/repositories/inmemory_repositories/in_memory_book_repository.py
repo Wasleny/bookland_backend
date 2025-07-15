@@ -1,5 +1,5 @@
-from bookland.domain.entities.book import Book
-from bookland.domain.repositories.book_repository import BookRepository
+from bookland.domain.entities import Book
+from bookland.domain.repositories import BookRepository
 from bookland.utils.text_utils import normalize_text
 
 
@@ -17,13 +17,13 @@ class InMemoryBookRepository(BookRepository):
 
         return None
 
-    async def search(self, search_term: str) -> list[Book]:
-        normalized_search = normalize_text(search_term)
+    async def search(self, search_terms: dict) -> list[Book]:
+        search_terms["title"] = normalize_text(search_terms["title"])
 
         return [
             book
             for book in self._books.values()
-            if not book.is_deleted and self._matches_search(book, normalized_search)
+            if not book.is_deleted and self._matches_search(book, search_terms)
         ]
 
     async def create(self, book: Book) -> Book:
@@ -38,39 +38,31 @@ class InMemoryBookRepository(BookRepository):
 
         return None
 
-    async def soft_delete(self, book_id: str) -> None:
+    async def soft_delete(self, book_id: str) -> Book | None:
         book = self._books.get(book_id)
 
         if book:
             book.soft_delete()
+            return book
+
+        return None
 
     @staticmethod
-    def _matches_search(book: Book, normalized_search: str) -> bool:
-        asin = getattr(book, "asin", "")
-        isbn10 = getattr(book, "isbn10", "")
-        isbn13 = getattr(book, "isbn13", "")
+    def _matches_search(book: Book, search_terms: dict) -> bool:
+        def get_field_value(field_name: str) -> str:
+            value = getattr(book, field_name, "")
+            return normalize_text(
+                value.value if hasattr(value, "value") else value or ""
+            )
 
-        normalized_title = normalize_text(getattr(book, "title", ""))
-        normalized_series = normalize_text(getattr(book, "series", ""))
-        normalized_original_series = normalize_text(
-            getattr(book, "original_series", "")
-        )
-        normalized_authors = [
-            normalize_text(author) for author in getattr(book, "normalized_authors", [])
-        ]
+        for key, search_value in search_terms.items():
+            if not search_value:
+                continue
 
-        searchable_fields = [
-            asin,
-            isbn10,
-            isbn13,
-            normalized_title,
-            normalized_series,
-            normalized_original_series,
-        ]
+            normalized_book_value = get_field_value(key)
+            normalized_search_value = normalize_text(search_value)
 
-        if any(normalized_search in field for field in searchable_fields) or any(
-            normalized_search in author for author in normalized_authors
-        ):
-            return True
+            if normalized_search_value in normalized_book_value:
+                return True
 
         return False

@@ -1,5 +1,5 @@
-from bookland.domain.entities.review import Review
-from bookland.domain.repositories.review_repository import ReviewRepository
+from bookland.domain.entities import Review
+from bookland.domain.repositories import ReviewRepository
 
 
 class InMemoryReviewRepository(ReviewRepository):
@@ -21,7 +21,7 @@ class InMemoryReviewRepository(ReviewRepository):
             if review.book_id == book_id and review.user_id == user_id
         ]
 
-    async def get_most_recent_reading(
+    async def get_book_most_recent_reading(
         self, user_id: str, book_id: str
     ) -> Review | None:
         for review in self._reviews.values():
@@ -45,15 +45,24 @@ class InMemoryReviewRepository(ReviewRepository):
 
         return None
 
-    async def delete(self, review_id: str) -> None:
-        self._reviews.pop(review_id, None)
+    async def delete(self, review_id: str) -> Review | None:
+        if review_id in self._reviews:
+            review = self._reviews.get(review_id)
+            self._reviews.pop(review_id, None)
+            return review
 
-    async def delete_all_for_user_and_book(self, user_id: str, book_id: str) -> None:
+        return None
+
+    async def delete_all_for_user_and_book(
+        self, user_id: str, book_id: str
+    ) -> list[Review]:
         to_delete = [
-            review_id
-            for review_id, review in self._reviews.items()
+            review
+            for review in self._reviews.values()
             if review.book_id == book_id and review.user_id == user_id
         ]
 
-        for review_id in to_delete:
-            self._reviews.pop(review_id, None)
+        for review in to_delete:
+            self._reviews.pop(review.id, None)
+
+        return to_delete

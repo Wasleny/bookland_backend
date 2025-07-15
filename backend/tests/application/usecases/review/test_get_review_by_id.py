@@ -1,7 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_review_repository import (
-    InMemoryReviewRepository,
-)
-from bookland.application.usecases.review.get_review_by_id import GetReviewByIdUseCase
+from bookland.infra.repositories import InMemoryReviewRepository
+from bookland.application.usecases import GetReviewByIdUseCase
 from tests.factories.review_factory import create_review
 
 

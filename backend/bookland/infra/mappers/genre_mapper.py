@@ -9,6 +9,7 @@ class GenreMapper:
         return Genre(
             id=document.id,
             name=Label(document.name),
+            name_pt_br=Label(document.name_pt_br),
             slug=Slug(document.slug),
         )
 
@@ -17,5 +18,6 @@ class GenreMapper:
         return GenreDocument(
             id=genre.id,
             name=genre.name.value,
+            name_pt_br=genre.name_pt_br.value,
             slug=genre.slug.value,
         )

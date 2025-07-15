@@ -1,7 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_book_repository import (
-    InMemoryBookRepository,
-)
-from bookland.application.usecases.book.search_books import SearchBooksUseCase
+from bookland.infra.repositories import InMemoryBookRepository
+from bookland.application.usecases import SearchBooksUseCase
 from tests.factories.book_factory import create_book
 
 
@@ -17,7 +15,7 @@ async def test_search_books_matches_search():
     book = create_book()
     await repository.create(book)
 
-    books_found = await usecase.execute("Trono")
+    books_found = await usecase.execute({"title": "Trono", "original_title": "Trono"})
 
     assert len(books_found) == 1
 
@@ -30,6 +28,24 @@ async def test_search_books_returns_empty_when_no_match():
     book = create_book()
     await repository.create(book)
 
-    books_found = await usecase.execute("Test")
+    books_found = await usecase.execute({"title": "Test", "original_title": "Test"})
 
     assert len(books_found) == 0
+
+
+@pytest.mark.asyncio
+async def test_matches_search_ignores_empty_terms():
+    repository = InMemoryBookRepository()
+    usecase = SearchBooksUseCase(repository)
+
+    book = create_book()
+    await repository.create(book)
+
+    search_terms = {
+        "title": "",
+        "asin": None,
+    }
+
+    result = repository._matches_search(book, search_terms)
+
+    assert result is False

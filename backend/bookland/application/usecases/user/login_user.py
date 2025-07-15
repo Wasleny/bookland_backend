@@ -1,7 +1,6 @@
-from bookland.domain.value_objects.email_vo import Email
-from bookland.domain.value_objects.password_vo import Password
-from bookland.domain.entities.user import User
-from bookland.domain.repositories.user_repository import UserRepository
+from bookland.domain.value_objects import Email, Password
+from bookland.domain.entities import User
+from bookland.domain.repositories import UserRepository
 
 
 class LoginUserUseCase:

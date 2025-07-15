@@ -1,5 +1,7 @@
 import pytest
-from bookland.domain.value_objects.name_vo import Name
+
+from bookland.domain.value_objects import Name
+from bookland.domain.exceptions import InvalidNameException
 
 
 def test_valid_name_should_be_accepted():
@@ -8,9 +10,14 @@ def test_valid_name_should_be_accepted():
     assert name.value == "User"
 
 
-def test_invalid_name_should_raise_value_error():
-    with pytest.raises(ValueError):
+def test_invalid_name_should_raise_invalid_name_exception():
+    with pytest.raises(InvalidNameException):
         Name("User4")
+
+
+def test_name_not_string_should_raise_invalid_name_exception():
+    with pytest.raises(InvalidNameException):
+        Name(4)
 
 
 def test_names_with_same_value_should_be_equal():
@@ -22,4 +29,5 @@ def test_names_with_same_value_should_be_equal():
 
 def test_str_should_return_name_value():
     name = Name("User")
+
     assert str(name) == "User"

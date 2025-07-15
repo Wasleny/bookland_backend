@@ -1,5 +1,5 @@
-from bookland.domain.entities.series import Series
-from bookland.domain.repositories.series_repository import SeriesRepository
+from bookland.domain.entities import Series
+from bookland.domain.repositories import SeriesRepository
 
 
 class GetSeriesByIdUseCase:

@@ -1,6 +1,4 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_book_repository import (
-    InMemoryBookRepository,
-)
+from bookland.infra.repositories import InMemoryBookRepository
 from bookland.application.usecases.book.get_all_books import GetAllBooksUseCase
 from tests.factories.book_factory import create_book
 

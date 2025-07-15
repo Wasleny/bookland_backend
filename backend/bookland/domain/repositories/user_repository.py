@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from bookland.domain.entities.user import User
-from bookland.domain.value_objects.email_vo import Email
-from bookland.domain.value_objects.password_vo import Password
+
+from bookland.domain.entities import User
+from bookland.domain.value_objects import Email, Password
+from bookland.domain.enums import UserRole
 
 
 class UserRepository(ABC):
@@ -27,7 +28,10 @@ class UserRepository(ABC):
     async def demote_from_admin(self, user: User) -> User | None: ...
 
     @abstractmethod
-    async def search(self, search_term: str) -> User | None: ...
+    async def get_by_email(self, email: str) -> User | None: ...
 
     @abstractmethod
     async def get_by_id(self, user_id: str) -> User | None: ...
+
+    @abstractmethod
+    async def get_by_role(self, role: UserRole) -> list[User]: ...

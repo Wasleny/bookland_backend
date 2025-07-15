@@ -24,3 +24,9 @@ from .generic_response_docs import EMPTY_SUCCESS_RESPONSE
 from .genre_response_docs import GENRES_SUCCESS_RESPONSE
 
 from .trope_response_docs import TROPES_SUCCESS_RESPONSE
+
+from .series_response_docs import (
+    SERIES_SUCCESS_RESPONSE,
+    SERIES_NOT_FOUND_RESPONSE,
+    ALL_SERIES_SUCCESS_RESPONSE,
+)

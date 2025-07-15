@@ -1,5 +1,5 @@
-from bookland.domain.entities.review import Review
-from bookland.domain.repositories.review_repository import ReviewRepository
+from bookland.domain.entities import Review
+from bookland.domain.repositories import ReviewRepository
 
 
 class GetReviewsByUserAndBookUseCase:

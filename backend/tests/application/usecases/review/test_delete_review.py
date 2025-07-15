@@ -1,7 +1,5 @@
-from bookland.infra.repositories.inmemory_repositories.in_memory_review_repository import (
-    InMemoryReviewRepository,
-)
-from bookland.application.usecases.review.delete_review import DeleteReviewUseCase
+from bookland.infra.repositories import InMemoryReviewRepository
+from bookland.application.usecases import DeleteReviewUseCase
 from tests.factories.review_factory import create_review
 
 
@@ -17,8 +15,16 @@ async def test_delete_review_removes_review():
     review = create_review()
     await repository.create(review)
 
-    await usecase.execute(review.id)
+    deleted_review = await usecase.execute(review.id)
 
-    retrieved_review = await repository.get_by_id(review.id)
+    assert deleted_review is not None
 
-    assert retrieved_review is None
+
+@pytest.mark.asyncio
+async def test_delete_review_not_find_review_returns_none():
+    repository = InMemoryReviewRepository()
+    usecase = DeleteReviewUseCase(repository)
+
+    deleted_review = await usecase.execute(1)
+
+    assert deleted_review is None

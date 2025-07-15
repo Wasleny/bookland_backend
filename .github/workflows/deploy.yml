@@ -55,6 +55,7 @@ jobs:
         run: make test-cov
 
   deploy:
+    name: Trigger Render Deploy
     runs-on: ubuntu-latest
     needs: test
     if: success()

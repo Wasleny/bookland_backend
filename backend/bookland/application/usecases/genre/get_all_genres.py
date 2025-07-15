@@ -1,4 +1,4 @@
-from bookland.domain.repositories.genre_repository import GenreRepository
+from bookland.domain.repositories import GenreRepository
 from bookland.domain.entities import Genre
 
 

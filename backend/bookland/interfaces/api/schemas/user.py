@@ -20,7 +20,7 @@ class RegisterUserSchema(BaseModel):
         ..., min_length=8, description="Senha do usuário com pelo menos 8 caracteres"
     )
     gender: UserGender | None = Field(None, description="Gênero do usuário")
-    birthday: date | None = Field(None, description="Data de nascimento")
+    birthdate: date | None = Field(None, description="Data de nascimento")
     avatar_url: str | None = Field(None, description="URL do avatar do usuário")
 
 
@@ -34,11 +34,7 @@ class LoginUserSchema(BaseModel):
 class DemoteFromAdminUserSchema(UserIdSchema): ...
 
 
-class PromoteFromAdminUserSchema(UserIdSchema): ...
-
-
-class SearchUserSchema(BaseModel):
-    email: EmailStr = Field(..., description="Email válido do usuário")
+class PromoteToAdminUserSchema(UserIdSchema): ...
 
 
 class UserResponseSchema(BaseModel):
@@ -47,7 +43,7 @@ class UserResponseSchema(BaseModel):
     nickname: str = Field(..., description="Nickname do usuário")
     email: EmailStr = Field(..., description="Email válido do usuário")
     gender: UserGender | None = Field(None, description="Gênero do usuário")
-    birthday: date | None = Field(None, description="Data de nascimento")
+    birthdate: date | None = Field(None, description="Data de nascimento")
     avatar_url: str | None = Field(None, description="URL do avatar do usuário")
     role: UserRole = Field(..., description="Papel do usuário no sistema")
 
@@ -59,7 +55,7 @@ class UserResponseSchema(BaseModel):
             nickname=user.nickname.value,
             email=user.email.value,
             gender=user.gender,
-            birthday=user.birthday.value,
+            birthdate=user.birthdate.value,
             avatar_url=user.avatar_url,
             role=user.role,
         )

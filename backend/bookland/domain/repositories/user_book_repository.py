@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from bookland.domain.entities.user_book import UserBook
+
+from bookland.domain.entities import UserBook
 
 
 class UserBookRepository(ABC):
@@ -18,7 +19,7 @@ class UserBookRepository(ABC):
     async def update(self, user_book: UserBook) -> UserBook | None: ...
 
     @abstractmethod
-    async def delete(self, user_book_id: str) -> None: ...
+    async def delete(self, user_book_id: str) -> UserBook | None: ...
 
     @abstractmethod
     async def get_by_id(self, user_book_id: str) -> UserBook | None: ...

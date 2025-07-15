@@ -1,5 +1,5 @@
-from bookland.domain.entities.author import Author
-from bookland.domain.repositories.author_repository import AuthorRepository
+from bookland.domain.entities import Author
+from bookland.domain.repositories import AuthorRepository
 
 
 class InMemoryAuthorRepository(AuthorRepository):
@@ -28,8 +28,11 @@ class InMemoryAuthorRepository(AuthorRepository):
 
         return None
 
-    async def soft_delete(self, author_id: str) -> None:
+    async def soft_delete(self, author_id: str) -> Author | None:
         author = self._authors.get(author_id)
 
         if author:
             author.soft_delete()
+            return author
+
+        return None
