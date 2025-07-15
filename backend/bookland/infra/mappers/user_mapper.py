@@ -42,6 +42,10 @@ class UserMapper:
             avatar_url=user.avatar_url,
             role=user.role,
             ratings_count=user.ratings_count,
-            average_rating=user.average_rating.value,
+            average_rating=(
+                user.average_rating.value
+                if user.average_rating.value is not None
+                else 0.0
+            ),
             reviews_count=user.reviews_count,
         )
