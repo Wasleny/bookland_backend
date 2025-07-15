@@ -44,7 +44,10 @@ async def populate_genres():
     if len(genre_documents) == 0:
         for genre_data in genres:
             genre = Genre(
-                str(uuid4()), Label(genre_data["name"]), Slug(genre_data["slug"])
+                str(uuid4()),
+                Label(genre_data["name"]),
+                Label(genre_data["name_pt_br"]),
+                Slug(genre_data["slug"]),
             )
             document = GenreMapper.to_document(genre)
             await document.insert()
@@ -60,7 +63,10 @@ async def populate_tropes():
     if len(trope_documents) == 0:
         for trope_data in tropes:
             trope = Trope(
-                str(uuid4()), Label(trope_data["name"]), Slug(trope_data["slug"])
+                str(uuid4()),
+                Label(trope_data["name"]),
+                Label(trope_data["name_pt_br"]),
+                Slug(trope_data["slug"]),
             )
             document = TropeMapper.to_document(trope)
             await document.insert()
