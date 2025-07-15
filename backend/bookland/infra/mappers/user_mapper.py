@@ -25,7 +25,11 @@ class UserMapper:
             avatar_url=document.avatar_url if document.avatar_url else None,
             role=document.role,
             ratings_count=document.ratings_count,
-            average_rating=Rating(document.average_rating),
+            average_rating=(
+                Rating(document.average_rating)
+                if document.average_rating != 0.0
+                else Rating(None)
+            ),
             reviews_count=document.reviews_count,
         )
 
