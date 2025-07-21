@@ -35,6 +35,7 @@ from bookland.infra.mongo_models import (
 @pytest_asyncio.fixture(scope="session")
 def event_loop():
     """Evita conflitos de loop no pytest-asyncio."""
+    print("TEST_MONGO_URI is:", TEST_MONGO_URI)
     loop = asyncio.new_event_loop()
     yield loop
     loop.close()
