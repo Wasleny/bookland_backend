@@ -35,7 +35,6 @@ from bookland.infra.mongo_models import (
 @pytest_asyncio.fixture(scope="session")
 def event_loop():
     """Evita conflitos de loop no pytest-asyncio."""
-    print("TEST_MONGO_URI is:", TEST_MONGO_URI)
     loop = asyncio.new_event_loop()
     yield loop
     loop.close()
@@ -45,6 +44,7 @@ def event_loop():
 async def mongo_db():
     """Inicializa o banco e o Beanie com documentos, limpa antes e depois."""
 
+    print("TEST_MONGO_URI is:", TEST_MONGO_URI)
     client = AsyncIOMotorClient(TEST_MONGO_URI)
     db = client.get_default_database()
 
