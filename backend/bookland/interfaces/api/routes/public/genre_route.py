@@ -13,7 +13,9 @@ router = APIRouter()
     response_model=ResponseEnvelopeSchema,
     responses={**ALL_GENRES_SUCCESS_RESPONSE},
 )
-async def get_genres(usecase: GetAllGenresUseCase = Depends(get_get_all_genres_usecase)):
+async def get_genres(
+    usecase: GetAllGenresUseCase = Depends(get_get_all_genres_usecase),
+):
     genres = await usecase.execute()
 
     return ResponseEnvelopeSchema(

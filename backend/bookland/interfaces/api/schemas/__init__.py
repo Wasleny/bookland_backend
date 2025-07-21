@@ -14,7 +14,7 @@ from .user import (
     UserSchema,
     AuthResponseSchema,
     UserResponseSchema,
-    AllUsersResponseSchema
+    AllUsersResponseSchema,
 )
 
 from .reading_in_progress import (

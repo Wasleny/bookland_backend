@@ -208,7 +208,9 @@ async def update_criterion(
     )
 
 
-async def _verify_ownership(criterion_id: str, current_user, get_criterion) -> Criterion:
+async def _verify_ownership(
+    criterion_id: str, current_user, get_criterion
+) -> Criterion:
     criterion = await _verify_existence(criterion_id, get_criterion)
     await owner_required(criterion.user_id, current_user)
 

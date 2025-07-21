@@ -29,7 +29,7 @@ async def get_user(
     usecase=Depends(get_get_user_by_id_usecase),
 ):
     """Recupera os dados do usuário pelo ID."""
-    
+
     await owner_required(user_id, current_user)
 
     user = await usecase.execute(user_id)

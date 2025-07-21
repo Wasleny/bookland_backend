@@ -16,9 +16,9 @@ SECRET_KEY = str(os.getenv("SECRET_KEY", ""))
 ALGORITHM = str(os.getenv("ALGORITHM", ""))
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
 
-ORIGINS = os.getenv("ORIGINS", "http://localhost:5173,http://0.0.0.0:5173,bookland-wmp.vercel.app").split(
-    ","
-)
+ORIGINS = os.getenv(
+    "ORIGINS", "http://localhost:5173,http://0.0.0.0:5173,bookland-wmp.vercel.app"
+).split(",")
 
 DOCKER_ENV = os.getenv("DOCKER_ENV", "0") == "1"
 

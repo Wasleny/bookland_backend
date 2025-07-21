@@ -65,7 +65,7 @@ async def register_user(
 
         current_user = await usecase.execute(new_user)
         access_token = create_access_token(data={"sub": current_user.id})
-    
+
         return AuthResponseSchema.from_entity(
             UserSchema.from_entity(current_user),
             access_token,

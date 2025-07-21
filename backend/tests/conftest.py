@@ -83,9 +83,12 @@ async def client(mongo_db):
 
         async def override_get_user_repository():
             from bookland.infra.repositories import MongoUserRepository
+
             return MongoUserRepository()
 
-        app.dependency_overrides[deps.get_user_repository] = override_get_user_repository
+        app.dependency_overrides[deps.get_user_repository] = (
+            override_get_user_repository
+        )
 
         async with LifespanManager(app):
             transport = ASGITransport(app=app)

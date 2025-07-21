@@ -4,7 +4,15 @@ import json
 from datetime import date
 
 from bookland.domain.entities import User, Genre, Trope, Bookshelf
-from bookland.domain.value_objects import Name, Nickname, Password, Email, Label, Slug, BirthDate
+from bookland.domain.value_objects import (
+    Name,
+    Nickname,
+    Password,
+    Email,
+    Label,
+    Slug,
+    BirthDate,
+)
 from bookland.domain.enums import UserGender, UserRole
 from bookland.interfaces.api.security import get_password_hash
 from bookland.infra.mappers import GenreMapper, TropeMapper, BookshelfMapper, UserMapper
@@ -14,7 +22,13 @@ from bookland.infra.mongo_models import (
     BookshelfDocument,
     UserDocument,
 )
-from bookland.settings import ADMIN_NAME, ADMIN_NICKNAME, ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_AVATAR_URL
+from bookland.settings import (
+    ADMIN_NAME,
+    ADMIN_NICKNAME,
+    ADMIN_EMAIL,
+    ADMIN_PASSWORD,
+    ADMIN_AVATAR_URL,
+)
 
 
 async def create_default_admin_user():
