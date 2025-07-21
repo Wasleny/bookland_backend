@@ -15,7 +15,7 @@ async def test_promote_user_to_admin_successfully():
 
     user = create_user()
     await repository.register(user)
-    retrieved_user = await usecase.execute(user)
+    retrieved_user = await usecase.execute(user.id)
 
     assert retrieved_user.role == UserRole.ADMIN
 
@@ -26,6 +26,6 @@ async def test_promote_user_to_admin_returns_none_when_not_found():
     usecase = PromoteUserToAdminUseCase(repository)
 
     user = create_user()
-    retrieved_user = await usecase.execute(user)
+    retrieved_user = await usecase.execute(user.id)
 
     assert retrieved_user is None

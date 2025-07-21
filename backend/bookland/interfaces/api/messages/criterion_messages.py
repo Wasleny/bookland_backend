@@ -1,0 +1,5 @@
+CREATE_CRITERION_MESSAGE = "Critério cadastrado com sucesso."
+GET_CRITERION_MESSAGE = "Critério encontrado."
+GET_ALL_CRITERIA_MESSAGE = "Critérios encontrados."
+UPDATE_CRITERION_MESSAGE = "Critério atualizado com sucesso."
+DELETE_CRITERION_MESSAGE = "Critério excluído com sucesso."

@@ -1,15 +1,9 @@
-import os
 from datetime import datetime, timedelta, timezone
 from jose import JWTError, jwt
 from passlib.context import CryptContext
-from fastapi import Depends, HTTPException, status
-from dotenv import load_dotenv
 
-load_dotenv()
+from bookland.settings import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 
-SECRET_KEY = str(os.getenv("SECRET_KEY", ""))
-ALGORITHM = str(os.getenv("ALGORITHM", ""))
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
 
 password_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

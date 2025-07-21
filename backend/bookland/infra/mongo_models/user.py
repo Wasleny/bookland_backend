@@ -16,9 +16,9 @@ class UserDocument(Document):
     password: str
     gender: UserGender | None = None
     birthdate: date | None = None
-    ratings_count: int
-    average_rating: float
-    reviews_count: int
+    ratings_count: int = 0
+    average_rating: float | None
+    reviews_count: int = 0
     avatar_url: str | None = None
     role: UserRole
 

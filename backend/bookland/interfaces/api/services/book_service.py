@@ -1,3 +1,5 @@
+from fastapi import Depends
+
 from bookland.infra.repositories import MongoBookRepository
 from bookland.application.usecases import (
     CreateBookUseCase,
@@ -8,11 +10,42 @@ from bookland.application.usecases import (
     SearchBooksUseCase,
 )
 
-repository = MongoBookRepository()
 
-create_book_use_case = CreateBookUseCase(repository)
-get_book_use_case = GetBookByIdUseCase(repository)
-get_all_books_use_case = GetAllBooksUseCase(repository)
-update_book_use_case = UpdateBookUseCase(repository)
-soft_delete_book_use_case = SoftDeleteBookUseCase(repository)
-search_books_use_case = SearchBooksUseCase(repository)
+def get_book_repository() -> MongoBookRepository:
+    return MongoBookRepository()
+
+
+def get_create_book_use_case(
+    repository: MongoBookRepository = Depends(get_book_repository),
+) -> CreateBookUseCase:
+    return CreateBookUseCase(repository)
+
+
+def get_get_book_use_case(
+    repository: MongoBookRepository = Depends(get_book_repository),
+) -> GetBookByIdUseCase:
+    return GetBookByIdUseCase(repository)
+
+
+def get_get_all_books_use_case(
+    repository: MongoBookRepository = Depends(get_book_repository),
+) -> GetAllBooksUseCase:
+    return GetAllBooksUseCase(repository)
+
+
+def get_update_book_use_case(
+    repository: MongoBookRepository = Depends(get_book_repository),
+) -> UpdateBookUseCase:
+    return UpdateBookUseCase(repository)
+
+
+def get_soft_delete_book_use_case(
+    repository: MongoBookRepository = Depends(get_book_repository),
+) -> SoftDeleteBookUseCase:
+    return SoftDeleteBookUseCase(repository)
+
+
+def get_search_books_use_case(
+    repository: MongoBookRepository = Depends(get_book_repository),
+) -> SearchBooksUseCase:
+    return SearchBooksUseCase(repository)

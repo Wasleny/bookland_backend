@@ -1,14 +1,15 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
+from fastapi.responses import JSONResponse
 from uuid import uuid4
 
 from bookland.domain.entities import Series
 from bookland.domain.value_objects import Title, Slug
 from bookland.interfaces.api.services import (
-    create_series_usecase,
-    get_all_series_usecase,
-    get_series_usecase,
-    update_series_usecase,
-    soft_delete_series_usecase,
+    get_create_series_usecase,
+    get_get_all_series_usecase,
+    get_get_series_usecase,
+    get_update_series_usecase,
+    get_soft_delete_series_usecase,
 )
 from bookland.interfaces.api.schemas import (
     CreateSeriesSchema,
@@ -28,6 +29,7 @@ from bookland.interfaces.api.docs import (
 )
 from bookland.interfaces.api.responses import empty_search_result_response
 from bookland.interfaces.api.exceptions import series_not_found_exception
+from bookland.interfaces.api.messages import series_messages
 
 
 router = APIRouter(
@@ -41,16 +43,21 @@ router = APIRouter(
     response_model=ResponseEnvelopeSchema,
     responses={**USER_BAD_REQUEST, **SERIES_SUCCESS_RESPONSE},
 )
-async def create_series(series: CreateSeriesSchema):
+async def create_series(
+    series: CreateSeriesSchema, usecase=Depends(get_create_series_usecase)
+):
     new_series = Series(
         str(uuid4()), Title(series.name), Slug(series.slug), series.description
     )
 
-    created_series = await create_series_usecase.execute(new_series)
+    created_series = await usecase.execute(new_series)
 
-    return ResponseEnvelopeSchema(
-        message="Série cadastrada com sucesso.",
-        data={"series": SeriesResponseSchema.from_entity(created_series)},
+    JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=ResponseEnvelopeSchema(
+            message=series_messages.CREATE_SERIES_MESSAGE,
+            data={"series": SeriesResponseSchema.from_entity(created_series)},
+        ).model_dump(),
     )
 
 
@@ -59,19 +66,22 @@ async def create_series(series: CreateSeriesSchema):
     response_model=ResponseEnvelopeSchema,
     responses={**ALL_SERIES_SUCCESS_RESPONSE},
 )
-async def get_all_series():
-    all_series = await get_all_series_usecase.execute()
+async def get_all_series(usecase=Depends(get_get_all_series_usecase)):
+    all_series = await usecase.execute()
 
     if len(all_series) == 0:
         return empty_search_result_response()
 
-    return ResponseEnvelopeSchema(
-        message="Séries encontradas.",
-        data={
-            "all_series": [
-                SeriesResponseSchema.from_entity(series) for series in all_series
-            ]
-        },
+    JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=ResponseEnvelopeSchema(
+            message=series_messages.GET_ALL_SERIES_MESSAGE,
+            data={
+                "all_series": [
+                    SeriesResponseSchema.from_entity(series) for series in all_series
+                ]
+            },
+        ).model_dump(),
     )
 
 
@@ -80,11 +90,14 @@ async def get_all_series():
     response_model=ResponseEnvelopeSchema,
     responses={**SERIES_SUCCESS_RESPONSE, **SERIES_NOT_FOUND_RESPONSE},
 )
-async def get_series(id: str):
-    series = await _get_existing_series_or_404(id)
+async def get_series(
+    id: str,
+    get_series=Depends(get_get_series_usecase),
+):
+    series = await _get_existing_series_or_404(id, get_series)
 
     return ResponseEnvelopeSchema(
-        message="Série encontrada.",
+        message=series_messages.GET_SERIES_MESSAGE,
         data={"series": SeriesResponseSchema.from_entity(series)},
     )
 
@@ -94,15 +107,20 @@ async def get_series(id: str):
     response_model=ResponseEnvelopeSchema,
     responses={**SERIES_SUCCESS_RESPONSE, **SERIES_NOT_FOUND_RESPONSE},
 )
-async def update_series(id: str, series: UpdateSeriesSchema):
-    await _get_existing_series_or_404(id)
+async def update_series(
+    id: str,
+    series: UpdateSeriesSchema,
+    usecase=Depends(get_update_series_usecase),
+    get_series=Depends(get_get_series_usecase),
+):
+    await _get_existing_series_or_404(id, get_series)
 
-    updated_series = await update_series_usecase.execute(
+    updated_series = await usecase.execute(
         Series(id, Title(series.name), Slug(series.slug), series.description)
     )
 
     return ResponseEnvelopeSchema(
-        message="Série editada com sucesso.",
+        message=series_messages.UPDATE_SERIES_MESSAGE,
         data={"series": SeriesResponseSchema.from_entity(updated_series)},
     )
 
@@ -112,18 +130,22 @@ async def update_series(id: str, series: UpdateSeriesSchema):
     response_model=ResponseEnvelopeSchema,
     responses={**SERIES_NOT_FOUND_RESPONSE, **EMPTY_SUCCESS_RESPONSE},
 )
-async def delete_series(id: str):
-    series = await _get_existing_series_or_404(id)
-    await soft_delete_series_usecase.execute(id)
+async def delete_series(
+    id: str,
+    usecase=Depends(get_soft_delete_series_usecase),
+    get_series=Depends(get_get_series_usecase),
+):
+    series = await _get_existing_series_or_404(id, get_series)
+    await usecase.execute(id)
 
     return ResponseEnvelopeSchema(
-        message="Série excluída com sucesso.",
+        message=series_messages.DELETE_SERIES_MESSAGE,
         data={"series": SeriesResponseSchema.from_entity(series)},
     )
 
 
-async def _get_existing_series_or_404(id: str) -> Series:
-    series = await get_series_usecase.execute(id)
+async def _get_existing_series_or_404(id: str, get_series) -> Series:
+    series = await get_series.execute(id)
 
     if not series:
         raise series_not_found_exception()

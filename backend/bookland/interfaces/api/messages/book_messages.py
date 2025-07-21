@@ -1,0 +1,5 @@
+CREATE_BOOK_MESSAGE = "Livro cadastrado com sucesso."
+GET_BOOK_MESSAGE = "Livro encontrado."
+GET_ALL_BOOKS_MESSAGE = "Livros encontrados."
+UPDATE_BOOK_MESSAGE = "Livro atualizado com sucesso."
+DELETE_BOOK_MESSAGE = "Livro excluído com sucesso."

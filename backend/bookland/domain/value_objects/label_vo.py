@@ -6,7 +6,7 @@ from bookland.domain.errors import LabelErrors
 
 LABEL_MIN_LENGTH = 3
 LABEL_MAX_LENGTH = 50
-LABEL_PATTERN = r"^[A-Za-zÀ-ÿ0-9\s\-\']+$"
+LABEL_PATTERN = r"^[A-Za-zÀ-ÿ0-9\s\-\'+&/()]+$"
 
 
 class Label:

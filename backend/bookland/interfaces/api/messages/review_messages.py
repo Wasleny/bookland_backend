@@ -1,0 +1,5 @@
+CREATE_REVIEW_MESSAGE = "Resenha cadastrada com sucesso."
+GET_REVIEW_MESSAGE = "Resenha encontrada."
+GET_ALL_REVIEWS_MESSAGE = "Resenhas encontradas."
+UPDATE_REVIEW_MESSAGE = "Resenha atualizada com sucesso."
+DELETE_REVIEW_MESSAGE = "Resenha excluída com sucesso."

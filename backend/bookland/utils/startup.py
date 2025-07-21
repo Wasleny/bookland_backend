@@ -1,22 +1,24 @@
 from uuid import uuid4
 from pathlib import Path
 import json
+from datetime import date
 
-from bookland.interfaces.api.services import (
-    get_user_by_email_usecase,
-    register_user_usecase,
-)
 from bookland.domain.entities import User, Genre, Trope, Bookshelf
-from bookland.domain.value_objects import Name, Nickname, Password, Email, Label, Slug
+from bookland.domain.value_objects import Name, Nickname, Password, Email, Label, Slug, BirthDate
 from bookland.domain.enums import UserGender, UserRole
 from bookland.interfaces.api.security import get_password_hash
-from bookland.infra.mappers import GenreMapper, TropeMapper, BookshelfMapper
-from bookland.infra.mongo_models import GenreDocument, TropeDocument, BookshelfDocument
-from bookland.settings import ADMIN_NAME, ADMIN_NICKNAME, ADMIN_EMAIL, ADMIN_PASSWORD
+from bookland.infra.mappers import GenreMapper, TropeMapper, BookshelfMapper, UserMapper
+from bookland.infra.mongo_models import (
+    GenreDocument,
+    TropeDocument,
+    BookshelfDocument,
+    UserDocument,
+)
+from bookland.settings import ADMIN_NAME, ADMIN_NICKNAME, ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_AVATAR_URL
 
 
 async def create_default_admin_user():
-    existing_admin = await get_user_by_email_usecase.execute(ADMIN_EMAIL)
+    existing_admin = await UserDocument.find_one({"email": ADMIN_EMAIL})
 
     if existing_admin is None:
         admin_user = User(
@@ -26,12 +28,13 @@ async def create_default_admin_user():
             email=Email(ADMIN_EMAIL),
             password=Password(get_password_hash(ADMIN_PASSWORD)),
             gender=UserGender.UNSPECIFIED,
-            birthdate=None,
-            avatar_url=None,
+            birthdate=BirthDate(date(2002, 4, 29)),
+            avatar_url=ADMIN_AVATAR_URL,
             role=UserRole.ADMIN,
         )
 
-        await register_user_usecase.execute(admin_user)
+        document = UserMapper.to_document(admin_user)
+        await document.insert()
 
 
 async def populate_genres():

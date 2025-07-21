@@ -1,7 +1,14 @@
+from fastapi import Depends
+
 from bookland.infra.repositories import MongoTropeRepository
 from bookland.application.usecases import GetAllTropesUseCase
 
 
-repository = MongoTropeRepository()
+def get_trope_repository() -> MongoTropeRepository:
+    return MongoTropeRepository()
 
-get_all_tropes_usecase = GetAllTropesUseCase(repository)
+
+def get_get_all_tropes_usecase(
+    repository: MongoTropeRepository = Depends(get_trope_repository),
+) -> GetAllTropesUseCase:
+    return GetAllTropesUseCase(repository)

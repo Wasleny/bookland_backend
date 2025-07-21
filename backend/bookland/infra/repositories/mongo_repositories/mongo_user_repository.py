@@ -34,8 +34,8 @@ class MongoUserRepository(UserRepository):
 
         return UserMapper.to_domain(document)
 
-    async def promote_to_admin(self, user: User) -> User | None:
-        document = await UserDocument.find_one({"_id": user.id, "deleted_at": None})
+    async def promote_to_admin(self, user_id: str) -> User | None:
+        document = await UserDocument.find_one({"_id": user_id, "deleted_at": None})
 
         if not document:
             raise UserNotFoundException()
@@ -46,8 +46,8 @@ class MongoUserRepository(UserRepository):
 
         return UserMapper.to_domain(document)
 
-    async def demote_from_admin(self, user: User) -> User | None:
-        document = await UserDocument.find_one({"_id": user.id, "deleted_at": None})
+    async def demote_from_admin(self, user_id: str) -> User | None:
+        document = await UserDocument.find_one({"_id": user_id, "deleted_at": None})
 
         if not document:
             raise UserNotFoundException()

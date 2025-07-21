@@ -65,7 +65,6 @@ class MongoBookRepository(BookRepository):
         return [BookMapper.to_domain(doc) for doc in documents]
 
     @staticmethod
-    @staticmethod
     def build_dynamic_query(model_cls, search_terms: dict[str, Any]) -> dict:
         conditions = []
 

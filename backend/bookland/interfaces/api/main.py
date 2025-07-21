@@ -3,10 +3,11 @@ from fastapi.openapi.utils import get_openapi
 from contextlib import asynccontextmanager
 from fastapi.exceptions import HTTPException
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 from bookland.infra.database import init_db
 from bookland.interfaces.api.routes.auth import auth_route
-from bookland.interfaces.api.routes.admin import admin_user_route, author_route
+from bookland.interfaces.api.routes.admin import admin_route, author_route
 from bookland.interfaces.api.openapi_tags import openapi_tags
 from bookland.interfaces.api.routes.user import user_route, criterion_route
 from bookland.interfaces.api.routes.public import genre_route, trope_route
@@ -15,6 +16,7 @@ from bookland.utils.startup import (
     populate_genres,
     populate_tropes,
 )
+from bookland.settings import ORIGINS
 
 
 @asynccontextmanager
@@ -34,10 +36,27 @@ app = FastAPI(
     contact={"name": "Wasleny Pimenta", "email": "pimenta.wasleny@gmail.com"},
     licence_info={"name": "MIT", "url": "https://opensource.org/licenses/MIT"},
     openapi_tags=openapi_tags,
+    redirect_slashes=True,
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ORIGINS,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.get("/")
+def nothing_here():
+    return {
+        "message": "Nada para ver aqui, mas você pode acessar a documentação da API em /docs"
+    }
+
+
 app.include_router(auth_route.router, prefix="/auth", tags=["Auth"])
-app.include_router(admin_user_route.router, prefix="/admin", tags=["Admin"])
+app.include_router(admin_route.router, prefix="/admin", tags=["Admin"])
 app.include_router(user_route.router, prefix="/users", tags=["Users"])
 app.include_router(author_route.router, prefix="/admin/authors", tags=["Authors"])
 app.include_router(criterion_route.router, prefix="/criteria", tags=["Criteria"])

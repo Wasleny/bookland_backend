@@ -1,0 +1,5 @@
+CREATE_USER_BOOK_MESSAGE = "Relação usuário-livro cadastrada com sucesso."
+GET_USER_BOOK_MESSAGE = "Relação usuário-livro encontrada."
+GET_ALL_USER_BOOK_MESSAGE = "Relações usuário-livro encontradas."
+UPDATE_USER_BOOK_MESSAGE = "Relação usuário-livro atualizada com sucesso."
+DELETE_USER_BOOK_MESSAGE = "Relação usuário-livro excluída com sucesso."

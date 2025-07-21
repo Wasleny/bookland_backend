@@ -1,8 +1,9 @@
 from fastapi import APIRouter, Depends
 
 from bookland.interfaces.api.schemas import ResponseEnvelopeSchema, GenreResponseSchema
-from bookland.interfaces.api.docs import GENRES_SUCCESS_RESPONSE
-from bookland.interfaces.api.services import get_all_genres_usecase
+from bookland.interfaces.api.docs import ALL_GENRES_SUCCESS_RESPONSE
+from bookland.interfaces.api.services import get_get_all_genres_usecase
+from bookland.application.usecases import GetAllGenresUseCase
 
 router = APIRouter()
 
@@ -10,10 +11,10 @@ router = APIRouter()
 @router.get(
     "/",
     response_model=ResponseEnvelopeSchema,
-    responses={**GENRES_SUCCESS_RESPONSE},
+    responses={**ALL_GENRES_SUCCESS_RESPONSE},
 )
-async def get_genres():
-    genres = await get_all_genres_usecase.execute()
+async def get_genres(usecase: GetAllGenresUseCase = Depends(get_get_all_genres_usecase)):
+    genres = await usecase.execute()
 
     return ResponseEnvelopeSchema(
         message="Gêneros literários encontrados.",

@@ -14,6 +14,7 @@ services:
       - "8080:8080"
     depends_on:
       - mongo
+      - mongo-test
     command: uvicorn bookland.interfaces.api.main:app --host 0.0.0.0 --port 8080 --reload
     networks:
       - network_app

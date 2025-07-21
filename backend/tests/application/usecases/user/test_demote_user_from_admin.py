@@ -15,7 +15,7 @@ async def test_demote_user_to_admin_successfully():
 
     user = create_user(role=UserRole.ADMIN)
     await repository.register(user)
-    retrieved_user = await usecase.execute(user)
+    retrieved_user = await usecase.execute(user.id)
 
     assert retrieved_user.role == UserRole.USER
 

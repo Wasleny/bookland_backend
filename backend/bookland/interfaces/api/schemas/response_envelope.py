@@ -14,3 +14,4 @@ class ResponseEnvelopeSchema(BaseModel, Generic[T]):
             message=message,
             data=data,
         )
+

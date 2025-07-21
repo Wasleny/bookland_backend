@@ -3,6 +3,8 @@ from typing import Any
 series_example = {
     "id": "string",
     "name": "string",
+    "slug": "string",
+    "description": "string",
 }
 
 SERIES_SUCCESS_RESPONSE: dict[int | str, dict[str, Any]] = {

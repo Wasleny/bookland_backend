@@ -1,3 +1,5 @@
+from fastapi import Depends
+
 from bookland.infra.repositories import MongoCriterionRepository
 from bookland.application.usecases import (
     CreateCriterionUseCase,
@@ -9,11 +11,41 @@ from bookland.application.usecases import (
 )
 
 
-repository = MongoCriterionRepository()
+def get_criterion_repository() -> MongoCriterionRepository:
+    return MongoCriterionRepository()
 
-create_criterion_usecase = CreateCriterionUseCase(repository)
-get_all_criteria_usecase = GetAllCriteriaUseCase(repository)
-get_criterion_usecase = GetCriterionByIdUseCase(repository)
-search_criteria_usecase = SearchCriteriaUseCase(repository)
-soft_delete_criterion_usecase = SoftDeleteCriterionUseCase(repository)
-update_criterion_usecase = UpdateCriterionUseCase(repository)
+
+def get_create_criterion_usecase(
+    repository: MongoCriterionRepository = Depends(get_criterion_repository),
+) -> CreateCriterionUseCase:
+    return CreateCriterionUseCase(repository)
+
+
+def get_get_all_criteria_usecase(
+    repository: MongoCriterionRepository = Depends(get_criterion_repository),
+) -> GetAllCriteriaUseCase:
+    return GetAllCriteriaUseCase(repository)
+
+
+def get_get_criterion_usecase(
+    repository: MongoCriterionRepository = Depends(get_criterion_repository),
+) -> GetCriterionByIdUseCase:
+    return GetCriterionByIdUseCase(repository)
+
+
+def get_search_criteria_usecase(
+    repository: MongoCriterionRepository = Depends(get_criterion_repository),
+) -> SearchCriteriaUseCase:
+    return SearchCriteriaUseCase(repository)
+
+
+def get_soft_delete_criterion_usecase(
+    repository: MongoCriterionRepository = Depends(get_criterion_repository),
+) -> SoftDeleteCriterionUseCase:
+    return SoftDeleteCriterionUseCase(repository)
+
+
+def get_update_criterion_usecase(
+    repository: MongoCriterionRepository = Depends(get_criterion_repository),
+) -> UpdateCriterionUseCase:
+    return UpdateCriterionUseCase(repository)

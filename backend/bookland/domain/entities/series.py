@@ -13,6 +13,7 @@ class Series:
     - ID
     - nome
     - slug
+    - descrição
     - estado de exclusão lógica (soft delete)
     """
 

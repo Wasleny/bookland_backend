@@ -33,17 +33,17 @@ class InMemoryUserRepository(UserRepository):
         user = self._users.get(user_id)
         self._current_user_id = user.id if user else None
 
-    async def promote_to_admin(self, user: User) -> User | None:
-        if user.id in self._users:
-            self._users[user.id].promote_to_admin()
-            return self._users[user.id]
+    async def promote_to_admin(self, user_id: str) -> User | None:
+        if user_id in self._users:
+            self._users[user_id].promote_to_admin()
+            return self._users[user_id]
 
         return None
 
-    async def demote_from_admin(self, user: User) -> User | None:
-        if user.id in self._users:
-            self._users[user.id].demote_from_admin()
-            return self._users[user.id]
+    async def demote_from_admin(self, user_id: str) -> User | None:
+        if user_id in self._users:
+            self._users[user_id].demote_from_admin()
+            return self._users[user_id]
 
         return None
 

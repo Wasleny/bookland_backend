@@ -1,3 +1,5 @@
+from fastapi import Depends
+
 from bookland.infra.repositories import MongoAuthorRepository
 from bookland.application.usecases import (
     CreateAuthorUseCase,
@@ -8,10 +10,35 @@ from bookland.application.usecases import (
 )
 
 
-repository = MongoAuthorRepository()
+def get_author_repository() -> MongoAuthorRepository:
+    return MongoAuthorRepository()
 
-create_author_usecase = CreateAuthorUseCase(repository)
-update_author_usecase = UpdateAuthorUseCase(repository)
-get_author_usecase = GetAuthorByIdUseCase(repository)
-get_all_authors_usecase = GetAllAuthorsUseCase(repository)
-soft_delete_author_usecase = SoftDeleteAuthorUseCase(repository)
+
+def get_create_author_usecase(
+    repository: MongoAuthorRepository = Depends(get_author_repository),
+) -> CreateAuthorUseCase:
+    return CreateAuthorUseCase(repository)
+
+
+def get_update_author_usecase(
+    repository: MongoAuthorRepository = Depends(get_author_repository),
+) -> UpdateAuthorUseCase:
+    return UpdateAuthorUseCase(repository)
+
+
+def get_get_author_usecase(
+    repository: MongoAuthorRepository = Depends(get_author_repository),
+) -> GetAuthorByIdUseCase:
+    return GetAuthorByIdUseCase(repository)
+
+
+def get_get_all_authors_usecase(
+    repository: MongoAuthorRepository = Depends(get_author_repository),
+) -> GetAllAuthorsUseCase:
+    return GetAllAuthorsUseCase(repository)
+
+
+def get_soft_delete_author_usecase(
+    repository: MongoAuthorRepository = Depends(get_author_repository),
+) -> SoftDeleteAuthorUseCase:
+    return SoftDeleteAuthorUseCase(repository)

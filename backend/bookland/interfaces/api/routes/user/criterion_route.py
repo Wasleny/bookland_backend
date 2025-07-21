@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends, Query, status
+from fastapi.responses import JSONResponse
 from uuid import uuid4
 
 from bookland.domain.entities.criterion import Criterion
@@ -6,7 +7,7 @@ from bookland.domain.value_objects import Label
 from bookland.interfaces.api.docs import (
     CRITERION_SUCCESS_RESPONSE,
     CRITERION_NOT_FOUND_RESPONSE,
-    CRITERIA_SUCCESS_RESPONSE,
+    ALL_CRITERIA_SUCCESS_RESPONSE,
     FORBIDDEN_RESPONSE,
     EMPTY_SUCCESS_RESPONSE,
 )
@@ -17,12 +18,17 @@ from bookland.interfaces.api.schemas import (
     ResponseEnvelopeSchema,
 )
 from bookland.interfaces.api.deps import owner_required, get_current_user
-from bookland.interfaces.api.services.criterion_service import *
-from bookland.interfaces.api.responses import (
-    bad_request_response,
-    empty_search_result_response,
+from bookland.interfaces.api.services import (
+    get_create_criterion_usecase,
+    get_get_criterion_usecase,
+    get_update_criterion_usecase,
+    get_soft_delete_criterion_usecase,
+    get_search_criteria_usecase,
+    get_get_all_criteria_usecase,
 )
+from bookland.interfaces.api.responses import empty_search_result_response
 from bookland.interfaces.api.exceptions import criterion_not_found_exception
+from bookland.interfaces.api.messages import criterion_messages
 
 
 router = APIRouter(
@@ -40,7 +46,9 @@ router = APIRouter(
     },
 )
 async def create_criterion(
-    criterion_data: CreateCriterionSchema, current_user=Depends(get_current_user)
+    criterion_data: CreateCriterionSchema,
+    current_user=Depends(get_current_user),
+    usecase=Depends(get_create_criterion_usecase),
 ):
     criterion = Criterion(
         str(uuid4()),
@@ -48,11 +56,14 @@ async def create_criterion(
         criterion_data.description,
         current_user.id,
     )
-    new_criterion = await create_criterion_usecase.execute(criterion)
+    new_criterion = await usecase.execute(criterion)
 
-    return ResponseEnvelopeSchema(
-        message="Critério criado com sucesso.",
-        data={"criterion": CriterionResponseSchema.from_entity(new_criterion)},
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=ResponseEnvelopeSchema(
+            message=criterion_messages.CREATE_CRITERION_MESSAGE,
+            data={"criterion": CriterionResponseSchema.from_entity(new_criterion)},
+        ).model_dump(),
     )
 
 
@@ -60,25 +71,30 @@ async def create_criterion(
     "/search",
     response_model=ResponseEnvelopeSchema,
     responses={
-        **CRITERIA_SUCCESS_RESPONSE,
+        **ALL_CRITERIA_SUCCESS_RESPONSE,
     },
 )
 async def search_criteria(
     search_term: str = Query(..., description="Termo de busca para os critérios."),
     current_user=Depends(get_current_user),
+    usecase=Depends(get_search_criteria_usecase),
 ):
-    criteria = await search_criteria_usecase.execute(search_term, current_user.id)
+    criteria = await usecase.execute(search_term, current_user.id)
 
     if len(criteria) == 0:
         return empty_search_result_response()
 
-    return ResponseEnvelopeSchema(
-        message="Critérios encontrados.",
-        data={
-            "criteria": [
-                CriterionResponseSchema.from_entity(criterion) for criterion in criteria
-            ]
-        },
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=ResponseEnvelopeSchema(
+            message=criterion_messages.GET_ALL_CRITERIA_MESSAGE,
+            data={
+                "criteria": [
+                    CriterionResponseSchema.from_entity(criterion)
+                    for criterion in criteria
+                ]
+            },
+        ).model_dump(),
     )
 
 
@@ -86,22 +102,29 @@ async def search_criteria(
     "/",
     response_model=ResponseEnvelopeSchema,
     responses={
-        **CRITERIA_SUCCESS_RESPONSE,
+        **ALL_CRITERIA_SUCCESS_RESPONSE,
     },
 )
-async def get_criteria(current_user=Depends(get_current_user)):
-    criteria = await get_all_criteria_usecase.execute(current_user.id)
+async def get_criteria(
+    current_user=Depends(get_current_user),
+    usecase=Depends(get_get_all_criteria_usecase),
+):
+    criteria = await usecase.execute(current_user.id)
 
     if len(criteria) == 0:
         return empty_search_result_response()
 
-    return ResponseEnvelopeSchema(
-        message="Critérios encontrados.",
-        data={
-            "criteria": [
-                CriterionResponseSchema.from_entity(criterion) for criterion in criteria
-            ]
-        },
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=ResponseEnvelopeSchema(
+            message=criterion_messages.GET_ALL_CRITERIA_MESSAGE,
+            data={
+                "criteria": [
+                    CriterionResponseSchema.from_entity(criterion)
+                    for criterion in criteria
+                ]
+            },
+        ).model_dump(),
     )
 
 
@@ -113,12 +136,19 @@ async def get_criteria(current_user=Depends(get_current_user)):
         **CRITERION_NOT_FOUND_RESPONSE,
     },
 )
-async def get_criterion(id: str, current_user=Depends(get_current_user)):
-    criterion = await _verify_ownership(id, current_user)
+async def get_criterion(
+    id: str,
+    current_user=Depends(get_current_user),
+    get_criterion=Depends(get_get_criterion_usecase),
+):
+    criterion = await _verify_ownership(id, current_user, get_criterion)
 
-    return ResponseEnvelopeSchema(
-        message="Critério encontrado.",
-        data={"criterion": CriterionResponseSchema.from_entity(criterion)},
+    return JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=ResponseEnvelopeSchema(
+            message=criterion_messages.GET_CRITERION_MESSAGE,
+            data={"criterion": CriterionResponseSchema.from_entity(criterion)},
+        ).model_dump(),
     )
 
 
@@ -127,11 +157,21 @@ async def get_criterion(id: str, current_user=Depends(get_current_user)):
     response_model=ResponseEnvelopeSchema,
     responses={**CRITERION_NOT_FOUND_RESPONSE, **EMPTY_SUCCESS_RESPONSE},
 )
-async def delete_criterion(id: str, current_user=Depends(get_current_user)):
-    await _verify_ownership(id, current_user)
-    await soft_delete_criterion_usecase.execute(id)
+async def delete_criterion(
+    id: str,
+    current_user=Depends(get_current_user),
+    usecase=Depends(get_soft_delete_criterion_usecase),
+    get_criterion=Depends(get_get_criterion_usecase),
+):
+    await _verify_ownership(id, current_user, get_criterion)
+    await usecase.execute(id)
 
-    return ResponseEnvelopeSchema(message="Critério excluído com sucesso.", data={})
+    JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=ResponseEnvelopeSchema(
+            message=criterion_messages.DELETE_CRITERION_MESSAGE, data={}
+        ).model_dump(),
+    )
 
 
 @router.patch(
@@ -146,8 +186,10 @@ async def update_criterion(
     id: str,
     criterion_data: UpdateCriterionSchema,
     current_user=Depends(get_current_user),
+    usecase=Depends(get_update_criterion_usecase),
+    get_criterion=Depends(get_get_criterion_usecase),
 ):
-    await _verify_ownership(id, current_user)
+    await _verify_ownership(id, current_user, get_criterion)
 
     criterion = Criterion(
         id,
@@ -155,23 +197,26 @@ async def update_criterion(
         criterion_data.description,
         current_user.id,
     )
-    updated_criterion = await update_criterion_usecase.execute(criterion)
+    updated_criterion = await usecase.execute(criterion)
 
-    return ResponseEnvelopeSchema(
-        message="Critério atualizado com sucesso.",
-        data={"criterion": CriterionResponseSchema.from_entity(updated_criterion)},
+    JSONResponse(
+        status_code=status.HTTP_200_OK,
+        content=ResponseEnvelopeSchema(
+            message=criterion_messages.UPDATE_CRITERION_MESSAGE,
+            data={"criterion": CriterionResponseSchema.from_entity(updated_criterion)},
+        ).model_dump(),
     )
 
 
-async def _verify_ownership(criterion_id: str, current_user) -> Criterion:
-    criterion = await _verify_existence(criterion_id)
+async def _verify_ownership(criterion_id: str, current_user, get_criterion) -> Criterion:
+    criterion = await _verify_existence(criterion_id, get_criterion)
     await owner_required(criterion.user_id, current_user)
 
     return criterion
 
 
-async def _verify_existence(id: str) -> Criterion:
-    criterion = await get_criterion_usecase.execute(id)
+async def _verify_existence(id: str, get_criterion) -> Criterion:
+    criterion = await get_criterion.execute(id)
 
     if not criterion:
         raise criterion_not_found_exception()

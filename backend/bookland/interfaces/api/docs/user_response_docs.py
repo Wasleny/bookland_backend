@@ -7,6 +7,9 @@ user_example = {
     "email": "user@example.com",
     "gender": "male",
     "birthdate": "2025-06-28",
+    "ratings_count": 0,
+    "reviews_count": 0,
+    "average_rating": 0.0,
     "avatar_url": "string",
     "role": "role",
 }

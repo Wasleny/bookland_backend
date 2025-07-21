@@ -1,0 +1,5 @@
+CREATE_SERIES_MESSAGE = "Série cadastrada com sucesso."
+GET_SERIES_MESSAGE = "Série encontrada."
+GET_ALL_SERIES_MESSAGE = "Séries encontradas."
+UPDATE_SERIES_MESSAGE = "Série atualizada com sucesso."
+DELETE_SERIES_MESSAGE = "Série excluída com sucesso."

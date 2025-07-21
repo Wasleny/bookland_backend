@@ -30,7 +30,7 @@ CRITERION_NOT_FOUND_RESPONSE: dict[int | str, dict[str, Any]] = {
     }
 }
 
-CRITERIA_SUCCESS_RESPONSE: dict[int | str, dict[str, Any]] = {
+ALL_CRITERIA_SUCCESS_RESPONSE: dict[int | str, dict[str, Any]] = {
     200: {
         "description": "Operação realizada com sucesso.",
         "content": {
