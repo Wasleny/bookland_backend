@@ -27,6 +27,7 @@ jobs:
       MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
       MONGO_DB: bookland
       MONGO_PORT: 27017
+      TEST_MONGO_URI: ${{ secrets.TEST_MONGO_URI }}
 
     steps:
       - uses: actions/checkout@v4
