@@ -22,7 +22,7 @@ jobs:
       MONGO_TEST_PORT: 27017
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: rootpassword
-      TEST_MONGO_URI: mongodb://root:rootpassword@localhost:27017/bookland
+      TEST_MONGO_URI: ${{ secrets.TEST_MONGO_URI }}
 
       PROJECT_NAME: Bookland
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
