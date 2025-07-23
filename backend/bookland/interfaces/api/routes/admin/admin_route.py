@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends, Query, status
-from fastapi.responses import Response, JSONResponse
+from fastapi import APIRouter, Depends, Query
+from fastapi.responses import Response
 
 from bookland.interfaces.api.schemas import (
     UserSchema,

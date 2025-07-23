@@ -59,3 +59,13 @@ class MongoAuthorRepository(AuthorRepository):
         await author.save()
 
         return AuthorMapper.to_domain(author)
+
+    async def get_many_by_id(self, author_ids: list[str]) -> list[Author]:
+        if not author_ids:
+            return []
+
+        documents = await AuthorDocument.find_many(
+            {"_id": {"$in": author_ids}}
+        ).to_list()
+
+        return [AuthorMapper.to_domain(doc) for doc in documents]

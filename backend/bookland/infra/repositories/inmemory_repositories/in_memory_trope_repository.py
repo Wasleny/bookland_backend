@@ -8,3 +8,6 @@ class InMemoryTropeRepository(TropeRepository):
 
     async def get_all(self) -> list[Trope]:
         return [trope for trope in self._tropes.values() if not trope.is_deleted]
+
+    async def get_many_by_id(self, tropes_id):
+        raise NotImplementedError("...")

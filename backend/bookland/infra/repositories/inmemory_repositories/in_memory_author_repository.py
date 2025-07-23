@@ -36,3 +36,9 @@ class InMemoryAuthorRepository(AuthorRepository):
             return author
 
         return None
+
+    async def get_many_by_id(self, author_ids: list):
+        raise NotImplementedError("...")
+
+    async def search(self, search_term: str):
+        raise NotImplementedError("...")

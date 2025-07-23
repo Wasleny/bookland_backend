@@ -1,5 +1,4 @@
-from fastapi import APIRouter, Depends, status
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter, Depends
 from uuid import uuid4
 
 from bookland.domain.entities import Author
@@ -11,12 +10,7 @@ from bookland.interfaces.api.services import (
     get_soft_delete_author_usecase,
     get_get_all_authors_usecase,
 )
-from bookland.interfaces.api.schemas import (
-    CreateAuthorSchema,
-    UpdateAuthorSchema,
-    AuthorResponseSchema,
-    ResponseEnvelopeSchema,
-)
+from bookland.interfaces.api.schemas import author as author_schemas
 from bookland.interfaces.api.deps import admin_required
 from bookland.interfaces.api.docs import (
     AUTHOR_SUCCESS_RESPONSE,
@@ -42,29 +36,25 @@ router = APIRouter(
 
 @router.post(
     "/",
-    response_model=ResponseEnvelopeSchema,
+    response_model=author_schemas.AuthorResponseSchema,
     responses={**USER_BAD_REQUEST, **AUTHOR_SUCCESS_RESPONSE},
 )
 async def create_author(
-    author: CreateAuthorSchema,
+    author: author_schemas.CreateAuthorSchema,
     usecase=Depends(get_create_author_usecase),
 ):
     new_author = Author(str(uuid4()), Name(author.name), author.nationality)
-
     created_author = await usecase.execute(new_author)
 
-    JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content=ResponseEnvelopeSchema(
-            message=author_messages.CREATE_AUTHOR_MESSAGE,
-            data={"author": AuthorResponseSchema.from_entity(created_author)},
-        ).model_dump(),
+    return author_schemas.AuthorResponseSchema.from_entity(
+        author_schemas.AuthorDataSchema.from_entity(created_author),
+        author_messages.CREATE_AUTHOR_MESSAGE,
     )
 
 
 @router.get(
     "/",
-    response_model=ResponseEnvelopeSchema,
+    response_model=author_schemas.AllAuthorsResponseSchema,
     responses={**ALL_AUTHORS_SUCCESS_RESPONSE},
 )
 async def get_all_authors(usecase=Depends(get_get_all_authors_usecase)):
@@ -73,44 +63,34 @@ async def get_all_authors(usecase=Depends(get_get_all_authors_usecase)):
     if len(authors) == 0:
         return empty_search_result_response()
 
-    JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content=ResponseEnvelopeSchema(
-            message=author_messages.GET_ALL_AUTHORS_MESSAGE,
-            data={
-                "authors": [
-                    AuthorResponseSchema.from_entity(author) for author in authors
-                ]
-            },
-        ).model_dump(),
+    return author_schemas.AllAuthorsResponseSchema.from_entity(
+        [author_schemas.AuthorDataSchema.from_entity(author) for author in authors],
+        author_messages.GET_ALL_AUTHORS_MESSAGE,
     )
 
 
 @router.get(
     "/{id}",
-    response_model=ResponseEnvelopeSchema,
+    response_model=author_schemas.AuthorResponseSchema,
     responses={**AUTHOR_SUCCESS_RESPONSE, **AUTHOR_NOT_FOUND_RESPONSE},
 )
 async def get_author(id: str, get_author=Depends(get_get_author_usecase)):
     author = await _get_existing_author_or_404(id, get_author)
 
-    JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content=ResponseEnvelopeSchema(
-            message=author_messages.GET_AUTHOR_MESSAGE,
-            data={"author": AuthorResponseSchema.from_entity(author)},
-        ).model_dump(),
+    return author_schemas.AuthorResponseSchema.from_entity(
+        author_schemas.AuthorDataSchema.from_entity(author),
+        author_messages.GET_AUTHOR_MESSAGE,
     )
 
 
 @router.patch(
     "/{id}",
-    response_model=ResponseEnvelopeSchema,
+    response_model=author_schemas.AuthorResponseSchema,
     responses={**AUTHOR_SUCCESS_RESPONSE, **AUTHOR_NOT_FOUND_RESPONSE},
 )
 async def update_author(
     id: str,
-    author: UpdateAuthorSchema,
+    author: author_schemas.UpdateAuthorSchema,
     usecase=Depends(get_update_author_usecase),
     get_author=Depends(get_get_author_usecase),
 ):
@@ -120,18 +100,15 @@ async def update_author(
         Author(id, Name(author.name), author.nationality)
     )
 
-    JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content=ResponseEnvelopeSchema(
-            message=author_messages.UPDATE_AUTHOR_MESSAGE,
-            data={"author": AuthorResponseSchema.from_entity(updated_author)},
-        ).model_dump(),
+    return author_schemas.AuthorResponseSchema.from_entity(
+        author_schemas.AuthorDataSchema.from_entity(updated_author),
+        author_messages.UPDATE_AUTHOR_MESSAGE,
     )
 
 
 @router.delete(
     "/{id}",
-    response_model=ResponseEnvelopeSchema,
+    response_model=author_schemas.AuthorResponseSchema,
     responses={**AUTHOR_NOT_FOUND_RESPONSE, **EMPTY_SUCCESS_RESPONSE},
 )
 async def delete_author(
@@ -142,12 +119,9 @@ async def delete_author(
     author = await _get_existing_author_or_404(id, get_author)
     await usecase.execute(id)
 
-    JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content=ResponseEnvelopeSchema(
-            message=author_messages.DELETE_AUTHOR_MESSAGE,
-            data={"author": AuthorResponseSchema.from_entity(author)},
-        ).model_dump(),
+    return author_schemas.AuthorResponseSchema.from_entity(
+        author_schemas.AuthorDataSchema.from_entity(author),
+        author_messages.DELETE_AUTHOR_MESSAGE,
     )
 
 

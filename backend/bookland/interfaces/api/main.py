@@ -7,10 +7,19 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from bookland.infra.database import init_db
 from bookland.interfaces.api.routes.auth import auth_route
-from bookland.interfaces.api.routes.admin import admin_route, author_route
+from bookland.interfaces.api.routes.admin import (
+    admin_route,
+    author_route,
+    book_route,
+    series_route,
+)
 from bookland.interfaces.api.openapi_tags import openapi_tags
 from bookland.interfaces.api.routes.user import user_route, criterion_route
-from bookland.interfaces.api.routes.public import genre_route, trope_route
+from bookland.interfaces.api.routes.public import (
+    genre_route,
+    trope_route,
+    book_route as public_book_route,
+)
 from bookland.utils.startup import (
     create_default_admin_user,
     populate_genres,
@@ -59,9 +68,13 @@ app.include_router(auth_route.router, prefix="/auth", tags=["Auth"])
 app.include_router(admin_route.router, prefix="/admin", tags=["Admin"])
 app.include_router(user_route.router, prefix="/users", tags=["Users"])
 app.include_router(author_route.router, prefix="/admin/authors", tags=["Authors"])
+app.include_router(book_route.router, prefix="/admin/books", tags=["Books"])
+app.include_router(series_route.router, prefix="/admin/series", tags=["Series"])
+app.include_router(author_route.router, prefix="/admin/authors", tags=["Authors"])
 app.include_router(criterion_route.router, prefix="/criteria", tags=["Criteria"])
 app.include_router(genre_route.router, prefix="/genres", tags=["Genres"])
 app.include_router(trope_route.router, prefix="/tropes", tags=["Tropes"])
+app.include_router(public_book_route.router, prefix="/books", tags=["Books"])
 
 
 @app.exception_handler(HTTPException)

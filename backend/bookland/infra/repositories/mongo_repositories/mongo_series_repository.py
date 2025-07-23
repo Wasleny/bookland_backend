@@ -59,3 +59,4 @@ class MongoSeriesRepository(SeriesRepository):
         await series.save()
 
         return SeriesMapper.to_domain(series)
+

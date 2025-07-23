@@ -18,3 +18,6 @@ class AuthorRepository(ABC):
 
     @abstractmethod
     async def soft_delete(self, author_id: str) -> Author | None: ...
+
+    @abstractmethod
+    async def get_many_by_id(self, author_ids: list) -> list[Author]: ...

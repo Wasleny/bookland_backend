@@ -19,7 +19,10 @@ class BookMapper:
             series_id=document.series_id,
             original_series_id=document.original_series_id,
             book_number=document.book_number,
-            average_rating=Rating(document.average_rating),
+            average_rating=Rating(
+                document.average_rating if document.average_rating != 0.0 else None,
+                True,
+            ),
             reviews_count=document.reviews_count,
             ratings_count=document.ratings_count,
             synopsis=document.synopsis,
@@ -27,11 +30,15 @@ class BookMapper:
             pages=document.pages,
             publication_date=Date(document.publication_date),
             publisher=document.publisher,
-            isbn10=Isbn(document.isbn10),
-            isbn13=Isbn(document.isbn13),
+            isbn10=Isbn(document.isbn10) if document.isbn10 else None,
+            isbn13=Isbn(document.isbn13) if document.isbn13 else None,
             asin=document.asin,
             language=document.language,
-            alternative_edition_ids=document.alternative_edition_ids,
+            alternative_edition_ids=(
+                document.alternative_edition_ids
+                if len(document.alternative_edition_ids) > 0
+                else None
+            ),
             slug=Slug(document.slug),
         )
 
@@ -43,13 +50,17 @@ class BookMapper:
             original_title=book.original_title.value,
             author_ids=book.author_ids,
             main_genre_id=book.main_genre_id,
-            secondary_genre_id=book.secondary_genre_ids,
+            secondary_genre_ids=book.secondary_genre_ids,
             trope_ids=book.trope_ids,
             cover=book.cover,
             series_id=book.series_id,
             original_series_id=book.original_series_id,
             book_number=book.book_number,
-            average_rating=book.average_rating.value,
+            average_rating=(
+                book.average_rating.value
+                if book.average_rating.value is not None
+                else 0.0
+            ),
             reviews_count=book.reviews_count,
             ratings_count=book.ratings_count,
             synopsis=book.synopsis,
@@ -57,10 +68,10 @@ class BookMapper:
             pages=book.pages,
             publication_date=book.publication_date.value,
             publisher=book.publisher,
-            isbn10=book.isbn10.value,
-            isbn13=book.isbn13.value,
+            isbn10=book.isbn10.value if book.isbn10 else None,
+            isbn13=book.isbn13.value if book.isbn13 else None,
             asin=book.asin,
             language=book.language,
-            alternative_edition_ids=book.alternative_edition_ids,
+            alternative_edition_ids=book.alternative_edition_ids or [],
             slug=book.slug.value,
         )

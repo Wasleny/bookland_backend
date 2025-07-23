@@ -1,6 +1,5 @@
 import pytest
 from httpx import AsyncClient
-from datetime import date
 
 from bookland.domain.enums import UserGender
 from bookland.interfaces.api.messages import user_messages

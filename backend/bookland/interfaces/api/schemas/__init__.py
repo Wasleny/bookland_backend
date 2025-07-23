@@ -1,6 +1,13 @@
-from .author import AuthorResponseSchema, CreateAuthorSchema, UpdateAuthorSchema
+from .author import (
+    AuthorSchema,
+    CreateAuthorSchema,
+    UpdateAuthorSchema,
+    AuthorResponseSchema,
+    AuthorDataSchema,
+    AllAuthorsResponseSchema,
+)
 
-from .book import BookResponseSchema, CreateBookSchema, UpdateBookSchema
+from .book import BookDataSchema, CreateBookSchema, UpdateBookSchema
 
 from .criterion import (
     CriterionResponseSchema,

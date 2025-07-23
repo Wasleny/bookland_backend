@@ -16,9 +16,9 @@ class BookDocument(Document):
     secondary_genre_ids: list[str]
     trope_ids: list[str]
     cover: str
-    series_id: str
-    original_series_id: str
-    book_number: float
+    series_id: str | None
+    original_series_id: str | None
+    book_number: float | None
     average_rating: float
     reviews_count: int
     ratings_count: int
@@ -26,10 +26,10 @@ class BookDocument(Document):
     format: str
     pages: int
     publication_date: date
-    publisher: str
-    isbn10: str
-    isbn13: str
-    asin: str
+    publisher: str | None
+    isbn10: str | None
+    isbn13: str | None
+    asin: str | None
     language: str
     alternative_edition_ids: list[str]
     slug: str

@@ -267,7 +267,7 @@ class Book:
 
     @property
     def publication_date(self):
-        return self._publication_date.value
+        return self._publication_date
 
     @property
     def language(self):

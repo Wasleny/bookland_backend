@@ -36,3 +36,6 @@ class InMemorySeriesRepository(SeriesRepository):
             return series
 
         return None
+
+    async def search(self, search_term: str):
+        raise NotImplementedError("...")
